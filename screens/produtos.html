@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#faf6e9">
+<title>Produtos para suas plantas | PlantaCare</title>
+
+<style>
+:root {
+    --fundo: #faf6e9;
+    --verde: #456b4a;
+    --verde-escuro: #284a35;
+    --texto: #304238;
+    --secundario: #777d70;
+    --borda: #e8e3d4;
+    --cartao: #fffdf6;
+    --suave: #e3e8cd;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    padding: 22px 18px 100px;
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.voltar {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--borda);
+    border-radius: 13px;
+    background: var(--cartao);
+    color: var(--verde);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.marca {
+    color: var(--verde);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+}
+
+h1 {
+    margin: 4px 0 0;
+    color: var(--verde-escuro);
+    font-size: 25px;
+}
+
+.intro {
+    margin-bottom: 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--suave);
+    line-height: 1.45;
+}
+
+.intro strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--cartao);
+    color: var(--texto);
+    font: inherit;
+    outline-color: var(--verde);
+}
+
+.filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0 18px;
+}
+
+.contagem {
+    margin-bottom: 12px;
+    color: var(--secundario);
+    font-size: 12px;
+}
+
+.planta-contexto {
+    margin: 12px 0;
+    color: var(--secundario);
+    font-size: 13px;
+}
+
+.lista {
+    display: grid;
+    gap: 13px;
+}
+
+.produto {
+    padding: 15px;
+    border: 1px solid var(--borda);
+    border-radius: 17px;
+    background: var(--cartao);
+}
+
+.produto-topo {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.emoji {
+    display: grid;
+    width: 47px;
+    height: 47px;
+    flex: 0 0 47px;
+    place-items: center;
+    border-radius: 14px;
+    background: #eef0df;
+    font-size: 25px;
+}
+
+.nome {
+    margin: 1px 0 5px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.tag {
+    display: inline-block;
+    margin: 2px 3px 0 0;
+    padding: 4px 8px;
+    border-radius: 20px;
+    background: #edf0e4;
+    color: var(--verde-escuro);
+    font-size: 11px;
+}
+
+.descricao {
+    margin: 12px 0;
+    color: var(--secundario);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.preco {
+    margin: 8px 0 3px;
+    color: var(--verde-escuro);
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.preco small {
+    display: block;
+    margin-top: 4px;
+    color: var(--secundario);
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.para {
+    margin-top: 9px;
+    color: var(--secundario);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 11px 14px;
+    border-radius: 11px;
+    background: var(--verde);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link:hover {
+    background: var(--verde-escuro);
+}
+
+.vazio {
+    padding: 18px;
+    border: 1px dashed var(--borda);
+    border-radius: 16px;
+    background: var(--cartao);
+    line-height: 1.5;
+}
+
+.nota {
+    margin: 18px 2px;
+    color: var(--secundario);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.nav {
+    position: fixed;
+    z-index: 5;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    max-width: 480px;
+    margin: auto;
+    padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--borda);
+    background: var(--cartao);
+}
+
+.nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    color: var(--secundario);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.nav button span {
+    font-size: 20px;
+}
+
+.nav .ativo {
+    color: var(--verde);
+    font-weight: bold;
+}
+
+@media (min-width: 600px) {
+    body {
+        padding: 20px 0;
+    }
+
+    .app {
+        min-height: calc(100vh - 40px);
+        border-radius: 24px;
+        box-shadow: 0 5px 28px #30423812;
+    }
+
+    .nav {
+        bottom: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+    <header class="topo">
+        <button class="voltar" id="btnVoltar"
+                aria-label="Voltar">‹</button>
+
+        <div>
+            <div class="marca">PLANTACARE</div>
+            <h1>Produtos para suas plantas</h1>
+        </div>
+    </header>
+
+    <section class="intro">
+        <strong>🌱 Recomendações para cada espécie</strong>
+        Selecione uma planta cadastrada para encontrar substratos,
+        fertilizantes e acessórios adequados aos seus cuidados.
+    </section>
+
+    <label for="plantaSelect">Escolha uma planta cadastrada</label>
+    <select id="plantaSelect">
+        <option value="todas">Todas as minhas plantas</option>
+    </select>
+
+    <p class="planta-contexto" id="contextoPlanta"></p>
+
+    <div class="filtros">
+
+        <div>
+            <label for="categoriaSelect">Categoria</label>
+            <select id="categoriaSelect">
+                <option value="todas">Todas</option>
+                <option value="substrato">Substratos</option>
+                <option value="nutricao">Adubos e fertilizantes</option>
+                <option value="vaso">Vasos e drenagem</option>
+                <option value="ferramentas">Ferramentas e acessórios</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="busca">Buscar produto</label>
+            <input id="busca" type="search"
+                   placeholder="Ex.: substrato">
+        </div>
+
+    </div>
+
+    <p class="contagem" id="contagem"></p>
+
+    <section class="lista" id="listaProdutos"
+             aria-live="polite"></section>
+
+    <p class="nota">
+        Os preços são referências e podem mudar conforme a loja,
+        o estoque, o tamanho da embalagem e o frete. Consulte a
+        descrição do produto antes de comprar. Utilize fertilizantes
+        de acordo com o rótulo e as necessidades da planta.
+    </p>
+
+</main>
+
+<nav class="nav" aria-label="Navegação principal">
+    <button id="navInicio">
+        <span>⌂</span>Início
+    </button>
+
+    <button id="navAgenda">
+        <span>▦</span>Agenda
+    </button>
+
+    <button class="ativo" id="navProdutos">
+        <span>♧</span>Produtos
+    </button>
+
+    <button id="navPerfil">
+        <span>○</span>Perfil
+    </button>
+</nav>
+
+<script>
+const produtos = [
+
+    {
+        nome: "Substrato Forth para Cactos e Suculentas",
+        categoria: "substrato",
+        icone: "🌵",
+        preco: "R$ 31,99",
+        descricao: "Mistura voltada à aeração e à drenagem para plantas que não toleram solo encharcado.",
+        especies: ["cacto", "suculenta", "espada", "zamioculca"],
+        loja: "Forth Jardim",
+        url: "https://loja.forthjardim.com.br/collections/substratos-e-condicionadores"
+    },
+
+    {
+        nome: "Substrato Forth para Samambaias",
+        categoria: "substrato",
+        icone: "🌿",
+        preco: "R$ 31,99",
+        descricao: "Opção voltada a samambaias, que geralmente preferem umidade mais constante sem água parada.",
+        especies: ["samambaia"],
+        loja: "Forth Jardim",
+        url: "https://loja.forthjardim.com.br/collections/substratos-e-condicionadores"
+    },
+
+    {
+        nome: "Substrato para Jiboia",
+        categoria: "substrato",
+        icone: "🍃",
+        preco: "Consultar loja",
+        descricao: "Procure uma mistura leve, com boa drenagem e alguma retenção de umidade.",
+        especies: ["jiboia"],
+        loja: "Mercado Livre",
+        url: "https://lista.mercadolivre.com.br/substrato-para-jiboia"
+    },
+
+    {
+        nome: "Substrato para Zamioculca",
+        categoria: "substrato",
+        icone: "🌱",
+        preco: "Consultar loja",
+        descricao: "Escolha uma mistura bem drenável e um vaso com furos para evitar excesso de água nas raízes.",
+        especies: ["zamioculca"],
+        loja: "Mercado Livre",
+        url: "https://lista.mercadolivre.com.br/substrato-para-zamioculca"
+    },
+
+    {
+        nome: "Substrato para Espada-de-São-Jorge",
+        categoria: "substrato",
+        icone: "🪴",
+        preco: "Consultar loja",
+        descricao: "Prefira substrato com boa drenagem, semelhante ao utilizado para suculentas.",
+        especies: ["espada"],
+        loja: "Mercado Livre",
+        url: "https://lista.mercadolivre.com.br/substrato-espada-de-sao-jorge"
+    },
+
+    {
+        nome: "Substrato para Lírio-da-paz",
+        categoria: "substrato",
+        icone: "🌼",
+        preco: "Consultar loja",
+        descricao: "Procure uma mistura para plantas ornamentais que retenha umidade sem ficar encharcada.",
+        especies: ["lirio"],
+        loja: "Mercado Livre",
+        url: "https://lista.mercadolivre.com.br/substrato-lirio-da-paz"
+    },
+
+    {
+        nome: "Fertilizante para Cactos e Suculentas",
+        categoria: "nutricao",
+        icone: "🌵",
+        preco: "Consultar loja",
+        descricao: "Prefira fertilizante formulado para esse grupo de plantas e respeite a dosagem do rótulo.",
+        especies: ["cacto", "suculenta"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/pesquisa?terms=fertilizante%20cactos%20suculentas"
+    },
+
+    {
+        nome: "Fertilizante para Samambaias",
+        categoria: "nutricao",
+        icone: "🌿",
+        preco: "Consultar loja",
+        descricao: "Produto direcionado a samambaias. Utilize somente conforme as instruções da embalagem.",
+        especies: ["samambaia"],
+        loja: "Magazine Luiza",
+        url: "https://www.magazineluiza.com.br/busca/fertilizante+samambaia/"
+    },
+
+    {
+        nome: "Fertilizante para Folhagens",
+        categoria: "nutricao",
+        icone: "🍃",
+        preco: "Consultar loja",
+        descricao: "Pode ser considerado para jiboias e outras plantas ornamentais quando estiverem saudáveis e em crescimento.",
+        especies: ["jiboia", "lirio"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/pesquisa?terms=fertilizante%20folhagens"
+    },
+
+    {
+        nome: "Vaso com furos de drenagem",
+        categoria: "vaso",
+        icone: "🪴",
+        preco: "Consultar loja",
+        descricao: "Ajuda a eliminar o excesso de água. Escolha o tamanho adequado às raízes da planta.",
+        especies: ["jiboia", "lirio", "espada", "zamioculca", "samambaia", "cacto", "suculenta"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/pesquisa?terms=vaso%20com%20furos"
+    },
+
+    {
+        nome: "Argila expandida para jardinagem",
+        categoria: "vaso",
+        icone: "🟤",
+        preco: "Consultar loja",
+        descricao: "Acessório utilizado em diferentes projetos de cultivo. A drenagem também depende dos furos do vaso e do substrato.",
+        especies: ["jiboia", "lirio", "espada", "zamioculca", "samambaia", "cacto", "suculenta"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/c/jardim/cultivo-e-manutencao/terras-e-substratos"
+    },
+
+    {
+        nome: "Borrifador para plantas",
+        categoria: "ferramentas",
+        icone: "💧",
+        preco: "Consultar loja",
+        descricao: "Pode ajudar em algumas rotinas de limpeza, mas borrifar água não substitui a rega e não é necessário para todas as espécies.",
+        especies: ["samambaia", "jiboia", "lirio"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/pesquisa?terms=borrifador"
+    },
+
+    {
+        nome: "Tesoura de poda",
+        categoria: "ferramentas",
+        icone: "✂️",
+        preco: "Consultar loja",
+        descricao: "Útil para retirar folhas secas ou partes danificadas. Mantenha a ferramenta limpa.",
+        especies: ["jiboia", "lirio", "samambaia", "espada", "zamioculca", "cacto", "suculenta"],
+        loja: "Cobasi",
+        url: "https://www.cobasi.com.br/pesquisa?terms=tesoura%20de%20poda"
+    }
+
+];
+
+function normalizar(texto) {
+    return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
+function especieChave(especie) {
+    const nome = normalizar(especie);
+
+    if (nome.includes("espada de sao jorge")) return "espada";
+    if (nome.includes("jiboia") || nome.includes("jibóia")) return "jiboia";
+    if (nome.includes("zamioculca")) return "zamioculca";
+    if (nome.includes("samambaia")) return "samambaia";
+    if (nome.includes("lirio")) return "lirio";
+    if (nome.includes("cacto")) return "cacto";
+    if (nome.includes("suculenta")) return "suculenta";
+
+    return "geral";
+}
+
+function lerPlantas() {
+    try {
+        const dados = JSON.parse(
+            localStorage.getItem("plantasUsuario") || "[]"
+        );
+
+        return Array.isArray(dados) ? dados : [];
+    } catch (erro) {
+        return [];
+    }
+}
+
+const plantas = lerPlantas();
+
+const plantaSelect = document.getElementById("plantaSelect");
+const categoriaSelect = document.getElementById("categoriaSelect");
+const busca = document.getElementById("busca");
+const lista = document.getElementById("listaProdutos");
+const contexto = document.getElementById("contextoPlanta");
+
+plantas.forEach((planta, indice) => {
+    const opcao = document.createElement("option");
+
+    opcao.value = String(indice);
+    opcao.textContent =
+        (planta.nome || "Minha planta") +
+        (planta.especie ? " — " + planta.especie : "");
+
+    plantaSelect.appendChild(opcao);
+});
+
+let especieManual = "todas";
+
+if (plantas.length === 0) {
+    contexto.textContent =
+        "Você ainda não tem plantas cadastradas. " +
+        "Escolha uma espécie para consultar recomendações.";
+
+    const label = document.createElement("label");
+    label.htmlFor = "especieManual";
+    label.textContent = "Escolher espécie";
+
+    const seletor = document.createElement("select");
+    seletor.id = "especieManual";
+
+    seletor.innerHTML = `
+        <option value="todas">Todas as espécies</option>
+        <option value="espada">Espada-de-São-Jorge</option>
+        <option value="jiboia">Jiboia</option>
+        <option value="zamioculca">Zamioculca</option>
+        <option value="samambaia">Samambaia</option>
+        <option value="lirio">Lírio-da-paz</option>
+        <option value="cacto">Cactos</option>
+        <option value="suculenta">Suculentas</option>
+    `;
+
+    const filtros = document.querySelector(".filtros");
+
+    filtros.parentNode.insertBefore(label, filtros);
+    filtros.parentNode.insertBefore(seletor, filtros);
+
+    seletor.addEventListener("change", () => {
+        especieManual = seletor.value;
+        renderizar();
+    });
+}
+
+function especieSelecionada() {
+    if (plantas.length === 0) {
+        return especieManual;
+    }
+
+    if (plantaSelect.value === "todas") {
+        return "todas";
+    }
+
+    const planta = plantas[Number(plantaSelect.value)];
+
+    return planta ? especieChave(planta.especie) : "todas";
+}
+
+function renderizar() {
+    const especie = especieSelecionada();
+    const termo = normalizar(busca.value);
+    const categoria = categoriaSelect.value;
+
+    let filtrados = produtos.filter(produto => {
+        const combinaEspecie =
+            especie === "todas" ||
+            produto.especies.includes(especie);
+
+        const combinaCategoria =
+            categoria === "todas" ||
+            produto.categoria === categoria;
+
+        const combinaBusca =
+            !termo ||
+            normalizar(
+                produto.nome + " " +
+                produto.descricao + " " +
+                produto.loja + " " +
+                produto.categoria
+            ).includes(termo);
+
+        return combinaEspecie &&
+               combinaCategoria &&
+               combinaBusca;
+    });
+
+    if (especie === "geral") {
+        filtrados = filtrados.filter(produto =>
+            produto.categoria === "substrato" ||
+            produto.categoria === "vaso"
+        );
+    }
+
+    lista.innerHTML = "";
+
+    document.getElementById("contagem").textContent =
+        filtrados.length + " produto(s) recomendado(s)";
+
+    if (plantas.length > 0 && plantaSelect.value !== "todas") {
+        const planta = plantas[Number(plantaSelect.value)];
+
+        contexto.textContent = planta
+            ? "Recomendações para " +
+              (planta.nome || "sua planta") +
+              " (" + (planta.especie || "espécie não informada") + ")."
+            : "";
+    } else if (plantas.length > 0) {
+        contexto.textContent =
+            "Exibindo produtos compatíveis com as espécies cadastradas.";
+    }
+
+    if (filtrados.length === 0) {
+        lista.innerHTML = `
+            <div class="vazio">
+                Não encontrei produtos para esses filtros.
+                Tente outra categoria ou escolha outra espécie.
+            </div>
+        `;
+        return;
+    }
+
+    const categorias = {
+        substrato: "Substrato",
+        nutricao: "Adubos e fertilizantes",
+        vaso: "Vasos e drenagem",
+        ferramentas: "Ferramentas e acessórios"
+    };
+
+    const nomesEspecies = {
+        espada: "Espada-de-São-Jorge",
+        jiboia: "Jiboia",
+        zamioculca: "Zamioculca",
+        samambaia: "Samambaia",
+        lirio: "Lírio-da-paz",
+        cacto: "Cactos",
+        suculenta: "Suculentas"
+    };
+
+    filtrados.forEach(produto => {
+        const card = document.createElement("article");
+        card.className = "produto";
+
+        const especies = produto.especies
+            .map(especie => nomesEspecies[especie] || especie)
+            .join(" · ");
+
+        card.innerHTML = `
+            <div class="produto-topo">
+                <div class="emoji"></div>
+                <div style="flex:1">
+                    <div class="nome"></div>
+                    <span class="tag categoria"></span>
+                    <span class="tag loja"></span>
+                </div>
+            </div>
+
+            <p class="descricao"></p>
+            <div class="preco"></div>
+            <div class="para"></div>
+
+            <a class="link"
+               target="_blank"
+               rel="noopener noreferrer">
+                Consultar na loja ↗
+            </a>
+        `;
+
+        card.querySelector(".emoji").textContent = produto.icone;
+        card.querySelector(".nome").textContent = produto.nome;
+        card.querySelector(".categoria").textContent =
+            categorias[produto.categoria];
+        card.querySelector(".loja").textContent = produto.loja;
+        card.querySelector(".descricao").textContent =
+            produto.descricao;
+
+        card.querySelector(".preco").textContent = produto.preco;
+
+        card.querySelector(".para").textContent =
+            "Indicado para: " + especies + ".";
+
+        card.querySelector(".link").href = produto.url;
+
+        lista.appendChild(card);
+    });
+}
+
+plantaSelect.addEventListener("change", renderizar);
+categoriaSelect.addEventListener("change", renderizar);
+busca.addEventListener("input", renderizar);
+
+document.getElementById("btnVoltar").addEventListener(
+    "click",
+    () => {
+        window.location.href = "inicio.html";
+    }
+);
+
+document.getElementById("navInicio").addEventListener(
+    "click",
+    () => {
+        window.location.href = "inicio.html";
+    }
+);
+
+document.getElementById("navAgenda").addEventListener(
+    "click",
+    () => {
+        window.location.href = "agenda.html";
+    }
+);
+
+document.getElementById("navProdutos").addEventListener(
+    "click",
+    () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+);
+
+document.getElementById("navPerfil").addEventListener(
+    "click",
+    () => {
+        window.location.href = "perfil.html";
+    }
+);
+
+renderizar();
+</script>
+
+</body>
+</html>

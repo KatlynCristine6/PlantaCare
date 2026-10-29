@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao PlantaCare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f7ef;
+            color: #254b35;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 25px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px #254b3515;
+        }
+
+        .folha {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .descricao {
+            color: #6c806f;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .destaque {
+            background: #edf5e9;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #39784b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2d623c;
+        }
+
+        .rodape {
+            color: #819083;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="folha">🌿</div>
+
+        <h1>PlantaCare</h1>
+
+        <p class="descricao">
+            Sua planta, nosso cuidado.
+        </p>
+
+        <div class="destaque">
+            <h2 id="saudacao">Seja bem-vindo!</h2>
+            <p style="margin-top: 10px;">
+                Estamos felizes em ter você aqui.
+                Vamos cuidar das suas plantas juntos?
+            </p>
+        </div>
+
+        <button id="btnContinuar">
+            Acessar meu espaço
+        </button>
+
+        <p class="rodape">
+            Cultivando cuidado, um dia de cada vez.
+        </p>
+    </main>
+
+    <script>
+        const usuarioSalvo = sessionStorage.getItem("usuario");
+
+        if (!usuarioSalvo) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const usuario = JSON.parse(usuarioSalvo);
+
+                if (usuario.nome) {
+                    document.getElementById("saudacao").textContent =
+                        "Olá, " + usuario.nome + "!";
+                }
+            } catch (erro) {
+                console.error("Erro ao carregar usuário:", erro);
+            }
+        }
+
+        document.getElementById("btnContinuar").addEventListener("click", function () {
+            window.location.href = "inicio.html";
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faf6e9">
+
+    <title>Perfil | PlantaCare</title>
+
+    <style>
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --verde-escuro: #284a35;
+            --cartao: #fffdf6;
+            --texto: #303b32;
+            --texto-secundario: #777d73;
+            --borda: #eee8d9;
+            --sombra: 0 3px 12px rgba(40, 74, 53, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--fundo);
+            color: var(--texto);
+            font-family: Arial, Helvetica, sans-serif;
+            padding-bottom: 95px;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 3px;
+        }
+
+        .pagina {
+            width: 100%;
+            max-width: 520px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 20px 16px 30px;
+        }
+
+        /* CABEÇALHO */
+
+        .cabecalho {
+            display: grid;
+            grid-template-columns: 42px 1fr 42px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cabecalho h1 {
+            font-size: 21px;
+            text-align: center;
+            color: var(--verde-escuro);
+        }
+
+        .botao-icone {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: var(--verde-escuro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 23px;
+        }
+
+        .botao-icone:hover {
+            background: rgba(69, 107, 74, 0.08);
+        }
+
+        /* PERFIL DO USUÁRIO */
+
+        .perfil-principal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 10px 22px;
+        }
+
+        .avatar {
+            width: 108px;
+            height: 108px;
+            border-radius: 50%;
+            background: #e2e7c9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .avatar svg {
+            width: 77px;
+            height: 86px;
+        }
+
+        .nome-usuario {
+            color: var(--verde-escuro);
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .email-usuario {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin-bottom: 5px;
+            overflow-wrap: anywhere;
+        }
+
+        .data-cadastro {
+            color: var(--texto-secundario);
+            font-size: 13px;
+        }
+
+        /* ESTATÍSTICAS */
+
+        .estatisticas {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 3px;
+            margin-bottom: 18px;
+            background: var(--borda);
+            border: 1px solid var(--borda);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+        }
+
+        .estatistica {
+            background: var(--cartao);
+            border: none;
+            min-height: 80px;
+            padding: 12px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            color: var(--texto);
+        }
+
+        .estatistica strong {
+            font-size: 23px;
+            color: var(--verde-escuro);
+        }
+
+        .estatistica span {
+            font-size: 12px;
+        }
+
+        .estatistica:hover {
+            background: #f4f5e9;
+        }
+
+        /* MENU */
+
+        .menu {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 17px;
+            padding: 0 13px;
+            box-shadow: var(--sombra);
+        }
+
+        .item-menu {
+            width: 100%;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 2px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--borda);
+            color: var(--texto);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .item-menu:last-child {
+            border-bottom: none;
+        }
+
+        .item-menu:hover {
+            background: rgba(69, 107, 74, 0.045);
+        }
+
+        .icone-menu {
+            width: 25px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--verde);
+            font-size: 21px;
+        }
+
+        .texto-menu {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .seta {
+            color: var(--verde);
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        /* RODAPÉ */
+
+        .navegacao {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 520px;
+            min-height: 76px;
+            padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+            background: var(--cartao);
+            border-top: 1px solid var(--borda);
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: var(--texto-secundario);
+            text-decoration: none;
+            cursor: pointer;
+            min-width: 0;
+        }
+
+        .nav-item .nav-icone {
+            font-size: 23px;
+            line-height: 1.1;
+        }
+
+        .nav-item span:last-child {
+            font-size: 11px;
+        }
+
+        .nav-item.ativo {
+            color: var(--verde-escuro);
+            font-weight: 700;
+        }
+
+        .nav-item.ativo .nav-icone {
+            color: var(--verde);
+        }
+
+        /* MODAIS */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            background: rgba(30, 43, 32, 0.43);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal[hidden] {
+            display: none;
+        }
+
+        .conteudo-modal {
+            width: 100%;
+            max-width: 420px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: var(--cartao);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .cabecalho-modal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 17px;
+        }
+
+        .cabecalho-modal h2 {
+            color: var(--verde-escuro);
+            font-size: 19px;
+        }
+
+        .fechar-modal {
+            border: none;
+            background: transparent;
+            color: var(--verde);
+            font-size: 25px;
+            cursor: pointer;
+            padding: 3px 8px;
+        }
+
+        .texto-modal {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--texto-secundario);
+        }
+
+        .registro {
+            padding: 13px 0;
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .registro:last-child {
+            border-bottom: none;
+        }
+
+        .registro strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: var(--verde-escuro);
+        }
+
+        .registro span {
+            color: var(--texto-secundario);
+            font-size: 13px;
+        }
+
+        .botao-principal {
+            width: 100%;
+            margin-top: 16px;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            background: var(--verde);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .botao-sair {
+            width: 100%;
+            margin-top: 10px;
+            padding: 13px;
+            border: 1px solid #e6c9c2;
+            border-radius: 12px;
+            background: #fff6f3;
+            color: #a33d30;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .vazio {
+            text-align: center;
+            padding: 18px 5px;
+            color: var(--texto-secundario);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .mensagem {
+            margin-top: 15px;
+            color: var(--texto-secundario);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            body {
+                padding-top: 25px;
+            }
+
+            .pagina {
+                min-height: calc(100vh - 25px);
+            }
+
+            .navegacao {
+                border: 1px solid var(--borda);
+                border-radius: 18px 18px 0 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="pagina">
+
+        <header class="cabecalho">
+            <button
+                class="botao-icone"
+                id="btnVoltar"
+                aria-label="Voltar"
+                title="Voltar"
+            >‹</button>
+
+            <h1>Perfil</h1>
+
+            <button
+                class="botao-icone"
+                id="btnConfiguracoes"
+                aria-label="Configurações"
+                title="Configurações"
+            >⚙</button>
+        </header>
+
+        <section class="perfil-principal">
+
+            <div class="avatar" aria-label="Ilustração de uma planta">
+                <svg viewBox="0 0 100 110" fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true">
+
+                    <path d="M50 78V26"
+                          stroke="#456b4a" stroke-width="3"
+                          stroke-linecap="round"/>
+
+                    <path d="M50 48C23 48 18 28 22 16
+                             C42 16 52 30 50 48Z"
+                          fill="#456b4a"/>
+
+                    <path d="M50 61C76 61 84 43 80 30
+                             C61 30 49 43 50 61Z"
+                          fill="#6c8d51"/>
+
+                    <path d="M50 34C36 30 36 13 46 5
+                             C59 15 60 27 50 34Z"
+                          fill="#789755"/>
+
+                    <path d="M50 73C30 72 27 57 30 49
+                             C44 52 52 61 50 73Z"
+                          fill="#92a968"/>
+
+                    <path d="M50 77C66 76 72 64 69 56
+                             C57 58 49 66 50 77Z"
+                          fill="#355b3d"/>
+
+                    <path d="M31 79H69L64 101
+                             Q50 107 36 101L31 79Z"
+                          fill="#c28b5e"/>
+
+                    <path d="M28 76H72V83H28V76Z"
+                          fill="#a96e49"/>
+
+                    <path d="M36 87L38 98M64 87L62 98"
+                          stroke="#d8a37a" stroke-width="2"
+                          stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <h2 class="nome-usuario" id="nomeUsuario">
+                Carregando...
+            </h2>
+
+            <p class="email-usuario" id="emailUsuario">
+                Carregando dados do perfil
+            </p>
+
+            <p class="data-cadastro" id="dataCadastro">
+                PlantaCare
+            </p>
+
+        </section>
+
+        <section class="estatisticas" aria-label="Estatísticas do perfil">
+
+            <button class="estatistica" id="cardPlantas">
+                <strong id="totalPlantas">0</strong>
+                <span>Plantas</span>
+            </button>
+
+            <button class="estatistica" id="cardRegas">
+                <strong id="totalRegas">0</strong>
+                <span>Regas</span>
+            </button>
+
+            <button class="estatistica" id="cardAlertas">
+                <strong id="totalAlertas">0</strong>
+                <span>Alertas</span>
+            </button>
+
+        </section>
+
+        <section class="menu" aria-label="Opções do perfil">
+
+            <button class="item-menu" id="menuPlantas">
+                <span class="icone-menu">♧</span>
+                <span class="texto-menu">Minhas plantas</span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item-menu" id="menuHistorico">
+                <span class="icone-menu">▣</span>
+                <span class="texto-menu">Histórico de regas</span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item-menu" id="menuNotificacoes">
+                <span class="icone-menu">♧</span>
+                <span class="texto-menu">Notificações</span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item-menu" id="menuConfiguracoes">
+                <span class="icone-menu">⚙</span>
+                <span class="texto-menu">Configurações</span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item-menu" id="menuAjuda">
+                <span class="icone-menu">ⓘ</span>
+                <span class="texto-menu">Ajuda</span>
+                <span class="seta">›</span>
+            </button>
+
+        </section>
+
+        <p class="mensagem">Sua planta, nosso cuidado 🌱</p>
+
+    </main>
+
+    <!-- NAVEGAÇÃO INFERIOR -->
+
+    <nav class="navegacao" aria-label="Navegação principal">
+
+        <button class="nav-item" id="navInicio">
+            <span class="nav-icone">⌂</span>
+            <span>Início</span>
+        </button>
+
+        <button class="nav-item" id="navPlantas">
+            <span class="nav-icone">♧</span>
+            <span>Plantas</span>
+        </button>
+
+        <button class="nav-item" id="navNotificacoes">
+            <span class="nav-icone">♧</span>
+            <span>Notificações</span>
+        </button>
+
+        <button class="nav-item ativo" id="navPerfil"
+                aria-current="page">
+            <span class="nav-icone">♟</span>
+            <span>Perfil</span>
+        </button>
+
+    </nav>
+
+    <!-- MODAL: HISTÓRICO DE REGAS -->
+
+    <section class="modal" id="modalHistorico"
+             role="dialog" aria-modal="true"
+             aria-labelledby="tituloHistorico" hidden>
+
+        <div class="conteudo-modal">
+
+            <header class="cabecalho-modal">
+                <h2 id="tituloHistorico">Histórico de regas</h2>
+                <button class="fechar-modal" data-fechar
+                        aria-label="Fechar">×</button>
+            </header>
+
+            <div id="listaHistorico"></div>
+
+        </div>
+    </section>
+
+    <!-- MODAL: CONFIGURAÇÕES -->
+
+    <section class="modal" id="modalConfiguracoes"
+             role="dialog" aria-modal="true"
+             aria-labelledby="tituloConfiguracoes" hidden>
+
+        <div class="conteudo-modal">
+
+            <header class="cabecalho-modal">
+                <h2 id="tituloConfiguracoes">Configurações</h2>
+                <button class="fechar-modal" data-fechar
+                        aria-label="Fechar">×</button>
+            </header>
+
+            <p class="texto-modal">
+                Confira as informações da sua conta do PlantaCare.
+            </p>
+
+            <div class="registro">
+                <strong>Nome</strong>
+                <span id="configNome">—</span>
+            </div>
+
+            <div class="registro">
+                <strong>E-mail</strong>
+                <span id="configEmail">—</span>
+            </div>
+
+            <button class="botao-principal" id="btnAtualizarPerfil">
+                Atualizar informações
+            </button>
+
+            <button class="botao-sair" id="btnSair">
+                Sair da conta
+            </button>
+
+        </div>
+    </section>
+
+    <!-- MODAL: AJUDA -->
+
+    <section class="modal" id="modalAjuda"
+             role="dialog" aria-modal="true"
+             aria-labelledby="tituloAjuda" hidden>
+
+        <div class="conteudo-modal">
+
+            <header class="cabecalho-modal">
+                <h2 id="tituloAjuda">Ajuda</h2>
+                <button class="fechar-modal" data-fechar
+                        aria-label="Fechar">×</button>
+            </header>
+            
+            <button class="item-menu" id="menuAgenda">
+                <span class="icone-menu">📅</span>
+                <span class="texto-menu">Agenda de cuidados</span>
+                <span class="seta">›</span>
+            </button>
+
+
+            <div class="registro">
+                <strong>🌱 Minhas plantas</strong>
+                <p class="texto-modal">
+                    Consulte suas plantas cadastradas e acompanhe
+                    os cuidados necessários.
+                </p>
+            </div>
+
+            <div class="registro">
+                <strong>💧 Histórico de regas</strong>
+                <p class="texto-modal">
+                    Consulte as datas de rega que foram registradas
+                    para cada planta.
+                </p>
+            </div>
+
+            <div class="registro">
+                <strong>🔔 Notificações</strong>
+                <p class="texto-modal">
+                    Confira os alertas de cuidados e as notificações
+                    disponíveis no aplicativo.
+                </p>
+            </div>
+
+            <button class="botao-principal" data-fechar>
+                Entendi
+            </button>
+
+        </div>
+    </section>
+
+    <script>
+        // ==========================================
+        // 1. DADOS DO USUÁRIO
+        // ==========================================
+
+        function obterUsuario() {
+            try {
+                return JSON.parse(
+                    sessionStorage.getItem("usuario") || "{}"
+                );
+            } catch (erro) {
+                console.error("Erro ao ler usuário:", erro);
+                return {};
+            }
+        }
+
+        function obterPlantas() {
+            try {
+                const dados = JSON.parse(
+                    localStorage.getItem("plantasUsuario") || "[]"
+                );
+
+                return Array.isArray(dados) ? dados : [];
+            } catch (erro) {
+                console.error("Erro ao ler plantas:", erro);
+                return [];
+            }
+        }
+
+        // ==========================================
+        // 2. FORMATAÇÃO DE DATAS
+        // ==========================================
+
+        function formatarData(data) {
+            if (!data) return "";
+
+            const dataConvertida = new Date(data);
+
+            if (Number.isNaN(dataConvertida.getTime())) {
+                return "";
+            }
+
+            return dataConvertida.toLocaleDateString("pt-BR");
+        }
+
+        function obterDataCadastro(usuario) {
+            const data =
+                usuario.dataCadastro ||
+                usuario.createdAt ||
+                usuario.criadoEm;
+
+            if (!data) {
+                return "Bem-vindo(a) ao PlantaCare!";
+            }
+
+            const dataFormatada = formatarData(data);
+
+            return dataFormatada
+                ? "Membro desde " + dataFormatada
+                : "Bem-vindo(a) ao PlantaCare!";
+        }
+
+        // ==========================================
+        // 3. CÁLCULO DOS ALERTAS DE REGA
+        // ==========================================
+
+        function precisaDeRega(planta) {
+            const intervalo = Number(planta.intervaloRega);
+
+            if (!Number.isFinite(intervalo) || intervalo < 0) {
+                return false;
+            }
+
+            // Sem data de última rega, não presumimos
+            // que a planta esteja atrasada.
+            if (!planta.ultimaRega) {
+                return false;
+            }
+
+            const ultimaRega = new Date(planta.ultimaRega);
+
+            if (Number.isNaN(ultimaRega.getTime())) {
+                return false;
+            }
+
+            const agora = new Date();
+
+            const diferencaDias = Math.floor(
+                (Date.now() - ultimaRega.getTime()) /
+                (1000 * 60 * 60 * 24)
+            );
+
+            return diferencaDias >= intervalo &&
+                   ultimaRega <= agora;
+        }
+
+        // ==========================================
+        // 4. HISTÓRICO REAL DE REGAS
+        // ==========================================
+
+        function obterHistoricoRegas(plantas) {
+            const historico = [];
+
+            plantas.forEach(planta => {
+                const regas = Array.isArray(planta.historicoRegas)
+                    ? planta.historicoRegas
+                    : [];
+
+                regas.forEach(rega => {
+                    // Aceita registros que sejam datas em texto
+                    // ou objetos com uma propriedade de data.
+                    const data = typeof rega === "string"
+                        ? rega
+                        : rega?.data || rega?.dataRega;
+
+                    if (!data) return;
+
+                    const dataConvertida = new Date(data);
+
+                    if (Number.isNaN(dataConvertida.getTime())) {
+                        return;
+                    }
+
+                    historico.push({
+                        planta: planta.nome || "Planta sem nome",
+                        data: dataConvertida
+                    });
+                });
+            });
+
+            historico.sort((a, b) => b.data - a.data);
+
+            return historico;
+        }
+
+        // ==========================================
+        // 5. PREENCHER O PERFIL
+        // ==========================================
+
+        function atualizarPerfil() {
+            const usuario = obterUsuario();
+            const plantas = obterPlantas();
+            const historico = obterHistoricoRegas(plantas);
+
+            const nome = usuario.nome || "Usuário";
+            const email = usuario.email || "E-mail não informado";
+
+            document.getElementById("nomeUsuario").textContent = nome;
+            document.getElementById("emailUsuario").textContent = email;
+
+            document.getElementById("dataCadastro").textContent =
+                obterDataCadastro(usuario);
+
+            document.getElementById("totalPlantas").textContent =
+                plantas.length;
+
+            document.getElementById("totalRegas").textContent =
+                historico.length;
+
+            const quantidadeAlertas = plantas.filter(precisaDeRega).length;
+
+            document.getElementById("totalAlertas").textContent =
+                quantidadeAlertas;
+
+            document.getElementById("configNome").textContent = nome;
+            document.getElementById("configEmail").textContent = email;
+        }
+
+        // ==========================================
+        // 6. ABRIR E FECHAR MODAIS
+        // ==========================================
+
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+
+            if (modal) {
+                modal.hidden = false;
+
+                const botaoFechar = modal.querySelector("[data-fechar]");
+
+                if (botaoFechar) {
+                    botaoFechar.focus();
+                }
+            }
+        }
+
+        function fecharModal(modal) {
+            modal.hidden = true;
+        }
+
+        document.querySelectorAll("[data-fechar]").forEach(botao => {
+            botao.addEventListener("click", () => {
+                const modal = botao.closest(".modal");
+
+                if (modal) fecharModal(modal);
+            });
+        });
+
+        document.querySelectorAll(".modal").forEach(modal => {
+            modal.addEventListener("click", evento => {
+                if (evento.target === modal) {
+                    fecharModal(modal);
+                }
+            });
+        });
+
+        document.addEventListener("keydown", evento => {
+            if (evento.key === "Escape") {
+                document.querySelectorAll(".modal:not([hidden])")
+                    .forEach(fecharModal);
+            }
+        });
+
+        // ==========================================
+        // 7. EXIBIR HISTÓRICO
+        // ==========================================
+
+        function mostrarHistorico() {
+            const lista = document.getElementById("listaHistorico");
+            const historico = obterHistoricoRegas(obterPlantas());
+
+            lista.replaceChildren();
+
+            if (historico.length === 0) {
+                const vazio = document.createElement("p");
+                vazio.className = "vazio";
+                vazio.textContent =
+                    "Nenhuma rega registrada no histórico ainda.";
+
+                lista.appendChild(vazio);
+            } else {
+                historico.forEach(registro => {
+                    const item = document.createElement("div");
+                    item.className = "registro";
+
+                    const titulo = document.createElement("strong");
+                    titulo.textContent = registro.planta;
+
+                    const data = document.createElement("span");
+                    data.textContent =
+                        "Rega realizada em " +
+                        registro.data.toLocaleString("pt-BR");
+
+                    item.append(titulo, data);
+                    lista.appendChild(item);
+                });
+            }
+
+            abrirModal("modalHistorico");
+        }
+
+        // ==========================================
+        // 8. NAVEGAÇÃO
+        // ==========================================
+
+        function irParaInicio() {
+            window.location.href = "inicio.html";
+        }
+
+        function irParaPlantas() {
+            const plantas = obterPlantas();
+
+            if (plantas.length > 0) {
+                const primeiraPlanta = plantas[0];
+
+                if (primeiraPlanta.id != null) {
+                    localStorage.setItem(
+                        "plantaSelecionada",
+                        String(primeiraPlanta.id)
+                    );
+                }
+
+                window.location.href = "monitoramento.html";
+            } else {
+                window.location.href = "adicionar-planta.html";
+            }
+        }
+
+        function irParaNotificacoes() {
+            window.location.href = "notificacoes.html";
+        }
+
+        document.getElementById("btnVoltar")
+            .addEventListener("click", () => {
+                // Evita voltar para uma página externa ou
+                // sair inesperadamente do aplicativo.
+                if (document.referrer &&
+                    new URL(document.referrer).origin === location.origin) {
+                    history.back();
+                } else {
+                    irParaInicio();
+                }
+            });
+
+        document.getElementById("navInicio")
+            .addEventListener("click", irParaInicio);
+
+        document.getElementById("navPlantas")
+            .addEventListener("click", irParaPlantas);
+
+        document.getElementById("navNotificacoes")
+            .addEventListener("click", irParaNotificacoes);
+
+        document.getElementById("navPerfil")
+            .addEventListener("click", atualizarPerfil);
+
+        document.getElementById("menuPlantas")
+            .addEventListener("click", irParaPlantas);
+
+        document.getElementById("menuHistorico")
+            .addEventListener("click", mostrarHistorico);
+
+        document.getElementById("menuNotificacoes")
+            .addEventListener("click", irParaNotificacoes);
+
+        // ==========================================
+        // 9. CONFIGURAÇÕES E AJUDA
+        // ==========================================
+
+        function mostrarConfiguracoes() {
+    window.location.href = "configuracoes.html";
+}
+
+        document.getElementById("btnConfiguracoes")
+            .addEventListener("click", mostrarConfiguracoes);
+
+        document.getElementById("menuConfiguracoes")
+            .addEventListener("click", mostrarConfiguracoes);
+
+        document.getElementById("menuAjuda")
+            .addEventListener("click", () => {
+                abrirModal("modalAjuda");
+            });
+
+        document.getElementById("btnAtualizarPerfil")
+            .addEventListener("click", () => {
+                alert(
+                    "A edição do perfil ainda precisa ser conectada " +
+                    "à tela de edição de conta."
+                );
+            });
+
+        // ==========================================
+        // 10. ESTATÍSTICAS CLICÁVEIS
+        // ==========================================
+
+        document.getElementById("cardPlantas")
+            .addEventListener("click", irParaPlantas);
+
+        document.getElementById("cardRegas")
+            .addEventListener("click", mostrarHistorico);
+
+        document.getElementById("cardAlertas")
+            .addEventListener("click", irParaNotificacoes);
+
+        // ==========================================
+        // 11. SAIR DA CONTA
+        // ==========================================
+
+        document.getElementById("btnSair")
+            .addEventListener("click", () => {
+                const confirmar = confirm(
+                    "Deseja realmente sair da sua conta?"
+                );
+
+                if (!confirmar) return;
+
+                // Encerra a sessão local sem apagar as plantas.
+                sessionStorage.removeItem("usuario");
+
+                // A chave alternativa é removida caso ainda
+                // seja utilizada por alguma tela antiga.
+                sessionStorage.removeItem("usuarioPlantaCare");
+
+                window.location.href = "login.html";
+            });
+
+        // ==========================================
+        // 12. ATUALIZAÇÃO DOS DADOS
+        // ==========================================
+
+        atualizarPerfil();
+
+        // Atualiza quando a tela volta a ficar visível.
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                atualizarPerfil();
+            }
+        });
+
+        // Atualiza quando outra tela modifica os dados
+        // armazenados no mesmo navegador.
+        window.addEventListener("storage", evento => {
+            if (
+                evento.key === "plantasUsuario" ||
+                evento.key === "usuario"
+            ) {
+                atualizarPerfil();
+            }
+        });
+
+        
+document.getElementById("menuAgenda")
+    .addEventListener("click", () => {
+        window.location.href = "agenda.html";
+    });
+
+    </script>
+
+</body>
+</html>

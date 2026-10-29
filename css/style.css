@@ -1,0 +1,510 @@
+/* =========================================================
+   PLANTACARE
+   ESTILO DA TELA INICIAL
+========================================================= */
+
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f0dc;
+}
+
+
+/* =========================================================
+   TELA PRINCIPAL
+========================================================= */
+
+.tela-inicial {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            #fdfbea 0%,
+            #f4f0dc 32%,
+            #e7e9c8 68%,
+            #d5dfb7 100%
+        );
+}
+
+
+/* =========================================================
+   PLANTAS / FOLHAS DECORATIVAS
+========================================================= */
+
+.folhas {
+    position: absolute;
+
+    z-index: 1;
+
+    pointer-events: none;
+    user-select: none;
+
+    opacity: 0.75;
+}
+
+.folhas span {
+    display: block;
+
+    line-height: 0.8;
+}
+
+
+/* Plantas no canto superior esquerdo */
+
+.folhas-superior-esquerda {
+    top: -25px;
+    left: -35px;
+
+    font-size: 85px;
+
+    transform: rotate(-20deg);
+}
+
+
+/* Planta no canto superior direito */
+
+.folhas-superior-direita {
+    top: 35px;
+    right: -40px;
+
+    font-size: 65px;
+
+    transform: rotate(25deg);
+}
+
+
+/* Plantas no canto inferior direito */
+
+.folhas-inferior-direita {
+    right: -35px;
+    bottom: -35px;
+
+    font-size: 90px;
+
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-top: 28px;
+}
+
+
+/* Folha acima do nome */
+
+.logo-folha {
+    font-size: 34px;
+
+    line-height: 32px;
+
+    margin-bottom: 4px;
+
+    transform: rotate(-12deg);
+}
+
+
+/* Nome PlantaCare */
+
+.logo h1 {
+    color: #315b38;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    line-height: 1.05;
+}
+
+
+/* Frase abaixo do logo */
+
+.logo p {
+    margin-top: 7px;
+
+    color: #59645a;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   ÁREA DA PLANTA
+========================================================= */
+
+.planta-area {
+    position: relative;
+
+    z-index: 4;
+
+    width: 100%;
+
+    height: 365px;
+
+    margin-top: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   IMAGEM DO VASO / PLANTA
+========================================================= */
+
+.imagem-vaso {
+    position: relative;
+
+    z-index: 5;
+
+    width: 330px;
+
+    max-width: 94%;
+
+    max-height: 345px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 16px 18px
+            rgba(49, 91, 56, 0.18)
+        );
+
+    animation: aparecer 0.8s ease-out;
+}
+
+
+/* =========================================================
+   BRILHOS
+========================================================= */
+
+.brilho {
+    position: absolute;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    z-index: 2;
+}
+
+.brilho-1 {
+    width: 14px;
+    height: 14px;
+
+    top: 70px;
+    left: 21%;
+}
+
+.brilho-2 {
+    width: 9px;
+    height: 9px;
+
+    top: 125px;
+    right: 21%;
+}
+
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+.acoes {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    max-width: 340px;
+
+    margin-top: -4px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   BOTÃO COMEÇAR
+========================================================= */
+
+#btnComecar {
+    width: 100%;
+
+    height: 56px;
+
+    border: none;
+
+    border-radius: 30px;
+
+    background: #527b54;
+
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    box-shadow:
+        0 7px 16px
+        rgba(56, 83, 58, 0.23);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* Quando pressionar o botão */
+
+#btnComecar:active {
+    transform: scale(0.97);
+
+    background: #456b48;
+
+    box-shadow:
+        0 4px 10px
+        rgba(56, 83, 58, 0.18);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login {
+    margin-top: 15px;
+
+    color: #60685f;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+/* "Entrar" */
+
+#btnLogin {
+    color: #315b38;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+/* Efeito ao tocar em Entrar */
+
+#btnLogin:active {
+    opacity: 0.6;
+}
+
+
+/* =========================================================
+   ANIMAÇÃO DA PLANTA
+========================================================= */
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(18px)
+            scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES COM ALTURA MENOR
+========================================================= */
+
+@media (max-height: 750px) {
+
+    .logo {
+        margin-top: 20px;
+    }
+
+    .logo h1 {
+        font-size: 37px;
+    }
+
+    .planta-area {
+        height: 315px;
+    }
+
+    .imagem-vaso {
+        width: 300px;
+        max-height: 295px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES PEQUENOS
+========================================================= */
+
+@media (max-height: 680px) {
+
+    .logo {
+        margin-top: 14px;
+    }
+
+    .logo-folha {
+        font-size: 30px;
+    }
+
+    .logo h1 {
+        font-size: 34px;
+    }
+
+    .logo p {
+        font-size: 13px;
+    }
+
+    .planta-area {
+        height: 275px;
+    }
+
+    .imagem-vaso {
+        width: 270px;
+        max-height: 260px;
+    }
+
+    #btnComecar {
+        height: 51px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES MUITO PEQUENOS
+========================================================= */
+
+@media (max-height: 620px) {
+
+    .logo {
+        margin-top: 8px;
+    }
+
+    .logo h1 {
+        font-size: 31px;
+    }
+
+    .logo p {
+        font-size: 12px;
+
+        margin-top: 4px;
+    }
+
+    .planta-area {
+        height: 235px;
+    }
+
+    .imagem-vaso {
+        width: 235px;
+        max-height: 225px;
+    }
+
+    .acoes {
+        max-width: 310px;
+    }
+
+    #btnComecar {
+        height: 48px;
+
+        font-size: 16px;
+    }
+
+    .login {
+        margin-top: 10px;
+
+        font-size: 14px;
+
+        font-weight: 700;
+    }
+
+}

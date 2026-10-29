@@ -1,0 +1,1174 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faf6e9">
+    <title>Configurações | PlantaCare</title>
+
+    <style>
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --verde-escuro: #284a35;
+            --cartao: #fffdf6;
+            --texto: #303b32;
+            --secundario: #777d73;
+            --borda: #eee8d9;
+            --sombra: 0 3px 12px rgba(40,74,53,.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--fundo);
+            color: var(--texto);
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 30px;
+            transition: background .2s, color .2s;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:focus-visible, input:focus-visible,
+        select:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--verde);
+            outline-offset: 3px;
+        }
+
+        .pagina {
+            max-width: 520px;
+            margin: auto;
+            padding: 20px 14px 35px;
+        }
+
+        .cabecalho {
+            display: grid;
+            grid-template-columns: 42px 1fr 42px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .cabecalho h1 {
+            text-align: center;
+            font-size: 20px;
+            color: var(--verde-escuro);
+        }
+
+        .voltar {
+            border: 0;
+            background: transparent;
+            color: var(--verde-escuro);
+            font-size: 29px;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .grupo {
+            margin-bottom: 27px;
+        }
+
+        .grupo h2 {
+            font-size: 14px;
+            margin: 0 2px 11px;
+            color: var(--verde-escuro);
+        }
+
+        .lista {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 17px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+        }
+
+        .item {
+            width: 100%;
+            min-height: 49px;
+            padding: 12px 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 0;
+            border-bottom: 1px solid var(--borda);
+            background: transparent;
+            color: var(--texto);
+            text-align: left;
+        }
+
+        .item:last-child {
+            border-bottom: 0;
+        }
+
+        .item:hover {
+            background: rgba(69,107,74,.045);
+        }
+
+        .icone {
+            width: 23px;
+            flex-shrink: 0;
+            color: var(--verde);
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .nome-item {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .seta {
+            color: var(--verde);
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .valor {
+            color: var(--secundario);
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .interruptor {
+            width: 43px;
+            height: 25px;
+            border-radius: 20px;
+            border: 0;
+            background: #c9c9c0;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            transition: background .2s;
+        }
+
+        .interruptor span {
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 1px 3px #0002;
+            transition: transform .2s;
+        }
+
+        .interruptor[aria-checked="true"] {
+            background: var(--verde);
+        }
+
+        .interruptor[aria-checked="true"] span {
+            transform: translateX(18px);
+        }
+
+        /* MODAIS */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: rgba(25,40,29,.45);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .modal[hidden] {
+            display: none;
+        }
+
+        .caixa-modal {
+            width: 100%;
+            max-width: 430px;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 22px;
+            background: var(--cartao);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px #0002;
+        }
+
+        .topo-modal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 19px;
+        }
+
+        .topo-modal h2 {
+            font-size: 19px;
+            color: var(--verde-escuro);
+        }
+
+        .fechar {
+            background: transparent;
+            border: 0;
+            color: var(--verde);
+            font-size: 27px;
+            padding: 0 5px;
+        }
+
+        .campo {
+            margin-bottom: 15px;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .campo input, .campo select, .campo textarea {
+            width: 100%;
+            border: 1px solid var(--borda);
+            background: var(--fundo);
+            color: var(--texto);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .campo textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .ajuda-texto {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--secundario);
+            margin-bottom: 15px;
+        }
+
+        .botao-principal {
+            width: 100%;
+            border: 0;
+            border-radius: 11px;
+            padding: 13px;
+            background: var(--verde);
+            color: white;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .botao-secundario {
+            width: 100%;
+            border: 1px solid var(--borda);
+            border-radius: 11px;
+            padding: 12px;
+            background: transparent;
+            color: var(--texto);
+            margin-top: 9px;
+        }
+
+        .aviso {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--secundario);
+        }
+
+        .faq {
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .faq:last-child {
+            border-bottom: 0;
+        }
+
+        .faq-pergunta {
+            width: 100%;
+            border: 0;
+            padding: 14px 0;
+            background: transparent;
+            color: var(--texto);
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .faq-resposta {
+            color: var(--secundario);
+            font-size: 13px;
+            line-height: 1.65;
+            padding: 0 0 15px;
+        }
+
+        .status {
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        /* TEMA ESCURO */
+
+        body.tema-escuro {
+            --fundo: #202a23;
+            --verde: #91b596;
+            --verde-escuro: #d3e5d0;
+            --cartao: #2c382f;
+            --texto: #f0f1e9;
+            --secundario: #c0c8bd;
+            --borda: #435146;
+            --sombra: 0 3px 12px #0002;
+        }
+
+        body.tema-escuro .interruptor span {
+            background: white;
+        }
+
+        @media (min-width: 600px) {
+            body {
+                padding-top: 20px;
+            }
+
+            .pagina {
+                min-height: calc(100vh - 20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="pagina">
+
+    <header class="cabecalho">
+        <button class="voltar" id="btnVoltar"
+                aria-label="Voltar">‹</button>
+        <h1 data-i18n="titulo">Configurações</h1>
+        <span></span>
+    </header>
+
+    <!-- CONTA -->
+
+    <section class="grupo">
+        <h2 data-i18n="conta">Conta</h2>
+
+        <div class="lista">
+
+            <button class="item" id="editarPerfil">
+                <span class="icone">♙</span>
+                <span class="nome-item" data-i18n="editarPerfil">
+                    Editar perfil
+                </span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item" id="alterarSenha">
+                <span class="icone">♙</span>
+                <span class="nome-item" data-i18n="alterarSenha">
+                    Alterar senha
+                </span>
+                <span class="seta">›</span>
+            </button>
+
+            <button class="item" id="linhaNotificacoes">
+                <span class="icone">♧</span>
+                <span class="nome-item" data-i18n="notificacoes">
+                    Notificações
+                </span>
+                <span class="interruptor" id="toggleNotificacoes"
+                      role="switch" aria-checked="true"
+                      aria-label="Ativar notificações">
+                    <span></span>
+                </span>
+            </button>
+
+            <button class="item" id="privacidade">
+                <span class="icone">♙</span>
+                <span class="nome-item" data-i18n="privacidade">
+                    Privacidade
+                </span>
+                <span class="seta">›</span>
+            </button>
+
+        </div>
+    </section>
+
+    <!-- APLICATIVO -->
+
+    <section class="grupo">
+        <h2 data-i18n="aplicativo">Aplicativo</h2>
+
+        <div class="lista">
+
+            <button class="item" id="linhaTema">
+                <span class="icone">◐</span>
+                <span class="nome-item" data-i18n="tema">Tema</span>
+                <span class="valor" id="valorTema">Claro</span>
+                <span class="seta">⌄</span>
+            </button>
+
+            <button class="item" id="linhaIdioma">
+                <span class="icone">◎</span>
+                <span class="nome-item" data-i18n="idioma">Idioma</span>
+                <span class="valor" id="valorIdioma">Português</span>
+                <span class="seta">⌄</span>
+            </button>
+
+        </div>
+    </section>
+
+    <!-- SUPORTE -->
+
+    <section class="grupo">
+        <h2 data-i18n="suporte">Suporte</h2>
+
+        <div class="lista">
+
+            <button class="item" id="faleConosco">
+                <span class="icone">▢</span>
+                <span class="nome-item" data-i18n="faleConosco">
+                    Fale conosco
+                </span>
+                <span class="seta">›</span>
+            </button>
+            
+            <button class="item" id="comoFunciona">
+                <span class="icone">🌱</span>
+                <span class="nome-item">Como funciona?</span>
+                <span class="seta">›</span>
+            </button>
+
+
+            <button class="item" id="perguntas">
+                <span class="icone">ⓘ</span>
+                <span class="nome-item" data-i18n="perguntas">
+                    Perguntas frequentes
+                </span>
+                <span class="seta">›</span>
+            </button>
+
+        </div>
+    </section>
+
+    <p class="ajuda-texto" style="text-align:center">
+        PlantaCare · Sua planta, nosso cuidado 🌱
+    </p>
+
+</main>
+
+<!-- MODAL EDITAR PERFIL -->
+
+<section class="modal" id="modalPerfil" role="dialog"
+         aria-modal="true" aria-labelledby="tituloPerfil" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloPerfil">Editar perfil</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <form id="formPerfil">
+            <div class="campo">
+                <label for="nome">Nome completo</label>
+                <input id="nome" name="nome" required maxlength="100">
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email"
+                       required maxlength="150">
+            </div>
+
+            <p class="ajuda-texto">
+                As alterações abaixo são salvas na sessão deste navegador.
+                Para atualizar também o cadastro no banco de dados,
+                é necessário conectar este formulário à rota de edição
+                da API do PlantaCare.
+            </p>
+
+            <button class="botao-principal" type="submit">
+                Salvar alterações
+            </button>
+        </form>
+        <p class="status" id="statusPerfil" role="status"></p>
+    </div>
+</section>
+
+<!-- MODAL ALTERAR SENHA -->
+
+<section class="modal" id="modalSenha" role="dialog"
+         aria-modal="true" aria-labelledby="tituloSenha" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloSenha">Alterar senha</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <form id="formSenha">
+            <div class="campo">
+                <label for="senhaAtual">Senha atual</label>
+                <input id="senhaAtual" type="password" required
+                       autocomplete="current-password">
+            </div>
+
+            <div class="campo">
+                <label for="senhaNova">Nova senha</label>
+                <input id="senhaNova" type="password" required
+                       minlength="8" autocomplete="new-password">
+            </div>
+
+            <div class="campo">
+                <label for="confirmarSenha">Confirmar nova senha</label>
+                <input id="confirmarSenha" type="password" required
+                       minlength="8" autocomplete="new-password">
+            </div>
+
+            <p class="ajuda-texto">
+                A troca efetiva da senha exige uma rota segura no backend,
+                que valide a senha atual e atualize a senha criptografada
+                no banco de dados.
+            </p>
+
+            <button class="botao-principal" type="submit">
+                Solicitar alteração
+            </button>
+        </form>
+        <p class="status" id="statusSenha" role="status"></p>
+    </div>
+</section>
+
+<!-- MODAL PRIVACIDADE -->
+
+<section class="modal" id="modalPrivacidade" role="dialog"
+         aria-modal="true" aria-labelledby="tituloPrivacidade" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloPrivacidade">Privacidade</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <p class="ajuda-texto">
+            O PlantaCare utiliza os dados da sua conta para identificar
+            seu perfil e organizar os cuidados com suas plantas.
+        </p>
+
+        <div class="faq">
+            <div class="faq-pergunta">Dados da conta</div>
+            <p class="faq-resposta">
+                Nome e e-mail são utilizados para identificar o usuário
+                autenticado. Evite compartilhar sua sessão ou senha.
+            </p>
+        </div>
+
+        <div class="faq">
+            <div class="faq-pergunta">Dados armazenados no navegador</div>
+            <p class="faq-resposta">
+                Preferências e informações guardadas em localStorage
+                permanecem no navegador até serem alteradas ou apagadas.
+                Isso não substitui os controles de segurança do servidor.
+            </p>
+        </div>
+
+        <div class="faq">
+            <div class="faq-pergunta">Solicitação de dados</div>
+            <p class="faq-resposta">
+                Para solicitar acesso, correção ou exclusão de dados
+                da conta, entre em contato com o responsável pelo projeto.
+            </p>
+        </div>
+
+        <button class="botao-principal" data-fechar>Entendi</button>
+    </div>
+</section>
+
+<!-- MODAL TEMA -->
+
+<section class="modal" id="modalTema" role="dialog"
+         aria-modal="true" aria-labelledby="tituloTema" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloTema">Tema do aplicativo</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <div class="campo">
+            <label for="seletorTema">Escolha o tema</label>
+            <select id="seletorTema">
+                <option value="claro">Claro</option>
+                <option value="escuro">Escuro</option>
+                <option value="sistema">Seguir sistema</option>
+            </select>
+        </div>
+
+        <p class="ajuda-texto">
+            A preferência fica salva neste navegador.
+        </p>
+
+        <button class="botao-principal" id="salvarTema">
+            Aplicar tema
+        </button>
+    </div>
+</section>
+
+<!-- MODAL IDIOMA -->
+
+<section class="modal" id="modalIdioma" role="dialog"
+         aria-modal="true" aria-labelledby="tituloIdioma" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloIdioma">Idioma</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <div class="campo">
+            <label for="seletorIdioma">Idioma do aplicativo</label>
+            <select id="seletorIdioma">
+                <option value="pt-BR">Português</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <button class="botao-principal" id="salvarIdioma">
+            Aplicar idioma
+        </button>
+    </div>
+</section>
+
+<!-- MODAL CONTATO -->
+
+<section class="modal" id="modalContato" role="dialog"
+         aria-modal="true" aria-labelledby="tituloContato" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloContato">Fale conosco</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <form id="formContato">
+            <div class="campo">
+                <label for="assunto">Assunto</label>
+                <input id="assunto" required maxlength="100"
+                       placeholder="Ex.: Problema com as regas">
+            </div>
+
+            <div class="campo">
+                <label for="mensagem">Como podemos ajudar?</label>
+                <textarea id="mensagem" required maxlength="2000"
+                          placeholder="Descreva sua dúvida..."></textarea>
+            </div>
+
+            <p class="ajuda-texto">
+                O formulário prepara uma mensagem para envio por e-mail.
+                Como o projeto ainda não possui um endereço de suporte
+                configurado nesta tela, você poderá copiar o texto.
+            </p>
+
+            <button class="botao-principal" type="submit">
+                Preparar mensagem
+            </button>
+
+            <button class="botao-secundario" type="button"
+                    id="copiarMensagem" hidden>
+                Copiar mensagem
+            </button>
+        </form>
+
+        <p class="status" id="statusContato" role="status"></p>
+    </div>
+</section>
+
+<!-- MODAL PERGUNTAS FREQUENTES -->
+
+<section class="modal" id="modalFaq" role="dialog"
+         aria-modal="true" aria-labelledby="tituloFaq" hidden>
+    <div class="caixa-modal">
+        <header class="topo-modal">
+            <h2 id="tituloFaq">Perguntas frequentes</h2>
+            <button class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+
+        <div id="listaFaq">
+            <div class="faq">
+                <button class="faq-pergunta" aria-expanded="false">
+                    Como cadastrar uma planta?
+                    <span>＋</span>
+                </button>
+                <p class="faq-resposta" hidden>
+                    Acesse a área Plantas e utilize a opção para adicionar
+                    uma nova planta. Preencha os dados solicitados.
+                </p>
+            </div>
+
+            <div class="faq">
+                <button class="faq-pergunta" aria-expanded="false">
+                    Como registrar uma rega?
+                    <span>＋</span>
+                </button>
+                <p class="faq-resposta" hidden>
+                    Abra a planta correspondente na tela de monitoramento
+                    e utilize o botão de rega disponível.
+                </p>
+            </div>
+
+            <div class="faq">
+                <button class="faq-pergunta" aria-expanded="false">
+                    Por que não recebo alertas?
+                    <span>＋</span>
+                </button>
+                <p class="faq-resposta" hidden>
+                    Confira se as notificações estão ativadas nas
+                    configurações. Alertas do navegador também dependem
+                    da implementação e das permissões concedidas.
+                </p>
+            </div>
+
+            <div class="faq">
+                <button class="faq-pergunta" aria-expanded="false">
+                    O tema fica salvo?
+                    <span>＋</span>
+                </button>
+                <p class="faq-resposta" hidden>
+                    Sim. A preferência é salva no navegador e reaplicada
+                    quando você abre esta tela novamente.
+                </p>
+            </div>
+
+            <div class="faq">
+                <button class="faq-pergunta" aria-expanded="false">
+                    Como alterar meus dados?
+                    <span>＋</span>
+                </button>
+                <p class="faq-resposta" hidden>
+                    Utilize Editar perfil. A gravação no banco de dados
+                    depende da integração com a API.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // =============================================
+    // PREFERÊNCIAS
+    // =============================================
+
+    const CHAVE_NOTIFICACOES = "plantacareNotificacoesAtivas";
+    const CHAVE_TEMA = "plantacareTema";
+    const CHAVE_IDIOMA = "plantacareIdioma";
+
+    function lerPreferencia(chave, padrao) {
+        try {
+            const valor = localStorage.getItem(chave);
+            return valor === null ? padrao : valor;
+        } catch (erro) {
+            return padrao;
+        }
+    }
+
+    function salvarPreferencia(chave, valor) {
+        try {
+            localStorage.setItem(chave, valor);
+        } catch (erro) {
+            console.error("Não foi possível salvar a preferência.", erro);
+            alert("Não foi possível salvar a preferência neste navegador.");
+        }
+    }
+
+    // =============================================
+    // MODAIS
+    // =============================================
+
+    function abrirModal(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+
+        modal.hidden = false;
+
+        const campo = modal.querySelector(
+            "input, select, textarea, button"
+        );
+
+        if (campo) campo.focus();
+    }
+
+    function fecharModal(modal) {
+        modal.hidden = true;
+    }
+
+    document.querySelectorAll("[data-fechar]").forEach(botao => {
+        botao.addEventListener("click", () => {
+            const modal = botao.closest(".modal");
+            if (modal) fecharModal(modal);
+        });
+    });
+
+    document.querySelectorAll(".modal").forEach(modal => {
+        modal.addEventListener("click", evento => {
+            if (evento.target === modal) fecharModal(modal);
+        });
+    });
+
+    document.addEventListener("keydown", evento => {
+        if (evento.key === "Escape") {
+            document.querySelectorAll(".modal:not([hidden])")
+                .forEach(fecharModal);
+        }
+    });
+
+    // =============================================
+    // NAVEGAÇÃO
+    // =============================================
+
+    document.getElementById("btnVoltar").addEventListener("click", () => {
+        if (
+            document.referrer &&
+            new URL(document.referrer).origin === location.origin
+        ) {
+            history.back();
+        } else {
+            location.href = "perfil.html";
+        }
+    });
+
+    // =============================================
+    // EDITAR PERFIL
+    // =============================================
+
+    function obterUsuario() {
+        try {
+            return JSON.parse(sessionStorage.getItem("usuario") || "{}");
+        } catch (erro) {
+            return {};
+        }
+    }
+
+    document.getElementById("editarPerfil").addEventListener("click", () => {
+        const usuario = obterUsuario();
+
+        document.getElementById("nome").value = usuario.nome || "";
+        document.getElementById("email").value = usuario.email || "";
+        document.getElementById("statusPerfil").textContent = "";
+
+        abrirModal("modalPerfil");
+    });
+
+    document.getElementById("formPerfil").addEventListener("submit", evento => {
+        evento.preventDefault();
+
+        const usuario = obterUsuario();
+        usuario.nome = document.getElementById("nome").value.trim();
+        usuario.email = document.getElementById("email").value.trim();
+
+        if (!usuario.nome || !usuario.email) {
+            document.getElementById("statusPerfil").textContent =
+                "Preencha todos os campos.";
+            return;
+        }
+
+        try {
+            sessionStorage.setItem("usuario", JSON.stringify(usuario));
+
+            // Atualiza também a chave antiga, se ela existir.
+            if (sessionStorage.getItem("usuarioPlantaCare") !== null) {
+                sessionStorage.setItem(
+                    "usuarioPlantaCare",
+                    JSON.stringify(usuario)
+                );
+            }
+
+            document.getElementById("statusPerfil").textContent =
+                "Dados atualizados nesta sessão. Para persistir no banco, " +
+                "conecte a API de edição de usuário.";
+
+        } catch (erro) {
+            document.getElementById("statusPerfil").textContent =
+                "Não foi possível salvar os dados.";
+        }
+    });
+
+    // =============================================
+    // ALTERAR SENHA
+    // =============================================
+
+    document.getElementById("alterarSenha").addEventListener("click", () => {
+        document.getElementById("formSenha").reset();
+        document.getElementById("statusSenha").textContent = "";
+        abrirModal("modalSenha");
+    });
+
+    document.getElementById("formSenha").addEventListener("submit", async evento => {
+        evento.preventDefault();
+
+        const senhaAtual = document.getElementById("senhaAtual").value;
+        const senhaNova = document.getElementById("senhaNova").value;
+        const confirmar = document.getElementById("confirmarSenha").value;
+        const status = document.getElementById("statusSenha");
+
+        if (senhaNova.length < 8) {
+            status.textContent = "A nova senha deve ter pelo menos 8 caracteres.";
+            return;
+        }
+
+        if (senhaNova !== confirmar) {
+            status.textContent = "As senhas novas não coincidem.";
+            return;
+        }
+
+        /*
+         * Não alteramos senhas apenas no navegador.
+         * A troca segura precisa validar a senha atual no servidor.
+         * Quando a rota backend estiver implementada, conecte-a aqui.
+         */
+        status.textContent =
+            "Formulário validado, mas a troca ainda não foi realizada. " +
+            "É necessário implementar e conectar a rota segura de alteração " +
+            "de senha no backend.";
+    });
+
+    // =============================================
+    // NOTIFICAÇÕES
+    // =============================================
+
+    const toggleNotificacoes =
+        document.getElementById("toggleNotificacoes");
+
+    function atualizarToggleNotificacoes() {
+        const ativo = lerPreferencia(CHAVE_NOTIFICACOES, "true") === "true";
+
+        toggleNotificacoes.setAttribute("aria-checked", String(ativo));
+        toggleNotificacoes.setAttribute(
+            "aria-label",
+            ativo ? "Desativar notificações" : "Ativar notificações"
+        );
+    }
+
+    function alternarNotificacoes() {
+        const ativo =
+            lerPreferencia(CHAVE_NOTIFICACOES, "true") === "true";
+
+        salvarPreferencia(CHAVE_NOTIFICACOES, String(!ativo));
+        atualizarToggleNotificacoes();
+    }
+
+    document.getElementById("linhaNotificacoes").addEventListener("click", evento => {
+        // O clique no card inteiro alterna o controle.
+        alternarNotificacoes();
+    });
+
+    // =============================================
+    // TEMA CLARO / ESCURO / SISTEMA
+    // =============================================
+
+    function aplicarTema(tema) {
+        const escuro = tema === "escuro" ||
+            (tema === "sistema" &&
+             window.matchMedia &&
+             window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+        document.body.classList.toggle("tema-escuro", Boolean(escuro));
+
+        document.getElementById("valorTema").textContent =
+            tema === "escuro" ? "Escuro" :
+            tema === "sistema" ? "Sistema" : "Claro";
+
+        document.getElementById("seletorTema").value = tema;
+    }
+
+    document.getElementById("linhaTema").addEventListener("click", () => {
+        abrirModal("modalTema");
+    });
+
+    document.getElementById("salvarTema").addEventListener("click", () => {
+        const tema = document.getElementById("seletorTema").value;
+        salvarPreferencia(CHAVE_TEMA, tema);
+        aplicarTema(tema);
+        fecharModal(document.getElementById("modalTema"));
+    });
+
+    if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", () => {
+                if (lerPreferencia(CHAVE_TEMA, "claro") === "sistema") {
+                    aplicarTema("sistema");
+                }
+            });
+    }
+
+    // =============================================
+    // IDIOMA
+    // =============================================
+
+    const traducoes = {
+        "pt-BR": {
+            titulo: "Configurações",
+            conta: "Conta",
+            editarPerfil: "Editar perfil",
+            alterarSenha: "Alterar senha",
+            notificacoes: "Notificações",
+            privacidade: "Privacidade",
+            aplicativo: "Aplicativo",
+            tema: "Tema",
+            idioma: "Idioma",
+            suporte: "Suporte",
+            faleConosco: "Fale conosco",
+            perguntas: "Perguntas frequentes"
+        },
+        en: {
+            titulo: "Settings",
+            conta: "Account",
+            editarPerfil: "Edit profile",
+            alterarSenha: "Change password",
+            notificacoes: "Notifications",
+            privacidade: "Privacy",
+            aplicativo: "Application",
+            tema: "Theme",
+            idioma: "Language",
+            suporte: "Support",
+            faleConosco: "Contact us",
+            perguntas: "Frequently asked questions"
+        }
+    };
+
+    function aplicarIdioma(idioma) {
+        const textos = traducoes[idioma] || traducoes["pt-BR"];
+
+        document.documentElement.lang = idioma;
+
+        document.querySelectorAll("[data-i18n]").forEach(elemento => {
+            const chave = elemento.dataset.i18n;
+
+            if (textos[chave]) {
+                elemento.textContent = textos[chave];
+            }
+        });
+
+        document.getElementById("valorIdioma").textContent =
+            idioma === "en" ? "English" : "Português";
+
+        document.getElementById("seletorIdioma").value = idioma;
+    }
+
+    document.getElementById("linhaIdioma").addEventListener("click", () => {
+        abrirModal("modalIdioma");
+    });
+
+    document.getElementById("salvarIdioma").addEventListener("click", () => {
+        const idioma = document.getElementById("seletorIdioma").value;
+        salvarPreferencia(CHAVE_IDIOMA, idioma);
+        aplicarIdioma(idioma);
+        fecharModal(document.getElementById("modalIdioma"));
+    });
+
+    // =============================================
+    // PRIVACIDADE
+    // =============================================
+
+    document.getElementById("privacidade").addEventListener("click", () => {
+        abrirModal("modalPrivacidade");
+    });
+
+    // =============================================
+    // FALE CONOSCO
+    // =============================================
+
+    let mensagemPreparada = "";
+
+    document.getElementById("faleConosco").addEventListener("click", () => {
+        document.getElementById("formContato").reset();
+        document.getElementById("statusContato").textContent = "";
+        document.getElementById("copiarMensagem").hidden = true;
+        abrirModal("modalContato");
+    });
+
+    document.getElementById("formContato").addEventListener("submit", evento => {
+        evento.preventDefault();
+
+        const assunto = document.getElementById("assunto").value.trim();
+        const mensagem = document.getElementById("mensagem").value.trim();
+        const usuario = obterUsuario();
+
+        mensagemPreparada =
+            "Contato PlantaCare\n" +
+            "Nome: " + (usuario.nome || "Não informado") + "\n" +
+            "E-mail: " + (usuario.email || "Não informado") + "\n" +
+            "Assunto: " + assunto + "\n\n" + mensagem;
+
+        document.getElementById("copiarMensagem").hidden = false;
+        document.getElementById("statusContato").textContent =
+            "Mensagem preparada. Clique em Copiar mensagem para copiá-la " +
+            "e enviá-la ao responsável pelo projeto.";
+
+    });
+
+    document.getElementById("copiarMensagem").addEventListener("click", async () => {
+        const status = document.getElementById("statusContato");
+
+        try {
+            await navigator.clipboard.writeText(mensagemPreparada);
+            status.textContent = "Mensagem copiada!";
+        } catch (erro) {
+            const area = document.createElement("textarea");
+            area.value = mensagemPreparada;
+            area.style.position = "fixed";
+            area.style.opacity = "0";
+
+            document.body.appendChild(area);
+            area.select();
+
+            const copiou = document.execCommand("copy");
+            area.remove();
+
+            status.textContent = copiou
+                ? "Mensagem copiada!"
+                : "Não foi possível copiar automaticamente. Selecione e copie o texto novamente.";
+        }
+    });
+
+    // =============================================
+    // PERGUNTAS FREQUENTES
+    // =============================================
+
+    document.getElementById("perguntas").addEventListener("click", () => {
+        abrirModal("modalFaq");
+    });
+
+    document.querySelectorAll("#listaFaq .faq-pergunta").forEach(botao => {
+        botao.addEventListener("click", () => {
+            const resposta = botao.nextElementSibling;
+            const aberta = botao.getAttribute("aria-expanded") === "true";
+
+            botao.setAttribute("aria-expanded", String(!aberta));
+            resposta.hidden = aberta;
+
+            const simbolo = botao.querySelector("span");
+            if (simbolo) simbolo.textContent = aberta ? "＋" : "−";
+        });
+    });
+
+    // =============================================
+    // INICIALIZAÇÃO
+    // =============================================
+
+    atualizarToggleNotificacoes();
+
+    aplicarTema(lerPreferencia(CHAVE_TEMA, "claro"));
+    aplicarIdioma(lerPreferencia(CHAVE_IDIOMA, "pt-BR"));
+
+    
+document.getElementById("comoFunciona")
+    .addEventListener("click", () => {
+        window.location.href = "como-funciona.html";
+    });
+
+</script>
+
+</body>
+</html>

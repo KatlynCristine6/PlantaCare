@@ -1,0 +1,1511 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#faf6e9">
+<title>Notificações | PlantaCare</title>
+
+<style>
+:root {
+    --fundo: #faf6e9;
+    --verde: #456b4a;
+    --verde-escuro: #20523d;
+    --texto: #304238;
+    --secundario: #68766e;
+    --borda: #e5dfd0;
+    --cartao: #fffdf7;
+    --verde-claro: #e7edd9;
+    --azul-claro: #e5efff;
+    --azul: #2878d5;
+    --amarelo-claro: #fff0d0;
+    --laranja: #d98522;
+    --vermelho-claro: #fce8e2;
+    --vermelho: #bf5140;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 30px 16px 110px;
+}
+
+/* CABEÇALHO */
+
+.cabecalho {
+    margin-bottom: 23px;
+}
+
+.titulo-linha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icone-cabecalho {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+
+.icone-cabecalho svg {
+    width: 25px;
+    height: 25px;
+}
+
+.cabecalho h1 {
+    color: var(--verde-escuro);
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.subtitulo {
+    margin: 8px 0 0 58px;
+    max-width: 300px;
+    color: var(--secundario);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* RESUMO */
+
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.card-resumo {
+    min-width: 0;
+    min-height: 112px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px;
+    text-align: left;
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    background: var(--cartao);
+    color: var(--texto);
+}
+
+.resumo-icone {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+
+.resumo-icone svg {
+    width: 26px;
+    height: 26px;
+}
+
+.resumo-texto {
+    flex: 1;
+    min-width: 0;
+}
+
+.resumo-texto p {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--verde-escuro);
+}
+
+.resumo-texto strong {
+    display: block;
+    margin-top: 5px;
+    color: var(--verde-escuro);
+    font-size: 30px;
+    line-height: 1;
+}
+
+.seta-resumo {
+    color: #a5ada5;
+    font-size: 25px;
+}
+
+/* SOMENTE QUATRO FILTROS */
+
+.filtros {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    padding: 1px 0 5px;
+    margin-bottom: 23px;
+    scrollbar-width: none;
+}
+
+.filtros::-webkit-scrollbar {
+    display: none;
+}
+
+.filtro {
+    flex-shrink: 0;
+    min-height: 43px;
+    padding: 10px 18px;
+    border: 1px solid var(--borda);
+    border-radius: 25px;
+    background: var(--cartao);
+    color: var(--verde-escuro);
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background .2s, color .2s;
+}
+
+.filtro.ativo {
+    background: var(--verde);
+    color: white;
+    border-color: var(--verde);
+}
+
+/* TÍTULO DA LISTA */
+
+.topo-lista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.topo-lista h2 {
+    color: var(--verde-escuro);
+    font-size: 22px;
+}
+
+.marcar-todas {
+    border: none;
+    background: transparent;
+    color: var(--verde);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* NOTIFICAÇÕES */
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notificacao {
+    display: grid;
+    grid-template-columns: 48px 76px minmax(0, 1fr) 16px;
+    align-items: start;
+    gap: 10px;
+    padding: 15px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 19px;
+    background: var(--cartao);
+}
+
+.notificacao.nao-lida {
+    border-left: 4px solid #4d7958;
+    padding-left: 9px;
+}
+
+.icone-notificacao {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+
+.icone-notificacao svg {
+    width: 25px;
+    height: 25px;
+}
+
+.tipo-agua .icone-notificacao,
+.tipo-umidade .icone-notificacao {
+    background: var(--azul-claro);
+    color: var(--azul);
+}
+
+.tipo-temperatura .icone-notificacao {
+    background: var(--amarelo-claro);
+    color: var(--laranja);
+}
+
+.tipo-alerta .icone-notificacao {
+    background: var(--vermelho-claro);
+    color: var(--vermelho);
+}
+
+.foto-planta {
+    width: 76px;
+    height: 88px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #f2ecdf;
+}
+
+.foto-planta img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.foto-fallback {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--verde);
+    background: #f2ecdf;
+}
+
+.foto-fallback svg {
+    width: 45px;
+    height: 45px;
+}
+
+.conteudo-notificacao {
+    min-width: 0;
+}
+
+.titulo-notificacao {
+    margin: 1px 0 5px;
+    color: var(--verde-escuro);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.mensagem-notificacao {
+    color: var(--secundario);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.data-notificacao {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    color: #758078;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.data-notificacao svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.situacao {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 9px;
+    padding: 7px 10px;
+    border-radius: 20px;
+    background: var(--azul-claro);
+    color: var(--azul);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.situacao.lida {
+    background: #e7f0dc;
+    color: #397749;
+}
+
+.ponto {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.seta-notificacao {
+    align-self: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #89948d;
+    font-size: 28px;
+}
+
+.acoes-notificacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 10px;
+}
+
+.btn-acao {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 10px;
+    background: #edf0e6;
+    color: var(--verde-escuro);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-acao.principal {
+    background: var(--verde);
+    color: white;
+}
+
+/* ESTADO VAZIO */
+
+.vazio {
+    padding: 30px 20px;
+    text-align: center;
+    border: 1px solid var(--borda);
+    border-radius: 19px;
+    background: var(--cartao);
+}
+
+.vazio-icone {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    color: var(--verde);
+}
+
+.vazio-icone svg {
+    width: 27px;
+    height: 27px;
+}
+
+.vazio h3 {
+    margin-bottom: 8px;
+    color: var(--verde-escuro);
+    font-size: 17px;
+}
+
+.vazio p {
+    color: var(--secundario);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* DICA */
+
+.dica {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 17px;
+    background: #edf0df;
+    color: #62705e;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.dica-icone {
+    flex-shrink: 0;
+    color: var(--verde);
+}
+
+.dica-icone svg {
+    width: 23px;
+    height: 23px;
+}
+
+.dica strong {
+    color: var(--verde-escuro);
+}
+
+/* MENU INFERIOR */
+
+.navegacao {
+    position: fixed;
+    z-index: 10;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+    padding: 7px 9px 12px;
+    border-top: 1px solid var(--borda);
+    background: rgba(255,253,247,.98);
+}
+
+.item-nav {
+    flex: 1;
+    min-width: 0;
+    min-height: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: none;
+    border-radius: 15px;
+    background: transparent;
+    color: #7d877f;
+    font-size: 12px;
+}
+
+.item-nav svg {
+    width: 23px;
+    height: 23px;
+}
+
+.item-nav.ativo {
+    background: var(--verde-claro);
+    color: var(--verde-escuro);
+    font-weight: 700;
+}
+
+/* MENSAGEM TEMPORÁRIA */
+
+.aviso-flutuante {
+    position: fixed;
+    z-index: 30;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    max-width: 430px;
+    padding: 14px 16px;
+    border-radius: 13px;
+    background: var(--verde-escuro);
+    color: white;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 5px 20px #0002;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 390px) {
+    .app {
+        padding: 25px 12px 105px;
+    }
+
+    .cabecalho h1 {
+        font-size: 25px;
+    }
+
+    .subtitulo {
+        font-size: 14px;
+    }
+
+    .card-resumo {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .resumo-icone {
+        width: 41px;
+        height: 41px;
+    }
+
+    .resumo-texto p {
+        font-size: 12px;
+    }
+
+    .notificacao {
+        grid-template-columns: 39px 63px minmax(0, 1fr) 12px;
+        gap: 7px;
+        padding: 12px 8px;
+    }
+
+    .notificacao.nao-lida {
+        padding-left: 5px;
+    }
+
+    .icone-notificacao {
+        width: 38px;
+        height: 38px;
+    }
+
+    .foto-planta {
+        width: 63px;
+        height: 76px;
+    }
+
+    .titulo-notificacao {
+        font-size: 14px;
+    }
+
+    .mensagem-notificacao {
+        font-size: 13px;
+    }
+
+    .situacao {
+        font-size: 11px;
+        padding: 6px 8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+    <header class="cabecalho">
+        <div class="titulo-linha">
+            <div class="icone-cabecalho" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path d="M10 21h4"/>
+                </svg>
+            </div>
+            <h1>Notificações</h1>
+        </div>
+        <p class="subtitulo">
+            Fique por dentro do que suas plantas precisam.
+        </p>
+    </header>
+
+    <section class="resumo">
+        <button class="card-resumo" id="cardAtencao" type="button">
+            <span class="resumo-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path d="M10 21h4"/>
+                </svg>
+            </span>
+            <span class="resumo-texto">
+                <p>Precisam de atenção</p>
+                <strong id="totalAtencao">0</strong>
+            </span>
+            <span class="seta-resumo" aria-hidden="true">›</span>
+        </button>
+
+        <button class="card-resumo" id="cardNaoLidas" type="button">
+            <span class="resumo-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 4C11 4 5 7 4 14c0 3 2 5 5 5 7-1 10-7 11-15Z"/>
+                    <path d="M3 22c3-7 7-10 12-13"/>
+                </svg>
+            </span>
+            <span class="resumo-texto">
+                <p>Não lidas</p>
+                <strong id="totalNaoLidas">0</strong>
+            </span>
+            <span class="seta-resumo" aria-hidden="true">›</span>
+        </button>
+    </section>
+
+    <section class="filtros" aria-label="Filtrar notificações">
+        <button class="filtro ativo" data-filtro="todas" type="button">Todas</button>
+        <button class="filtro" data-filtro="nao-lidas" type="button">Não lidas</button>
+        <button class="filtro" data-filtro="agua" type="button">Rega</button>
+        <button class="filtro" data-filtro="temperatura" type="button">Temperatura</button>
+    </section>
+
+    <section>
+        <div class="topo-lista">
+            <h2 id="tituloLista">Hoje</h2>
+            <button class="marcar-todas" id="marcarTodas" type="button">
+                ✓ Marcar todas como lidas
+            </button>
+        </div>
+
+        <div class="lista" id="listaNotificacoes" aria-live="polite"></div>
+    </section>
+
+    <aside class="dica">
+        <span class="dica-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21v-9"/>
+                <path d="M12 14C4 14 3 8 3 4c7 0 10 4 9 10Z"/>
+                <path d="M12 17c0-6 4-9 9-9 0 5-2 9-9 9Z"/>
+            </svg>
+        </span>
+        <p>
+            <strong>Dica PlantaCare</strong><br>
+            Acompanhe a umidade do solo e a temperatura para identificar
+            quando suas plantas precisam de cuidados.
+        </p>
+    </aside>
+
+</main>
+
+<nav class="navegacao" aria-label="Navegação principal">
+    <button class="item-nav" id="navInicio" type="button">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 10 9-7 9 7"/>
+            <path d="M5 9v12h14V9"/>
+        </svg>
+        <span>Início</span>
+    </button>
+
+    <button class="item-nav" id="navPlantas" type="button">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21v-8"/>
+            <path d="M12 14C5 14 4 9 4 6c5 0 9 2 8 8Z"/>
+            <path d="M12 17c0-5 3-8 8-8 0 4-2 8-8 8Z"/>
+            <path d="M8 21h8"/>
+        </svg>
+        <span>Plantas</span>
+    </button>
+
+    <button class="item-nav ativo" type="button" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+        </svg>
+        <span>Notificações</span>
+    </button>
+
+    <button class="item-nav" id="navPerfil" type="button">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
+        </svg>
+        <span>Perfil</span>
+    </button>
+</nav>
+
+<script>
+"use strict";
+
+const CHAVE_PLANTAS = "plantasUsuario";
+const CHAVE_AVISOS = "notificacoesPlantaCare";
+const CHAVE_TEMP_ANTIGA = "temperaturaAmbientePlantaCare";
+const CHAVE_CONHECIDAS = "plantaCarePlantasConhecidas";
+
+let filtroAtual = "todas";
+
+function ler(chave, padrao) {
+    try {
+        const valor = JSON.parse(localStorage.getItem(chave));
+        return valor == null ? padrao : valor;
+    } catch {
+        return padrao;
+    }
+}
+
+function plantasAtuais() {
+    const dados = ler(CHAVE_PLANTAS, []);
+    return Array.isArray(dados) ? dados : [];
+}
+
+function lerAvisos() {
+    const dados = ler(CHAVE_AVISOS, []);
+    return Array.isArray(dados) ? dados : [];
+}
+
+function salvarAvisos(avisos) {
+    localStorage.setItem(CHAVE_AVISOS, JSON.stringify(avisos));
+}
+
+function idPlanta(planta) {
+    return String(planta.id ?? planta.nome ?? planta.especie ?? "");
+}
+
+function nomePlanta(planta) {
+    return planta.nome || planta.especie || "Sua planta";
+}
+
+function normalizar(texto) {
+    return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+}
+
+/* IMAGENS: mantenha os caminhos usados no seu projeto */
+
+function caminhoImagem(planta) {
+    const especie = normalizar(planta.especie || planta.nome);
+
+    if (especie.includes("jiboia")) return "../images/jiboia.png";
+    if (especie.includes("espada de sao jorge")) {
+        return "../images/espada-sao-jorge.png";
+    }
+    if (especie.includes("zamioculca")) {
+        return "../images/zamioculca.png";
+    }
+    if (especie.includes("samambaia")) return "../images/samambaia.png";
+    if (especie.includes("lirio")) return "../images/lirio-da-paz.png";
+    if (especie.includes("cacto")) return "../images/cacto.png";
+    if (especie.includes("suculenta")) return "../images/suculenta.png";
+
+    return "";
+}
+
+function dataFormatada(valor) {
+    const data = new Date(valor);
+
+    if (Number.isNaN(data.getTime())) return "";
+
+    return data.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "short"
+    }) + ", " + data.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+/* TEMPERATURA */
+
+function temperaturaDa(planta) {
+    const valor = planta.temperaturaAmbiente;
+
+    if (
+        valor !== undefined && valor !== null && valor !== "" &&
+        Number.isFinite(Number(valor)) &&
+        Number(valor) >= -20 && Number(valor) <= 70
+    ) {
+        return Number(valor);
+    }
+
+    const antiga = ler(CHAVE_TEMP_ANTIGA, null);
+
+    if (antiga && typeof antiga === "object") {
+        if (
+            antiga.plantaId != null &&
+            String(antiga.plantaId) !== idPlanta(planta)
+        ) {
+            return null;
+        }
+
+        const temperatura = Number(antiga.temperatura);
+
+        if (
+            Number.isFinite(temperatura) &&
+            temperatura >= -20 && temperatura <= 70
+        ) {
+            return temperatura;
+        }
+    }
+
+    return null;
+}
+
+/* FAIXAS APROXIMADAS DE TEMPERATURA */
+
+function limitesTemperatura(planta) {
+    const especie = normalizar(planta.especie || planta.nome);
+
+    if (especie.includes("samambaia")) return { min: 15, max: 27 };
+    if (especie.includes("lirio da paz")) return { min: 18, max: 28 };
+    if (especie.includes("jiboia")) return { min: 18, max: 30 };
+    if (especie.includes("zamioculca")) return { min: 18, max: 30 };
+    if (especie.includes("espada de sao jorge")) return { min: 15, max: 32 };
+    if (especie.includes("cacto")) return { min: 15, max: 35 };
+    if (especie.includes("suculenta")) return { min: 15, max: 35 };
+
+    return { min: 18, max: 30 };
+}
+
+/* REGA */
+
+function intervaloPadrao(especie) {
+    const nome = normalizar(especie);
+
+    if (
+        nome.includes("cacto") ||
+        nome.includes("suculenta") ||
+        nome.includes("espada de sao jorge") ||
+        nome.includes("zamioculca")
+    ) return 10;
+
+    if (nome.includes("samambaia") || nome.includes("lirio")) return 3;
+
+    return 5;
+}
+
+function estadoRega(planta) {
+    if (!planta.ultimaRega) {
+        return { precisa: true, primeira: true };
+    }
+
+    const ultima = new Date(planta.ultimaRega);
+
+    if (Number.isNaN(ultima.getTime())) {
+        return { precisa: true, primeira: true };
+    }
+
+    const intervalo = Number(planta.intervaloRega) ||
+        intervaloPadrao(planta.especie);
+
+    const proxima = new Date(ultima);
+    proxima.setDate(proxima.getDate() + intervalo);
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    proxima.setHours(0, 0, 0, 0);
+
+    const dias = Math.ceil((proxima - hoje) / 86400000);
+
+    return { precisa: dias <= 0, primeira: false, dias };
+}
+
+/* ÍCONES VETORIAIS */
+
+function svgIcone(tipo) {
+    const inicio = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+    const fim = '</svg>';
+
+    const desenhos = {
+        agua: '<path d="M12 3C9 7 6 10 6 14a6 6 0 0 0 12 0c0-4-3-7-6-11Z"/><path d="M9 15a3 3 0 0 0 3 3"/>',
+        temperatura: '<path d="M14 14.8V5a3 3 0 0 0-6 0v9.8a5 5 0 1 0 6 0Z"/><path d="M11 11v7"/>',
+        umidade: '<path d="M12 3C9 7 6 10 6 14a6 6 0 0 0 12 0c0-4-3-7-6-11Z"/><path d="M9 15a3 3 0 0 0 3 3"/>',
+        alerta: '<path d="M12 3 2.8 20h18.4L12 3Z"/><path d="M12 9v5"/><path d="M12 17h.01"/>',
+        cadastro: '<path d="M12 21v-9"/><path d="M12 14C5 14 4 9 4 6c5 0 9 2 8 8Z"/><path d="M12 17c0-5 3-8 8-8 0 4-2 8-8 8Z"/>',
+        sino: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+        planta: '<path d="M12 21v-9"/><path d="M12 14C5 14 4 9 4 6c5 0 9 2 8 8Z"/><path d="M12 17c0-5 3-8 8-8 0 4-2 8-8 8Z"/>',
+        relogio: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        folha: '<path d="M20 4C11 4 5 7 4 14c0 3 2 5 5 5 7-1 10-7 11-15Z"/><path d="M3 22c3-7 7-10 12-13"/>'
+    };
+
+    return inicio + (desenhos[tipo] || desenhos.planta) + fim;
+}
+
+/* GERAÇÃO E ATUALIZAÇÃO DOS ALERTAS */
+
+function sincronizarAvisos() {
+    const plantas = plantasAtuais();
+    let avisos = lerAvisos();
+    const agora = new Date().toISOString();
+    const idsAtivos = new Set();
+
+    function adicionar(aviso) {
+        const existente = avisos.find(
+            item => String(item.id) === String(aviso.id)
+        );
+
+        if (existente) {
+            existente.titulo = aviso.titulo;
+            existente.mensagem = aviso.mensagem;
+            existente.categoria = aviso.categoria;
+            existente.plantaId = aviso.plantaId;
+            existente.imagem = aviso.imagem;
+            existente.icone = aviso.icone;
+        } else {
+            avisos.unshift({
+                ...aviso,
+                data: agora,
+                lida: false
+            });
+        }
+
+        idsAtivos.add(String(aviso.id));
+    }
+
+    plantas.forEach(planta => {
+        const id = idPlanta(planta);
+        if (!id) return;
+
+        const nome = nomePlanta(planta);
+        const imagem = caminhoImagem(planta);
+
+        // REGA
+        const rega = estadoRega(planta);
+
+        if (rega.precisa) {
+            adicionar({
+                id: "agua-" + id,
+                categoria: "agua",
+                plantaId: id,
+                imagem,
+                icone: "agua",
+                titulo: rega.primeira
+                    ? "Registre a primeira rega"
+                    : "Verifique a próxima rega",
+                mensagem: rega.primeira
+                    ? nome + " ainda não tem uma rega registrada. Registre a data para calcular os próximos lembretes."
+                    : nome + " chegou à data prevista para a rega. Confira a umidade do solo antes de regar."
+            });
+        }
+
+        // TEMPERATURA: AVISO QUANDO ESTÁ FORA DA FAIXA
+        const temperatura = temperaturaDa(planta);
+        const limites = limitesTemperatura(planta);
+
+        if (temperatura === null) {
+            adicionar({
+                id: "temperatura-" + id,
+                categoria: "temperatura",
+                plantaId: id,
+                imagem,
+                icone: "temperatura",
+                titulo: "Registre a temperatura",
+                mensagem: "A temperatura ambiente ainda não foi informada para " + nome + "."
+            });
+        } else if (
+            temperatura < limites.min ||
+            temperatura > limites.max
+        ) {
+            const abaixo = temperatura < limites.min;
+
+            adicionar({
+                id: "temperatura-" + id,
+                categoria: "temperatura",
+                plantaId: id,
+                imagem,
+                icone: "temperatura",
+                titulo: abaixo
+                    ? "Temperatura abaixo do ideal"
+                    : "Temperatura acima do ideal",
+                mensagem: nome + " está em " + temperatura +
+                    "°C. A faixa de referência aproximada desta espécie é de " +
+                    limites.min + "°C a " + limites.max +
+                    "°C. Confira as condições do ambiente."
+            });
+        }
+
+        /*
+         * UMIDADE DO SOLO:
+         * até 35% = baixa;
+         * de 36% a 79% = faixa de observação;
+         * 80% ou mais = alta.
+         *
+         * São limites gerais de alerta. O ideal real depende da espécie,
+         * do substrato e do sensor utilizado.
+         */
+        const umidade = planta.umidade;
+
+        if (
+            umidade !== undefined &&
+            umidade !== null &&
+            umidade !== "" &&
+            Number.isFinite(Number(umidade)) &&
+            Number(umidade) >= 0 &&
+            Number(umidade) <= 100
+        ) {
+            const valor = Number(umidade);
+
+            if (valor <= 35) {
+                adicionar({
+                    id: "umidade-" + id,
+                    categoria: "umidade",
+                    plantaId: id,
+                    imagem,
+                    icone: "umidade",
+                    titulo: "Umidade do solo baixa",
+                    mensagem: "O solo da " + nome + " está com " +
+                        valor + "% de umidade. Confira o substrato e as necessidades da espécie antes de regar."
+                });
+            } else if (valor >= 80) {
+                adicionar({
+                    id: "umidade-" + id,
+                    categoria: "umidade",
+                    plantaId: id,
+                    imagem,
+                    icone: "alerta",
+                    titulo: "Umidade do solo muito alta",
+                    mensagem: "O solo da " + nome + " está com " +
+                        valor + "% de umidade. Verifique a drenagem e evite regar novamente enquanto o substrato estiver encharcado."
+                });
+            }
+        }
+    });
+
+    /*
+     * Remove alertas automáticos quando a condição deixa de existir.
+     * Mantém avisos de cadastro e outras notificações não automáticas.
+     */
+    avisos = avisos.filter(aviso => {
+        const id = String(aviso.id || "");
+
+        if (
+            id.startsWith("agua-") ||
+            id.startsWith("temperatura-") ||
+            id.startsWith("umidade-")
+        ) {
+            return idsAtivos.has(id);
+        }
+
+        if (aviso.plantaId !== undefined) {
+            return plantas.some(
+                planta => idPlanta(planta) === String(aviso.plantaId)
+            );
+        }
+
+        return true;
+    });
+
+    // AVISO DE PLANTA NOVA
+    const idsAtuais = plantas.map(idPlanta);
+    const anteriores = ler(CHAVE_CONHECIDAS, null);
+
+    if (Array.isArray(anteriores)) {
+        idsAtuais.forEach(id => {
+            if (!anteriores.includes(id)) {
+                const planta = plantas.find(
+                    item => idPlanta(item) === id
+                );
+
+                if (!planta) return;
+
+                const idAviso = "cadastro-" + id;
+
+                if (!avisos.some(item => item.id === idAviso)) {
+                    avisos.unshift({
+                        id: idAviso,
+                        categoria: "cadastro",
+                        plantaId: id,
+                        imagem: caminhoImagem(planta),
+                        icone: "cadastro",
+                        titulo: "Nova planta cadastrada",
+                        mensagem: nomePlanta(planta) +
+                            " foi adicionada ao seu jardim. Confira os cuidados necessários.",
+                        data: agora,
+                        lida: false
+                    });
+                }
+            }
+        });
+    }
+
+    localStorage.setItem(CHAVE_CONHECIDAS, JSON.stringify(idsAtuais));
+
+    avisos = avisos.slice(0, 100);
+    salvarAvisos(avisos);
+
+    return avisos;
+}
+
+/* AÇÕES */
+
+function mostrarMensagem(texto) {
+    document.querySelector(".aviso-flutuante")?.remove();
+
+    const caixa = document.createElement("div");
+    caixa.className = "aviso-flutuante";
+    caixa.setAttribute("role", "status");
+    caixa.textContent = texto;
+
+    document.body.appendChild(caixa);
+    setTimeout(() => caixa.remove(), 2800);
+}
+
+function marcarLida(id) {
+    const avisos = lerAvisos();
+    const aviso = avisos.find(
+        item => String(item.id) === String(id)
+    );
+
+    if (aviso) {
+        aviso.lida = true;
+        salvarAvisos(avisos);
+    }
+
+    renderizar();
+}
+
+function abrirPlanta(id) {
+    localStorage.setItem("plantaSelecionada", String(id));
+    window.location.href = "monitoramento.html";
+}
+
+function registrarRega(id, idAviso) {
+    const plantas = plantasAtuais();
+    const planta = plantas.find(
+        item => idPlanta(item) === String(id)
+    );
+
+    if (!planta) {
+        mostrarMensagem("Não foi possível localizar a planta.");
+        return;
+    }
+
+    const agora = new Date().toISOString();
+
+    planta.ultimaRega = agora;
+
+    if (!Array.isArray(planta.historicoRegas)) {
+        planta.historicoRegas = [];
+    }
+
+    planta.historicoRegas.push(agora);
+
+    localStorage.setItem(CHAVE_PLANTAS, JSON.stringify(plantas));
+
+    const avisos = lerAvisos();
+    const aviso = avisos.find(
+        item => String(item.id) === String(idAviso)
+    );
+
+    if (aviso) {
+        aviso.lida = true;
+        salvarAvisos(avisos);
+    }
+
+    renderizar();
+    mostrarMensagem("Rega registrada com sucesso!");
+}
+
+function criarBotao(texto, acao, principal = false) {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "btn-acao" + (principal ? " principal" : "");
+    botao.textContent = texto;
+    botao.addEventListener("click", acao);
+    return botao;
+}
+
+/* CARD DE NOTIFICAÇÃO */
+
+function criarCard(aviso) {
+    const card = document.createElement("article");
+    card.className =
+        "notificacao tipo-" + aviso.categoria +
+        (aviso.lida ? "" : " nao-lida");
+
+    const icone = document.createElement("div");
+    icone.className = "icone-notificacao";
+    icone.innerHTML = svgIcone(aviso.icone || "planta");
+
+    const foto = document.createElement("div");
+    foto.className = "foto-planta";
+
+    if (aviso.imagem) {
+        const img = document.createElement("img");
+        img.src = aviso.imagem;
+        img.alt = "Planta relacionada à notificação";
+        img.loading = "lazy";
+
+        img.onerror = () => {
+            foto.innerHTML = "";
+            const fallback = document.createElement("div");
+            fallback.className = "foto-fallback";
+            fallback.innerHTML = svgIcone("planta");
+            foto.appendChild(fallback);
+        };
+
+        foto.appendChild(img);
+    } else {
+        const fallback = document.createElement("div");
+        fallback.className = "foto-fallback";
+        fallback.innerHTML = svgIcone("planta");
+        foto.appendChild(fallback);
+    }
+
+    const conteudo = document.createElement("div");
+    conteudo.className = "conteudo-notificacao";
+
+    const titulo = document.createElement("h3");
+    titulo.className = "titulo-notificacao";
+    titulo.textContent = aviso.titulo || "Aviso PlantaCare";
+
+    const mensagem = document.createElement("p");
+    mensagem.className = "mensagem-notificacao";
+    mensagem.textContent = aviso.mensagem || "";
+
+    const data = document.createElement("p");
+    data.className = "data-notificacao";
+    data.innerHTML = svgIcone("relogio");
+
+    const textoData = document.createElement("span");
+    textoData.textContent = dataFormatada(aviso.data);
+    data.appendChild(textoData);
+
+    const situacao = document.createElement("span");
+    situacao.className =
+        "situacao" + (aviso.lida ? " lida" : "");
+
+    const ponto = document.createElement("span");
+    ponto.className = "ponto";
+
+    const estado = document.createElement("span");
+    estado.textContent = aviso.lida ? "Lida" : "Não lida";
+
+    situacao.append(ponto, estado);
+    conteudo.append(titulo, mensagem, data, situacao);
+
+    const acoes = document.createElement("div");
+    acoes.className = "acoes-notificacao";
+
+    if (!aviso.lida) {
+        acoes.appendChild(
+            criarBotao("Marcar como lida", () => marcarLida(aviso.id))
+        );
+    }
+
+    if (aviso.plantaId) {
+        acoes.appendChild(
+            criarBotao("Ver planta", () => abrirPlanta(aviso.plantaId), true)
+        );
+    }
+
+    if (aviso.categoria === "agua" && aviso.plantaId) {
+        acoes.appendChild(
+            criarBotao("Já reguei", () =>
+                registrarRega(aviso.plantaId, aviso.id)
+            )
+        );
+    }
+
+    if (acoes.children.length > 0) {
+        conteudo.appendChild(acoes);
+    }
+
+    const seta = document.createElement("button");
+    seta.type = "button";
+    seta.className = "seta-notificacao";
+    seta.textContent = "›";
+    seta.setAttribute("aria-label", "Abrir notificação");
+
+    seta.addEventListener("click", () => {
+        if (aviso.plantaId) {
+            abrirPlanta(aviso.plantaId);
+        } else if (!aviso.lida) {
+            marcarLida(aviso.id);
+        }
+    });
+
+    card.append(icone, foto, conteudo, seta);
+    return card;
+}
+
+/* LISTA E CONTADORES */
+
+function renderizar() {
+    const plantas = plantasAtuais();
+    const avisos = sincronizarAvisos();
+
+    const regasPendentes = plantas.filter(
+        planta => estadoRega(planta).precisa
+    ).length;
+
+    const temperaturasPendentes = plantas.filter(planta => {
+        const temperatura = temperaturaDa(planta);
+        const limites = limitesTemperatura(planta);
+
+        return temperatura === null ||
+            temperatura < limites.min ||
+            temperatura > limites.max;
+    }).length;
+
+    const umidadesPendentes = plantas.filter(planta => {
+        const valor = planta.umidade;
+
+        return valor !== undefined &&
+            valor !== null &&
+            valor !== "" &&
+            Number.isFinite(Number(valor)) &&
+            (Number(valor) <= 35 || Number(valor) >= 80);
+    }).length;
+
+    const naoLidas = avisos.filter(aviso => !aviso.lida);
+
+    document.getElementById("totalAtencao").textContent =
+        regasPendentes + temperaturasPendentes + umidadesPendentes;
+
+    document.getElementById("totalNaoLidas").textContent =
+        naoLidas.length;
+
+    let filtradas = avisos.filter(aviso => {
+        if (filtroAtual === "nao-lidas") return !aviso.lida;
+
+        if (filtroAtual === "agua") {
+            return aviso.categoria === "agua";
+        }
+
+        if (filtroAtual === "temperatura") {
+            return aviso.categoria === "temperatura" ||
+                   aviso.categoria === "umidade" ||
+                   aviso.categoria === "alerta";
+        }
+
+        return true;
+    });
+
+    filtradas.sort(
+        (a, b) => new Date(b.data || 0) - new Date(a.data || 0)
+    );
+
+    const titulos = {
+        "todas": "Hoje",
+        "nao-lidas": "Não lidas",
+        "agua": "Rega",
+        "temperatura": "Temperatura"
+    };
+
+    document.getElementById("tituloLista").textContent =
+        titulos[filtroAtual];
+
+    document.getElementById("marcarTodas").hidden =
+        naoLidas.length === 0;
+
+    const lista = document.getElementById("listaNotificacoes");
+    lista.innerHTML = "";
+
+    if (filtradas.length === 0) {
+        const vazio = document.createElement("div");
+        vazio.className = "vazio";
+
+        const icone = document.createElement("div");
+        icone.className = "vazio-icone";
+        icone.innerHTML = svgIcone("folha");
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = filtroAtual === "nao-lidas"
+            ? "Tudo em dia!"
+            : "Nenhuma notificação por aqui";
+
+        const mensagem = document.createElement("p");
+        mensagem.textContent = filtroAtual === "nao-lidas"
+            ? "Você não tem notificações não lidas."
+            : "Quando suas plantas precisarem de atenção, os avisos aparecerão aqui.";
+
+        vazio.append(icone, titulo, mensagem);
+        lista.appendChild(vazio);
+        return;
+    }
+
+    filtradas.forEach(aviso => {
+        lista.appendChild(criarCard(aviso));
+    });
+}
+
+/* FILTROS */
+
+document.querySelectorAll(".filtro").forEach(botao => {
+    botao.addEventListener("click", () => {
+        filtroAtual = botao.dataset.filtro;
+
+        document.querySelectorAll(".filtro").forEach(item => {
+            item.classList.toggle("ativo", item === botao);
+        });
+
+        renderizar();
+    });
+});
+
+document.getElementById("cardAtencao").addEventListener("click", () => {
+    filtroAtual = "todas";
+
+    document.querySelectorAll(".filtro").forEach(botao => {
+        botao.classList.toggle(
+            "ativo",
+            botao.dataset.filtro === "todas"
+        );
+    });
+
+    renderizar();
+});
+
+document.getElementById("cardNaoLidas").addEventListener("click", () => {
+    filtroAtual = "nao-lidas";
+
+    document.querySelectorAll(".filtro").forEach(botao => {
+        botao.classList.toggle(
+            "ativo",
+            botao.dataset.filtro === "nao-lidas"
+        );
+    });
+
+    renderizar();
+});
+
+document.getElementById("marcarTodas").addEventListener("click", () => {
+    const avisos = lerAvisos();
+    avisos.forEach(aviso => aviso.lida = true);
+    salvarAvisos(avisos);
+    renderizar();
+    mostrarMensagem("Todas as notificações foram marcadas como lidas.");
+});
+
+/* NAVEGAÇÃO */
+
+document.getElementById("navInicio").addEventListener("click", () => {
+    window.location.href = "inicio.html";
+});
+
+document.getElementById("navPlantas").addEventListener("click", () => {
+    window.location.href = "plantas.html";
+});
+
+document.getElementById("navPerfil").addEventListener("click", () => {
+    window.location.href = "perfil.html";
+});
+
+/* ATUALIZAÇÃO QUANDO OS DADOS MUDAM */
+
+window.addEventListener("storage", evento => {
+    if (
+        evento.key === CHAVE_PLANTAS ||
+        evento.key === CHAVE_AVISOS ||
+        evento.key === CHAVE_TEMP_ANTIGA
+    ) {
+        renderizar();
+    }
+});
+
+window.addEventListener("focus", renderizar);
+window.addEventListener("pageshow", renderizar);
+
+renderizar();
+</script>
+
+</body>
+</html>

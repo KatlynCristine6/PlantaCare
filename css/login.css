@@ -1,0 +1,369 @@
+/* =================================
+   RESET
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #5d8964;
+
+    overflow: hidden;
+}
+
+
+/* =================================
+   TELA
+================================= */
+
+.tela-login {
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 18px;
+}
+
+
+/* =================================
+   CARTÃO
+================================= */
+
+.login-container {
+
+    width: 100%;
+
+    max-width: 350px;
+
+    min-height: 590px;
+
+    background: #f5f1df;
+
+    border-radius: 25px;
+
+    padding: 38px 28px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =================================
+   LOGO
+================================= */
+
+.logo {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    width: 100%;
+}
+
+
+/* folhas */
+
+.folhas-logo {
+
+    height: 40px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.folhas-logo span {
+
+    font-size: 34px;
+
+    line-height: 1;
+}
+
+
+/* PlantaCare */
+
+.logo h1 {
+
+    margin: 0;
+
+    color: #315b38;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* frase */
+
+.logo p {
+
+    margin-top: 5px;
+
+    color: #536154;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 13px;
+}
+
+
+/* =================================
+   TÍTULO
+================================= */
+
+h2 {
+
+    margin-top: 35px;
+
+    margin-bottom: 25px;
+
+    color: #315b38;
+
+    font-size: 21px;
+
+    font-weight: 600;
+}
+
+
+/* =================================
+   CAMPOS
+================================= */
+
+.campo {
+
+    width: 100%;
+
+    margin-bottom: 15px;
+}
+
+
+.campo input {
+
+    width: 100%;
+
+    height: 48px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d4d1c2;
+
+    border-radius: 12px;
+
+    background: #faf9f2;
+
+    outline: none;
+
+    font-size: 14px;
+
+    color: #354c38;
+}
+
+
+.campo input::placeholder {
+
+    color: #858b82;
+
+    font-size: 14px;
+}
+
+
+.campo input:focus {
+
+    border-color: #5d8964;
+}
+
+
+/* =================================
+   OPÇÕES
+================================= */
+
+.opcoes-login {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 3px;
+
+    margin-bottom: 22px;
+
+    font-size: 11px;
+
+    color: #536154;
+}
+
+
+.opcoes-login label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.opcoes-login input {
+
+    accent-color: #56855d;
+}
+
+
+.opcoes-login a {
+
+    color: #315b38;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+
+/* =================================
+   BOTÃO ENTRAR
+================================= */
+
+.btn-entrar {
+
+    width: 100%;
+
+    height: 46px;
+
+    border: none;
+
+    border-radius: 23px;
+
+    background: #56855d;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.btn-entrar:active {
+
+    transform: scale(0.98);
+}
+
+
+/* =================================
+   OU
+================================= */
+
+.ou {
+
+    margin: 17px 0;
+
+    font-size: 12px;
+
+    color: #777d74;
+
+}
+
+
+/* =================================
+   CRIAR CONTA
+================================= */
+
+.btn-criar-conta {
+
+    width: 100%;
+
+    height: 46px;
+
+    border-radius: 23px;
+
+    border: 1px solid #6c9672;
+
+    background: transparent;
+
+    color: #315b38;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.btn-criar-conta:active {
+
+    transform: scale(0.98);
+}
+
+
+/* =================================
+   TEXTO FINAL
+================================= */
+
+.cadastro-texto {
+
+    margin-top: 18px;
+
+    font-size: 12px;
+
+    color: #666d63;
+}
+
+
+#linkCadastro {
+
+    color: #315b38;
+
+    font-weight: bold;
+}

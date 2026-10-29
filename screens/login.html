@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login - PlantaCare</title>
+
+    <link
+            rel="stylesheet"
+            href="../css/login.css"
+    >
+
+</head>
+
+<body>
+
+<main class="tela-login">
+
+    <div class="login-container">
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="folhas-logo">
+                🌿
+            </div>
+
+            <h1>PlantaCare</h1>
+
+            <p>Sua planta, nosso cuidado</p>
+
+        </div>
+
+
+        <!-- TÍTULO -->
+
+        <h2>Faça login para continuar</h2>
+
+
+        <!-- E-MAIL -->
+
+        <div class="campo">
+
+            <input
+                    type="email"
+                    id="email"
+                    placeholder="E-mail"
+            >
+
+        </div>
+
+
+        <!-- SENHA -->
+
+        <div class="campo">
+
+            <input
+                    type="password"
+                    id="senha"
+                    placeholder="Senha"
+            >
+
+        </div>
+
+
+        <!-- OPÇÕES -->
+
+        <div class="opcoes-login">
+
+            <label>
+
+                <input type="checkbox">
+
+                Lembrar de mim
+
+            </label>
+
+            <a href="esqueci-senha.html">
+                Esqueceu a senha?
+            </a>
+
+        </div>
+
+
+        <!-- ENTRAR -->
+
+        <button
+                type="button"
+                class="btn-entrar"
+                id="btnEntrar"
+        >
+            Entrar
+        </button>
+
+
+        <!-- OU -->
+
+        <p class="ou">
+            ou
+        </p>
+
+
+        <!-- CRIAR CONTA -->
+
+        <button
+                type="button"
+                class="btn-criar-conta"
+                id="btnCriarConta"
+                onclick="window.location.href='cadastro.html'"
+        >
+            Criar conta
+        </button>
+
+
+        <!-- CADASTRO -->
+
+        <p class="cadastro-texto">
+
+            Ainda não possui uma conta?
+
+            <span
+                    id="linkCadastro"
+                    onclick="window.location.href='cadastro.html'"
+            >
+                Cadastre-se
+            </span>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/login.js"></script>
+
+
+</body>
+
+</html>

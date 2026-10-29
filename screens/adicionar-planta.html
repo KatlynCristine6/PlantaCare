@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar planta | PlantaCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --texto: #304238;
+            --borda: #e4e0d0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+            min-height: 100vh;
+        }
+
+        .pagina {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px 30px;
+        }
+
+        /* CABEÇALHO */
+
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 12px;
+        }
+
+        .voltar {
+            border: none;
+            background: transparent;
+            color: var(--texto);
+            font-size: 27px;
+            cursor: pointer;
+        }
+
+        .cabecalho h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* ILUSTRAÇÃO */
+
+        .ilustracao {
+            position: relative;
+            height: 145px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .planta-desenho {
+            font-size: 105px;
+            line-height: 1;
+            filter: drop-shadow(0 5px 4px #00000010);
+        }
+
+        .folha-decorativa {
+            position: absolute;
+            right: 0;
+            top: 20px;
+            font-size: 75px;
+            opacity: 0.17;
+            transform: rotate(-20deg);
+        }
+
+        .camera {
+            position: absolute;
+            bottom: 5px;
+            left: calc(50% + 20px);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid var(--fundo);
+            background: var(--verde);
+            color: white;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        /* FORMULÁRIO */
+
+        .formulario h2 {
+            font-size: 17px;
+            margin-bottom: 17px;
+        }
+
+        .campo {
+            margin-bottom: 16px;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .campo input,
+        .campo select {
+            display: block;
+            width: 100%;
+            min-height: 46px;
+            padding: 0 12px;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            background: #fffdf6;
+            color: var(--texto);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: var(--verde);
+            box-shadow: 0 0 0 2px #456b4a18;
+        }
+
+        .campo input::placeholder {
+            color: #92958b;
+        }
+
+        /* FOTO */
+
+        .foto-area {
+            margin-bottom: 20px;
+        }
+
+        .foto-area > label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .seletor-foto {
+            min-height: 78px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px;
+            border: 1px dashed #d9d5c4;
+            border-radius: 13px;
+            background: #f8f4e7;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .icone-camera {
+            font-size: 25px;
+        }
+
+        #foto {
+            display: none;
+        }
+
+        .preview {
+            display: none;
+            width: 90px;
+            height: 90px;
+            margin: 12px auto 0;
+            border-radius: 14px;
+            object-fit: contain;
+            background: #fffdf6;
+            border: 1px solid var(--borda);
+        }
+
+        .nome-arquivo {
+            display: block;
+            margin-top: 7px;
+            text-align: center;
+            font-size: 11px;
+            color: #687468;
+            overflow-wrap: anywhere;
+        }
+
+        /* BOTÃO SALVAR */
+
+        .salvar {
+            width: 100%;
+            min-height: 48px;
+            border: none;
+            border-radius: 28px;
+            background: linear-gradient(110deg, #527950, #3f6645);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: 0 3px 7px #00000012;
+            cursor: pointer;
+        }
+
+        .salvar:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .mensagem {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .mensagem.erro {
+            display: block;
+            background: #f9e5df;
+            color: #873d2f;
+        }
+
+        @media (max-width: 380px) {
+            .pagina {
+                padding: 17px 12px 25px;
+            }
+
+            .cabecalho h1 {
+                font-size: 18px;
+            }
+
+            .ilustracao {
+                height: 130px;
+            }
+
+            .planta-desenho {
+                font-size: 95px;
+            }
+
+            .campo label,
+            .foto-area > label {
+                font-size: 12px;
+            }
+
+            .campo input,
+            .campo select {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="pagina">
+
+        <header class="cabecalho">
+            <button
+                type="button"
+                class="voltar"
+                id="btnVoltar"
+                aria-label="Voltar"
+            >‹</button>
+
+            <h1>Adicionar planta</h1>
+        </header>
+
+        <section class="ilustracao">
+            <span class="folha-decorativa" aria-hidden="true">🌿</span>
+            <div class="planta-desenho" aria-hidden="true">🪴</div>
+
+            <button
+                type="button"
+                class="camera"
+                id="btnCamera"
+                aria-label="Escolher foto"
+            >📷</button>
+        </section>
+
+        <form id="formPlanta" class="formulario">
+
+            <h2>Informações da planta</h2>
+
+            <div class="campo">
+                <label for="nome">Nome da planta</label>
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Ex: Jiboia da sala"
+                    maxlength="60"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="especie">Espécie</label>
+                <select id="especie" name="especie" required>
+                    <option value="">Selecione a espécie</option>
+                    <option value="Espada-de-são-jorge">
+                        Espada-de-são-jorge
+                    </option>
+                    <option value="Jiboia">Jiboia</option>
+                    <option value="Zamioculca">Zamioculca</option>
+                    <option value="Lírio-da-paz">Lírio-da-paz</option>
+                    <option value="Samambaia">Samambaia</option>
+                    <option value="Suculenta">Suculenta</option>
+                    <option value="Cacto">Cacto</option>
+                    <option value="Costela-de-adão">Costela-de-adão</option>
+                    <option value="Outra">Outra espécie</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="localizacao">Localização</label>
+                <select id="localizacao" name="localizacao" required>
+                    <option value="">Selecione o local</option>
+                    <option value="Sala">Sala</option>
+                    <option value="Quarto">Quarto</option>
+                    <option value="Cozinha">Cozinha</option>
+                    <option value="Varanda">Varanda</option>
+                    <option value="Jardim">Jardim</option>
+                    <option value="Área de serviço">Área de serviço</option>
+                    <option value="Outro">Outro local</option>
+                </select>
+            </div>
+
+            <div class="foto-area">
+                <label>Foto (opcional)</label>
+
+                <label for="foto" class="seletor-foto">
+                    <span class="icone-camera">📷</span>
+                    <span id="textoFoto">Adicionar foto</span>
+                </label>
+
+                <input
+                    type="file"
+                    id="foto"
+                    name="foto"
+                    accept="image/*"
+                >
+
+                <img
+                    id="preview"
+                    class="preview"
+                    alt="Prévia da foto escolhida"
+                >
+
+                <span id="nomeArquivo" class="nome-arquivo"></span>
+            </div>
+
+            <button type="submit" class="salvar" id="btnSalvar">
+                Salvar
+            </button>
+
+            <div
+                id="mensagem"
+                class="mensagem"
+                role="alert"
+            ></div>
+
+        </form>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("formPlanta");
+        const campoFoto = document.getElementById("foto");
+        const preview = document.getElementById("preview");
+        const textoFoto = document.getElementById("textoFoto");
+        const nomeArquivo = document.getElementById("nomeArquivo");
+        const mensagem = document.getElementById("mensagem");
+        const btnSalvar = document.getElementById("btnSalvar");
+
+        let fotoSelecionada = "";
+
+        // VOLTAR PARA A TELA INICIAL
+        document.getElementById("btnVoltar").addEventListener(
+            "click",
+            function () {
+                window.location.href = "inicio.html";
+            }
+        );
+
+        // ABRIR A ESCOLHA DE FOTO
+        document.getElementById("btnCamera").addEventListener(
+            "click",
+            function () {
+                campoFoto.click();
+            }
+        );
+
+        // MOSTRAR A PRÉVIA DA FOTO
+        campoFoto.addEventListener("change", function () {
+            const arquivo = campoFoto.files[0];
+
+            fotoSelecionada = "";
+
+            if (!arquivo) {
+                preview.style.display = "none";
+                textoFoto.textContent = "Adicionar foto";
+                nomeArquivo.textContent = "";
+                return;
+            }
+
+            if (!arquivo.type.startsWith("image/")) {
+                mostrarErro("Escolha um arquivo de imagem válido.");
+                campoFoto.value = "";
+                return;
+            }
+
+            // Evita imagens muito grandes no armazenamento local
+            if (arquivo.size > 3 * 1024 * 1024) {
+                mostrarErro("Escolha uma imagem de até 3 MB.");
+                campoFoto.value = "";
+                return;
+            }
+
+            const leitor = new FileReader();
+
+            leitor.onload = function (evento) {
+                fotoSelecionada = evento.target.result;
+                preview.src = fotoSelecionada;
+                preview.style.display = "block";
+                textoFoto.textContent = "Trocar foto";
+                nomeArquivo.textContent = arquivo.name;
+                esconderMensagem();
+            };
+
+            leitor.onerror = function () {
+                mostrarErro("Não foi possível carregar essa foto.");
+            };
+
+            leitor.readAsDataURL(arquivo);
+        });
+
+        function mostrarErro(texto) {
+            mensagem.textContent = texto;
+            mensagem.className = "mensagem erro";
+        }
+
+        function esconderMensagem() {
+            mensagem.textContent = "";
+            mensagem.className = "mensagem";
+        }
+
+        // SALVAR A PLANTA
+        form.addEventListener("submit", function (evento) {
+            evento.preventDefault();
+            esconderMensagem();
+
+            const nome = document.getElementById("nome").value.trim();
+            const especie = document.getElementById("especie").value;
+            const localizacao = document.getElementById("localizacao").value;
+
+            if (!nome || !especie || !localizacao) {
+                mostrarErro("Preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            const novaPlanta = {
+                id: Date.now(),
+                nome: nome,
+                especie: especie,
+                localizacao: localizacao,
+                foto: fotoSelecionada,
+                criadaEm: new Date().toISOString()
+            };
+
+            btnSalvar.disabled = true;
+            btnSalvar.textContent = "Salvando...";
+
+            try {
+                const plantasSalvas = JSON.parse(
+                    localStorage.getItem("plantasUsuario") || "[]"
+                );
+
+                plantasSalvas.push(novaPlanta);
+
+                localStorage.setItem(
+    "plantasUsuario",
+    JSON.stringify(plantasSalvas)
+);
+
+// Criar notificação de novo cadastro
+const notificacoes = JSON.parse(
+    localStorage.getItem("notificacoesPlantaCare") || "[]"
+);
+
+notificacoes.unshift({
+    id: "cadastro-" + novaPlanta.id,
+    tipo: "cadastro",
+    categoria: "cadastro",
+    titulo: "Novo cadastro!",
+    mensagem: "Você adicionou uma nova planta: " +
+        novaPlanta.nome + ".",
+    data: novaPlanta.criadaEm,
+    lida: false,
+    plantaId: String(novaPlanta.id)
+});
+
+localStorage.setItem(
+    "notificacoesPlantaCare",
+    JSON.stringify(notificacoes)
+);
+
+window.location.href = "inicio.html";
+            } catch (erro) {
+                console.error("Erro ao salvar planta:", erro);
+
+                mostrarErro(
+                    "Não foi possível salvar. Tente uma foto menor ou libere espaço no navegador."
+                );
+
+                btnSalvar.disabled = false;
+                btnSalvar.textContent = "Salvar";
+            }
+        });
+    </script>
+
+</body>
+</html>

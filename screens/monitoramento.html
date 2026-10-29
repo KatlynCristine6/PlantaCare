@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faf6e9">
+    <title>Monitoramento | PlantaCare</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --verde-escuro: #284a35;
+            --texto: #304238;
+            --secundario: #777d70;
+            --borda: #e8e3d4;
+            --cartao: #fffdf6;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+            min-height: 100vh;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .app {
+            max-width: 480px;
+            min-height: 100vh;
+            margin: auto;
+            padding: 20px 16px 100px;
+        }
+
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .voltar {
+            position: absolute;
+            left: 0;
+            border: none;
+            background: transparent;
+            color: var(--verde-escuro);
+            font-size: 29px;
+        }
+
+        .cabecalho h1 {
+            font-size: 20px;
+        }
+
+        .seletor-planta {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
+            background: var(--cartao);
+            color: var(--texto);
+            font-size: 14px;
+        }
+
+        .cartao {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            box-shadow: 0 3px 8px #4a53300c;
+            margin-bottom: 12px;
+        }
+
+        .cartao-planta {
+            min-height: 90px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .foto-planta {
+            width: 78px;
+            height: 78px;
+            flex-shrink: 0;
+            border-radius: 15px;
+            background: #f1f0df;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 39px;
+        }
+
+        .foto-planta img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .dados-planta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dados-planta h2 {
+            font-size: 16px;
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .dados-planta p {
+            font-size: 12px;
+            color: var(--secundario);
+            line-height: 1.5;
+        }
+
+        .editar {
+            border: none;
+            background: #f5f3e9;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 17px;
+            color: var(--verde);
+            flex-shrink: 0;
+        }
+
+        .cartao-umidade {
+            padding: 16px;
+        }
+
+        .linha-umidade {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .gota {
+            font-size: 32px;
+            color: var(--verde);
+        }
+
+        .rotulo {
+            font-size: 12px;
+            font-weight: 700;
+            color: #526b55;
+            margin-bottom: 7px;
+        }
+
+        .porcentagem {
+            font-size: 27px;
+            font-weight: 700;
+            color: var(--verde-escuro);
+        }
+
+        .etiqueta {
+            margin-left: auto;
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #dceecf;
+            color: #416b3d;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .barra {
+            height: 11px;
+            margin-top: 14px;
+            border-radius: 20px;
+            background: #f0eedf;
+            border: 1px solid #dedcc9;
+            overflow: hidden;
+        }
+
+        .barra-preenchida {
+            height: 100%;
+            width: 0;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #e8d77a, #70c987);
+            transition: width 0.3s;
+        }
+
+        .aviso-umidade {
+            font-size: 11px;
+            color: var(--secundario);
+            margin-top: 9px;
+            line-height: 1.5;
+        }
+
+        .cartao-data {
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 16px;
+        }
+
+        .icone-data {
+            font-size: 27px;
+            color: var(--verde-escuro);
+        }
+
+        .valor-data {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .data-secundaria {
+            font-size: 12px;
+            color: var(--secundario);
+        }
+
+        .acoes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn-principal {
+            padding: 14px;
+            border: none;
+            border-radius: 24px;
+            background: var(--verde);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .btn-secundario {
+            padding: 13px;
+            border: 1px solid var(--borda);
+            border-radius: 24px;
+            background: var(--cartao);
+            color: var(--verde-escuro);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .vazio {
+            text-align: center;
+            padding: 35px 20px;
+            line-height: 1.7;
+            color: var(--secundario);
+        }
+
+        .navegacao {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            min-height: 72px;
+            padding: 10px 6px 12px;
+            display: flex;
+            justify-content: space-around;
+            background: #fffdf7;
+            border-top: 1px solid var(--borda);
+        }
+
+        .item-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border: none;
+            background: transparent;
+            color: #72796e;
+            font-size: 11px;
+        }
+
+        .item-nav .icone-nav {
+            font-size: 22px;
+        }
+
+        .item-nav.ativo {
+            color: var(--verde);
+            font-weight: 700;
+        }
+
+        @media (max-width: 380px) {
+            .app {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="app">
+
+    <header class="cabecalho">
+        <button class="voltar" id="btnVoltar" type="button" aria-label="Voltar">‹</button>
+        <h1>Monitoramento</h1>
+    </header>
+
+    <select class="seletor-planta" id="seletorPlanta"
+        aria-label="Escolher planta"></select>
+
+    <div id="conteudoMonitoramento"></div>
+
+</main>
+
+<nav class="navegacao" aria-label="Navegação principal">
+    <button class="item-nav" id="navInicio" type="button">
+        <span class="icone-nav">⌂</span>
+        <span>Início</span>
+    </button>
+
+    <button class="item-nav ativo" id="navPlantas" type="button">
+        <span class="icone-nav">♧</span>
+        <span>Plantas</span>
+    </button>
+
+    <button class="item-nav" id="navNotificacoes" type="button">
+        <span class="icone-nav">♧</span>
+        <span>Notificações</span>
+    </button>
+
+    <button class="item-nav" id="navPerfil" type="button">
+        <span class="icone-nav">♙</span>
+        <span>Perfil</span>
+    </button>
+</nav>
+
+<script>
+"use strict";
+
+const CHAVE_PLANTAS = "plantasUsuario";
+const CHAVE_SELECIONADA = "plantaSelecionada";
+
+const seletor = document.getElementById("seletorPlanta");
+const conteudo = document.getElementById("conteudoMonitoramento");
+
+function lerPlantas() {
+    try {
+        const dados = JSON.parse(
+            localStorage.getItem(CHAVE_PLANTAS) || "[]"
+        );
+
+        return Array.isArray(dados) ? dados : [];
+    } catch (erro) {
+        console.error("Erro ao carregar plantas:", erro);
+        return [];
+    }
+}
+
+function salvarPlantas(plantas) {
+    localStorage.setItem(CHAVE_PLANTAS, JSON.stringify(plantas));
+}
+
+function obterSelecionada() {
+    const plantas = lerPlantas();
+    const id = localStorage.getItem(CHAVE_SELECIONADA);
+
+    return plantas.find(
+        planta => String(planta.id) === String(id)
+    ) || plantas[0] || null;
+}
+
+function formatarData(data) {
+    if (!data) return "Ainda não registrada";
+
+    const dataObj = new Date(data);
+
+    if (Number.isNaN(dataObj.getTime())) {
+        return "Ainda não registrada";
+    }
+
+    return dataObj.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+}
+
+function calcularProximaRega(planta) {
+    if (!planta.ultimaRega) {
+        return {
+            texto: "Registre a primeira rega",
+            data: null,
+            dias: null
+        };
+    }
+
+    const ultima = new Date(planta.ultimaRega);
+
+    if (Number.isNaN(ultima.getTime())) {
+        return {
+            texto: "Registre a primeira rega",
+            data: null,
+            dias: null
+        };
+    }
+
+    const intervalo = Number(planta.intervaloRega) || 5;
+    const proxima = new Date(ultima);
+    proxima.setDate(proxima.getDate() + intervalo);
+    proxima.setHours(0, 0, 0, 0);
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    const dias = Math.round(
+        (proxima.getTime() - hoje.getTime()) / 86400000
+    );
+
+    let texto;
+
+    if (dias < 0) {
+        texto = "Rega atrasada";
+    } else if (dias === 0) {
+        texto = "Verificar hoje";
+    } else {
+        texto = "Em " + dias + (dias === 1 ? " dia" : " dias");
+    }
+
+    return { texto, data: proxima, dias };
+}
+
+function montarSeletor(plantas, selecionada) {
+    seletor.innerHTML = "";
+
+    plantas.forEach(planta => {
+        const opcao = document.createElement("option");
+        opcao.value = String(planta.id);
+        opcao.textContent = planta.nome || planta.especie || "Minha planta";
+        seletor.appendChild(opcao);
+    });
+
+    if (selecionada) {
+        seletor.value = String(selecionada.id);
+    }
+
+    seletor.hidden = plantas.length <= 1;
+}
+
+function mostrarVazio() {
+    seletor.hidden = true;
+
+    conteudo.innerHTML = `
+        <section class="cartao vazio">
+            <div style="font-size:42px">🌱</div>
+            <h2>Nenhuma planta encontrada</h2>
+            <p>Cadastre uma planta para acompanhar os cuidados por aqui.</p>
+            <br>
+            <button class="btn-principal" id="btnCadastrar" type="button">
+                + Cadastrar planta
+            </button>
+        </section>
+    `;
+
+    document.getElementById("btnCadastrar").onclick = () => {
+        window.location.href = "adicionar-planta.html";
+    };
+}
+
+function renderizar() {
+    const plantas = lerPlantas();
+    const planta = obterSelecionada();
+
+    if (!planta) {
+        mostrarVazio();
+        return;
+    }
+
+    montarSeletor(plantas, planta);
+
+    const proxima = calcularProximaRega(planta);
+    const ultima = planta.ultimaRega;
+
+    const umidade = planta.umidade !== undefined &&
+        planta.umidade !== null &&
+        planta.umidade !== "" &&
+        Number.isFinite(Number(planta.umidade))
+        ? Math.min(100, Math.max(0, Number(planta.umidade)))
+        : null;
+
+    const imagem = planta.foto
+        ? `<img src="${planta.foto}" alt="">`
+        : "🪴";
+
+    conteudo.innerHTML = `
+        <section class="cartao cartao-planta">
+            <div class="foto-planta" id="fotoPlanta">${imagem}</div>
+
+            <div class="dados-planta">
+                <h2 id="nomePlanta"></h2>
+                <p id="localPlanta"></p>
+                <p id="especiePlanta"></p>
+            </div>
+
+            <button class="editar" id="btnEditar"
+                type="button" aria-label="Editar planta">✎</button>
+        </section>
+
+        <section class="cartao cartao-umidade">
+            <div class="linha-umidade">
+                <span class="gota">♧</span>
+                <div>
+                    <p class="rotulo">Umidade do solo</p>
+                    <p class="porcentagem" id="valorUmidade"></p>
+                </div>
+                <span class="etiqueta" id="estadoUmidade"></span>
+            </div>
+
+            <div class="barra">
+                <div class="barra-preenchida" id="barraUmidade"></div>
+            </div>
+
+            <p class="aviso-umidade" id="avisoUmidade"></p>
+        </section>
+
+        <section class="cartao cartao-data">
+            <span class="icone-data">🌡️</span>
+            <div style="flex:1">
+                <p class="rotulo">Temperatura ambiente</p>
+                <p class="valor-data" id="valorTemperatura">Não informada</p>
+                <p class="data-secundaria" id="avisoTemperatura">
+                    Informe a temperatura manualmente.
+                </p>
+            </div>
+        </section>
+
+        <section class="cartao cartao-data">
+            <span class="icone-data">▦</span>
+            <div>
+                <p class="rotulo">Próxima rega</p>
+                <p class="valor-data" id="proximaRega"></p>
+                <p class="data-secundaria" id="dataProxima"></p>
+            </div>
+        </section>
+
+        <section class="cartao cartao-data">
+            <span class="icone-data">▦</span>
+            <div>
+                <p class="rotulo">Última rega</p>
+                <p class="valor-data" id="ultimaRega"></p>
+                <p class="data-secundaria" id="totalRegas"></p>
+            </div>
+        </section>
+
+        <div class="acoes">
+            <button class="btn-principal" id="btnRegar" type="button">
+                💧 Registrar rega
+            </button>
+
+            <button class="btn-secundario" id="btnUmidade" type="button">
+                Atualizar umidade manualmente
+            </button>
+
+            <button class="btn-secundario" id="btnTemperatura" type="button">
+                🌡️ Atualizar temperatura
+            </button>
+        </div>
+    `;
+
+    document.getElementById("nomePlanta").textContent =
+        planta.nome || planta.especie || "Minha planta";
+
+    document.getElementById("localPlanta").textContent =
+        "⌖ " + (planta.localizacao || "Local não informado");
+
+    document.getElementById("especiePlanta").textContent =
+        planta.especie || "";
+
+    const imagemElemento = document.querySelector("#fotoPlanta img");
+
+    if (imagemElemento) {
+        imagemElemento.onerror = function () {
+            this.remove();
+            document.getElementById("fotoPlanta").textContent = "🪴";
+        };
+    }
+
+    document.getElementById("valorUmidade").textContent =
+        umidade === null ? "Não informada" : umidade + "%";
+
+    document.getElementById("estadoUmidade").textContent =
+        umidade === null ? "Sem medição" :
+        umidade < 30 ? "Baixa" :
+        umidade < 70 ? "Moderada" : "Alta";
+
+    document.getElementById("barraUmidade").style.width =
+        (umidade === null ? 0 : umidade) + "%";
+
+    document.getElementById("avisoUmidade").textContent =
+        umidade === null
+            ? "A umidade não é medida pelo site. Você pode registrá-la manualmente."
+            : "Valor informado manualmente; não é uma medição automática.";
+
+    /*
+     * A temperatura é recuperada do cadastro da planta.
+     * Também tenta recuperar um valor salvo anteriormente
+     * na chave global antiga, caso exista.
+     */
+    let temperaturaSalva = planta.temperaturaAmbiente;
+
+    if (temperaturaSalva === undefined || temperaturaSalva === null) {
+        try {
+            const temperaturaAntiga = JSON.parse(
+                localStorage.getItem("temperaturaAmbientePlantaCare") || "null"
+            );
+
+            if (
+                temperaturaAntiga &&
+                typeof temperaturaAntiga === "object"
+            ) {
+                temperaturaSalva = temperaturaAntiga.temperatura;
+            } else if (temperaturaAntiga !== null) {
+                temperaturaSalva = temperaturaAntiga;
+            }
+        } catch (erro) {
+            temperaturaSalva = null;
+        }
+    }
+
+    const temperaturaValida =
+        temperaturaSalva !== undefined &&
+        temperaturaSalva !== null &&
+        temperaturaSalva !== "" &&
+        Number.isFinite(Number(temperaturaSalva));
+
+    document.getElementById("valorTemperatura").textContent =
+        temperaturaValida
+            ? Number(temperaturaSalva) + " °C"
+            : "Não informada";
+
+    document.getElementById("avisoTemperatura").textContent =
+        temperaturaValida
+            ? "Valor informado manualmente; não é uma medição automática."
+            : "Informe a temperatura manualmente.";
+
+    document.getElementById("proximaRega").textContent = proxima.texto;
+
+    document.getElementById("dataProxima").textContent =
+        proxima.data
+            ? formatarData(proxima.data)
+            : "Cadastre a última rega para calcular a previsão";
+
+    document.getElementById("ultimaRega").textContent =
+        formatarData(ultima);
+
+    document.getElementById("totalRegas").textContent =
+        (planta.historicoRegas || []).length + " rega(s) registrada(s)";
+
+    document.getElementById("btnRegar").onclick = () => {
+        const atualizadas = lerPlantas();
+
+        const indice = atualizadas.findIndex(
+            item => String(item.id) === String(planta.id)
+        );
+
+        if (indice < 0) return;
+
+        const agora = new Date().toISOString();
+
+        atualizadas[indice].ultimaRega = agora;
+
+        atualizadas[indice].historicoRegas =
+            Array.isArray(atualizadas[indice].historicoRegas)
+                ? atualizadas[indice].historicoRegas
+                : [];
+
+        atualizadas[indice].historicoRegas.push(agora);
+
+        salvarPlantas(atualizadas);
+        renderizar();
+
+        alert("Rega registrada com sucesso! 🌿");
+    };
+
+    document.getElementById("btnUmidade").onclick = () => {
+        const resposta = prompt(
+            "Informe a umidade do solo em porcentagem (0 a 100):",
+            planta.umidade ?? ""
+        );
+
+        if (resposta === null) return;
+
+        const texto = resposta.trim().replace(",", ".");
+        const valor = Number(texto);
+
+        if (
+            texto === "" ||
+            !Number.isFinite(valor) ||
+            valor < 0 ||
+            valor > 100
+        ) {
+            alert("Digite um número entre 0 e 100.");
+            return;
+        }
+
+        const atualizadas = lerPlantas();
+
+        const indice = atualizadas.findIndex(
+            item => String(item.id) === String(planta.id)
+        );
+
+        if (indice < 0) return;
+
+        atualizadas[indice].umidade = valor;
+
+        /*
+         * Mantém a temperatura já registrada no mesmo objeto.
+         * Não substitua o cadastro inteiro por um objeto novo.
+         */
+        salvarPlantas(atualizadas);
+        renderizar();
+    };
+
+    document.getElementById("btnTemperatura").onclick = () => {
+        const resposta = prompt(
+            "Informe a temperatura ambiente em °C:",
+            planta.temperaturaAmbiente ?? ""
+        );
+
+        if (resposta === null) return;
+
+        const texto = resposta.trim().replace(",", ".");
+        const temperatura = Number(texto);
+
+        if (
+            texto === "" ||
+            !Number.isFinite(temperatura) ||
+            temperatura < -20 ||
+            temperatura > 70
+        ) {
+            alert("Digite uma temperatura válida entre -20 °C e 70 °C.");
+            return;
+        }
+
+        const atualizadas = lerPlantas();
+
+        const indice = atualizadas.findIndex(
+            item => String(item.id) === String(planta.id)
+        );
+
+        if (indice < 0) {
+            alert("Não foi possível encontrar a planta selecionada.");
+            return;
+        }
+
+        atualizadas[indice].temperaturaAmbiente = temperatura;
+        atualizadas[indice].temperaturaAtualizadaEm =
+            new Date().toISOString();
+
+        salvarPlantas(atualizadas);
+        renderizar();
+
+        alert("Temperatura atualizada! 🌡️");
+    };
+
+    document.getElementById("btnEditar").onclick = () => {
+        window.location.href = "adicionar-planta.html";
+    };
+}
+
+seletor.addEventListener("change", () => {
+    localStorage.setItem(CHAVE_SELECIONADA, seletor.value);
+    renderizar();
+});
+
+document.getElementById("btnVoltar").onclick = () => {
+    window.location.href = "inicio.html";
+};
+
+document.getElementById("navInicio").onclick = () => {
+    window.location.href = "inicio.html";
+};
+
+document.getElementById("navPlantas").onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+document.getElementById("navNotificacoes").onclick = () => {
+    window.location.href = "notificacoes.html";
+};
+
+document.getElementById("navPerfil").onclick = () => {
+    window.location.href = "perfil.html";
+};
+
+renderizar();
+</script>
+</body>
+</html>

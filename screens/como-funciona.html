@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faf6e9">
+    <title>Como funciona? | PlantaCare</title>
+
+    <style>
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --verde-escuro: #284a35;
+            --cartao: #fffdf6;
+            --texto: #303b32;
+            --secundario: #777d73;
+            --borda: #eee8d9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--fundo);
+            color: var(--texto);
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .pagina {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            margin: auto;
+            padding: 15px 16px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cabecalho {
+            display: grid;
+            grid-template-columns: 42px 1fr 42px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .voltar {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: var(--verde-escuro);
+            font-size: 28px;
+        }
+
+        h1 {
+            color: var(--verde-escuro);
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .introducao {
+            text-align: center;
+            max-width: 320px;
+            margin: 0 auto 24px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .etapas {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        /* Linha que conecta as cinco etapas */
+        .etapas::before {
+            content: "";
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: #cbd5bd;
+        }
+
+        .etapa {
+            display: grid;
+            grid-template-columns: 24px 62px minmax(0, 1fr);
+            gap: 10px;
+            align-items: center;
+            min-height: 63px;
+            position: relative;
+        }
+
+        .numero {
+            width: 23px;
+            height: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--verde);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .ilustracao {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #e3e8cd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--verde-escuro);
+        }
+
+        .ilustracao svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        .texto-etapa h2 {
+            font-size: 13px;
+            color: var(--verde-escuro);
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+
+        .texto-etapa p {
+            font-size: 12px;
+            line-height: 1.45;
+            color: #5f685e;
+        }
+
+        .botao-entendi {
+            display: block;
+            width: min(100%, 280px);
+            margin: 26px auto 0;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 30px;
+            background: var(--verde);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 3px 8px #284a351c;
+        }
+
+        .botao-entendi:hover {
+            background: var(--verde-escuro);
+        }
+
+        .rodape {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--secundario);
+        }
+
+        @media (max-width: 360px) {
+            .pagina {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .etapa {
+                grid-template-columns: 23px 52px minmax(0, 1fr);
+                gap: 7px;
+            }
+
+            .ilustracao {
+                width: 49px;
+                height: 49px;
+            }
+
+            .texto-etapa h2 {
+                font-size: 12px;
+            }
+
+            .texto-etapa p {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="pagina">
+
+    <header class="cabecalho">
+        <button class="voltar" id="btnVoltar"
+                aria-label="Voltar">‹</button>
+        <h1>Como funciona?</h1>
+        <span></span>
+    </header>
+
+    <p class="introducao">
+        Nosso sistema ajuda você a cuidar da sua planta
+        de forma simples e inteligente.
+    </p>
+
+    <section class="etapas" aria-label="Etapas de funcionamento">
+
+        <!-- ETAPA 1 -->
+        <article class="etapa">
+            <span class="numero">1</span>
+
+            <div class="ilustracao">
+                <svg viewBox="0 0 40 40" fill="none"
+                     aria-hidden="true">
+                    <path d="M20 27V8" stroke="#456b4a"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M20 17C9 17 7 9 9 5C17 5 21 10 20 17Z"
+                          fill="#456b4a"/>
+                    <path d="M20 22C30 22 34 14 32 10C24 10 19 16 20 22Z"
+                          fill="#789755"/>
+                    <path d="M20 26C12 26 11 20 13 17C18 18 21 22 20 26Z"
+                          fill="#92a968"/>
+                    <path d="M12 27H28L26 36H14L12 27Z"
+                          fill="#bf8960"/>
+                    <path d="M10 25H30V29H10V25Z"
+                          fill="#a96e49"/>
+                </svg>
+            </div>
+
+            <div class="texto-etapa">
+                <h2>Planta no vaso</h2>
+                <p>A planta fica no vaso, onde poderá ser acompanhado o nível de umidade do solo, se houver sensor instalado.</p>
+            </div>
+        </article>
+
+        <!-- ETAPA 2 -->
+        <article class="etapa">
+            <span class="numero">2</span>
+
+            <div class="ilustracao">
+                <svg viewBox="0 0 40 40" fill="none"
+                     aria-hidden="true">
+                    <path d="M20 32V12" stroke="#456b4a"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M20 20C9 20 7 11 9 7C17 7 21 13 20 20Z"
+                          fill="#456b4a"/>
+                    <path d="M20 25C30 25 34 17 32 13C24 13 19 19 20 25Z"
+                          fill="#789755"/>
+                    <path d="M20 15C15 12 16 5 21 3C26 8 25 12 20 15Z"
+                          fill="#92a968"/>
+                    <path d="M11 33H29" stroke="#284a35"
+                          stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="texto-etapa">
+                <h2>Umidade do solo é monitorada</h2>
+                <p>Com um sensor compatível, o sistema verifica a umidade e ajuda a acompanhar as condições do solo.</p>
+            </div>
+        </article>
+
+        <!-- ETAPA 3 -->
+        <article class="etapa">
+            <span class="numero">3</span>
+
+            <div class="ilustracao">
+                <svg viewBox="0 0 40 40" fill="none"
+                     aria-hidden="true">
+                    <path d="M10 25C4 18 10 8 23 7C24 19 18 27 10 25Z"
+                          fill="#456b4a"/>
+                    <path d="M10 25L20 12" stroke="#e3e8cd"
+                          stroke-width="1.8"/>
+                    <path d="M25 31C20 26 24 18 33 17C34 25 30 31 25 31Z"
+                          fill="#789755"/>
+                    <path d="M24 32L31 21" stroke="#e3e8cd"
+                          stroke-width="1.5"/>
+                    <path d="M6 33L34 5" stroke="#284a35"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="texto-etapa">
+                <h2>Identifica a necessidade de água</h2>
+                <p>O sistema combina as informações disponíveis para indicar quando a planta pode precisar de rega.</p>
+            </div>
+        </article>
+
+        <!-- ETAPA 4 -->
+        <article class="etapa">
+            <span class="numero">4</span>
+
+            <div class="ilustracao">
+                <svg viewBox="0 0 40 40" fill="none"
+                     aria-hidden="true">
+                    <path d="M20 32V13" stroke="#456b4a"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M20 20C9 20 7 11 9 7C17 7 21 13 20 20Z"
+                          fill="#456b4a"/>
+                    <path d="M20 25C30 25 34 17 32 13C24 13 19 19 20 25Z"
+                          fill="#789755"/>
+                    <path d="M30 3L31.5 7L35 8.5L31.5 10L30 14L28.5 10L25 8.5L28.5 7L30 3Z"
+                          fill="#b6a96a"/>
+                </svg>
+            </div>
+
+            <div class="texto-etapa">
+                <h2>Você recebe um aviso</h2>
+                <p>As notificações disponíveis no aplicativo ajudam você a lembrar dos cuidados necessários.</p>
+            </div>
+        </article>
+
+        <!-- ETAPA 5 -->
+        <article class="etapa">
+            <span class="numero">5</span>
+
+            <div class="ilustracao">
+                <svg viewBox="0 0 40 40" fill="none"
+                     aria-hidden="true">
+                    <path d="M18 26C8 26 7 17 9 13C17 13 20 19 18 26Z"
+                          fill="#456b4a"/>
+                    <path d="M18 26L12 17" stroke="#e3e8cd"
+                          stroke-width="1.5"/>
+                    <path d="M20 30V23" stroke="#456b4a"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M24 21L29 25L34 21V33H24V21Z"
+                          fill="#789755"/>
+                    <path d="M27 21V18C27 15 31 15 31 18V21"
+                          stroke="#284a35" stroke-width="2"
+                          stroke-linecap="round"/>
+                    <path d="M29 25V28" stroke="#fffdf6"
+                          stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="texto-etapa">
+                <h2>Planta é regada</h2>
+                <p>Você registra a rega manualmente. A rega automática só estará disponível se o hardware e o controle forem implementados e conectados.</p>
+            </div>
+        </article>
+
+    </section>
+
+    <button class="botao-entendi" id="btnEntendi">
+        Entendi!
+    </button>
+
+    <p class="rodape">PlantaCare · Sua planta, nosso cuidado 🌱</p>
+
+</main>
+
+<script>
+    document.getElementById("btnVoltar").addEventListener("click", voltar);
+    document.getElementById("btnEntendi").addEventListener("click", voltar);
+
+    function voltar() {
+        const paginasInternas = [
+            "inicio.html",
+            "perfil.html",
+            "configuracoes.html",
+            "notificacoes.html"
+        ];
+
+        try {
+            const anterior = new URL(document.referrer);
+
+            if (
+                anterior.origin === location.origin &&
+                paginasInternas.some(p => anterior.pathname.endsWith(p))
+            ) {
+                history.back();
+                return;
+            }
+        } catch (erro) {
+            // Sem página anterior válida: abre o Início.
+        }
+
+        location.href = "inicio.html";
+    }
+</script>
+
+</body>
+</html>

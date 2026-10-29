@@ -1,0 +1,1577 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faf6e9">
+    <title>Agenda inteligente | PlantaCare</title>
+
+    <style>
+        :root {
+            --fundo: #faf6e9;
+            --verde: #456b4a;
+            --verde-escuro: #284a35;
+            --texto: #303b32;
+            --secundario: #777d73;
+            --borda: #eee8d9;
+            --cartao: #fffdf6;
+            --suave: #e3e8cd;
+            --alerta: #a34b37;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+            padding-bottom: 30px;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            margin: auto;
+            padding: 22px 16px;
+        }
+
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .voltar {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
+            background: var(--cartao);
+            color: var(--verde-escuro);
+            font-size: 24px;
+        }
+
+        .cabecalho h1 {
+            font-size: 23px;
+            color: var(--verde-escuro);
+        }
+
+        .cabecalho p {
+            font-size: 13px;
+            color: var(--secundario);
+            margin-top: 4px;
+        }
+
+        .boas-vindas {
+            padding: 22px;
+            border-radius: 21px;
+            background: var(--verde-escuro);
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .boas-vindas .emoji {
+            font-size: 31px;
+            margin-bottom: 10px;
+        }
+
+        .boas-vindas h2 {
+            font-size: 21px;
+            margin-bottom: 9px;
+        }
+
+        .boas-vindas p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #edf2e7;
+        }
+
+        .atalho-produtos {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 22px;
+            text-decoration: none;
+            color: var(--texto);
+        }
+
+        .atalho-produtos .atalho-icone {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+
+        .atalho-produtos strong {
+            display: block;
+            font-size: 14px;
+            color: var(--verde-escuro);
+            margin-bottom: 5px;
+        }
+
+        .atalho-produtos small {
+            font-size: 12px;
+            color: var(--secundario);
+            line-height: 1.4;
+        }
+
+        .seta {
+            color: var(--verde);
+            font-size: 23px;
+        }
+
+        .resumos {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 9px;
+            margin-bottom: 25px;
+        }
+
+        .resumo {
+            padding: 13px 8px;
+            border: 1px solid var(--borda);
+            border-radius: 15px;
+            background: var(--cartao);
+            text-align: center;
+        }
+
+        .resumo span {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .resumo strong {
+            display: block;
+            color: var(--verde-escuro);
+            font-size: 21px;
+        }
+
+        .resumo p {
+            color: var(--secundario);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .titulo-secao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .titulo-secao h2 {
+            color: var(--verde-escuro);
+            font-size: 19px;
+        }
+
+        .botao-principal {
+            border: none;
+            border-radius: 12px;
+            padding: 11px 13px;
+            background: var(--verde);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .filtros {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            padding-bottom: 4px;
+        }
+
+        .filtro {
+            flex-shrink: 0;
+            padding: 9px 13px;
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+            background: var(--cartao);
+            color: var(--texto);
+            font-size: 12px;
+        }
+
+        .filtro.ativo {
+            background: var(--verde);
+            border-color: var(--verde);
+            color: white;
+        }
+
+        .campo-busca {
+            width: 100%;
+            border: 1px solid var(--borda);
+            border-radius: 13px;
+            padding: 13px;
+            background: var(--cartao);
+            color: var(--texto);
+            outline: none;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .campo-busca:focus,
+        .campo:focus {
+            border-color: var(--verde);
+        }
+
+        .lista-tarefas {
+            display: grid;
+            gap: 12px;
+        }
+
+        .tarefa {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 17px;
+            padding: 15px;
+        }
+
+        .tarefa.concluida {
+            opacity: .72;
+        }
+
+        .tarefa-topo {
+            display: flex;
+            gap: 11px;
+            align-items: flex-start;
+        }
+
+        .tarefa-icone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: var(--suave);
+            font-size: 22px;
+        }
+
+        .tarefa-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tarefa-info h3 {
+            color: var(--verde-escuro);
+            font-size: 15px;
+            margin: 3px 0 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .tarefa-info p {
+            color: var(--secundario);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .etiquetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 9px;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: #eef0df;
+            color: var(--verde-escuro);
+            font-size: 10px;
+        }
+
+        .etiqueta.atrasada {
+            background: #f5e2dc;
+            color: var(--alerta);
+        }
+
+        .etiqueta.concluida-tag {
+            background: #e3e8cd;
+            color: var(--verde-escuro);
+        }
+
+        .acoes-tarefa {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .botao-acao {
+            flex: 1;
+            border: 1px solid var(--borda);
+            border-radius: 10px;
+            padding: 10px 6px;
+            background: white;
+            color: var(--verde-escuro);
+            font-size: 11px;
+        }
+
+        .botao-acao.concluir {
+            background: var(--verde);
+            border-color: var(--verde);
+            color: white;
+        }
+
+        .botao-acao.excluir {
+            flex: 0 0 auto;
+            padding: 10px 12px;
+            color: var(--alerta);
+        }
+
+        .vazio {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 17px;
+            padding: 28px 18px;
+            text-align: center;
+        }
+
+        .vazio span {
+            font-size: 35px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .vazio h3 {
+            color: var(--verde-escuro);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .vazio p {
+            color: var(--secundario);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .separador {
+            margin-top: 30px;
+        }
+
+        .guia-intro {
+            color: var(--secundario);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .guia-lista {
+            display: grid;
+            gap: 10px;
+        }
+
+        .guia-item {
+            background: var(--cartao);
+            border: 1px solid var(--borda);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .guia-item summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 15px;
+            cursor: pointer;
+            color: var(--verde-escuro);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .guia-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .guia-item summary::after {
+            content: "+";
+            font-size: 22px;
+            font-weight: normal;
+        }
+
+        .guia-item[open] summary::after {
+            content: "−";
+        }
+
+        .guia-conteudo {
+            border-top: 1px solid var(--borda);
+            padding: 14px 15px 16px;
+        }
+
+        .guia-conteudo h4 {
+            color: var(--verde-escuro);
+            font-size: 13px;
+            margin: 12px 0 5px;
+        }
+
+        .guia-conteudo h4:first-child {
+            margin-top: 0;
+        }
+
+        .guia-conteudo p,
+        .guia-conteudo li {
+            color: var(--secundario);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .guia-conteudo ul {
+            padding-left: 19px;
+        }
+
+        .guia-botao {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            padding: 11px;
+            background: #eef0df;
+            color: var(--verde-escuro);
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(25, 37, 27, .55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.aberto {
+            display: flex;
+        }
+
+        .modal-conteudo {
+            width: 100%;
+            max-width: 440px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 21px;
+            border-radius: 20px;
+            background: var(--cartao);
+        }
+
+        .modal-topo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .modal-topo h2 {
+            color: var(--verde-escuro);
+            font-size: 20px;
+        }
+
+        .fechar-modal {
+            border: none;
+            background: transparent;
+            font-size: 26px;
+            color: var(--secundario);
+        }
+
+        .grupo-campo {
+            margin-bottom: 14px;
+        }
+
+        .grupo-campo label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--texto);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .campo {
+            width: 100%;
+            border: 1px solid var(--borda);
+            border-radius: 11px;
+            padding: 12px;
+            background: white;
+            color: var(--texto);
+            outline: none;
+            font-size: 13px;
+        }
+
+        textarea.campo {
+            resize: vertical;
+            min-height: 75px;
+        }
+
+        .botoes-modal {
+            display: flex;
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .botoes-modal button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 11px;
+            border: 1px solid var(--borda);
+            font-size: 13px;
+        }
+
+        .cancelar {
+            background: white;
+            color: var(--texto);
+        }
+
+        .salvar {
+            background: var(--verde);
+            border-color: var(--verde) !important;
+            color: white;
+        }
+
+        .aviso {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 13px;
+            background: #f0eddd;
+            color: var(--texto);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .rodape {
+            text-align: center;
+            color: var(--secundario);
+            font-size: 12px;
+            margin-top: 28px;
+        }
+
+        @media (max-width: 350px) {
+            .cabecalho h1 {
+                font-size: 20px;
+            }
+
+            .resumo p {
+                font-size: 10px;
+            }
+
+            .acoes-tarefa {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<main class="container">
+
+    <header class="cabecalho">
+        <button class="voltar" id="btnVoltar"
+                type="button" aria-label="Voltar">‹</button>
+
+        <div>
+            <h1>Agenda inteligente</h1>
+            <p>Uma rotina de carinho com suas plantas 🌱</p>
+        </div>
+    </header>
+
+    <section class="boas-vindas">
+        <div class="emoji">🪴</div>
+        <h2 id="saudacao">Cuide das suas plantas!</h2>
+        <p>
+            Organize suas tarefas, acompanhe os cuidados e receba
+            indicações para manter suas plantas saudáveis.
+        </p>
+    </section>
+
+    <a class="atalho-produtos" href="produtos.html">
+        <div style="display:flex;align-items:center;">
+            <span class="atalho-icone">🧰</span>
+            <div>
+                <strong>Produtos e materiais</strong>
+                <small>Veja recomendações para as suas plantas</small>
+            </div>
+        </div>
+        <span class="seta">›</span>
+    </a>
+
+    <section class="resumos">
+        <div class="resumo">
+            <span>📋</span>
+            <strong id="totalTarefas">0</strong>
+            <p>Tarefas pendentes</p>
+        </div>
+
+        <div class="resumo">
+            <span>⏰</span>
+            <strong id="totalAtrasadas">0</strong>
+            <p>Atrasadas</p>
+        </div>
+
+        <div class="resumo">
+            <span>✅</span>
+            <strong id="totalConcluidas">0</strong>
+            <p>Concluídas</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="titulo-secao">
+            <h2>Rotina de cuidados</h2>
+            <button class="botao-principal" id="btnNovaTarefa" type="button">
+                + Lembrete
+            </button>
+        </div>
+
+        <input
+            type="search"
+            class="campo-busca"
+            id="buscaTarefas"
+            placeholder="Buscar planta ou tarefa..."
+            aria-label="Buscar tarefas"
+        >
+
+        <div class="filtros" id="filtros">
+            <button class="filtro ativo" data-filtro="todas" type="button">
+                Todas
+            </button>
+            <button class="filtro" data-filtro="pendentes" type="button">
+                Pendentes
+            </button>
+            <button class="filtro" data-filtro="atrasadas" type="button">
+                Atrasadas
+            </button>
+            <button class="filtro" data-filtro="concluidas" type="button">
+                Concluídas
+            </button>
+        </div>
+
+        <div class="lista-tarefas" id="listaTarefas"></div>
+    </section>
+
+    <section class="separador">
+        <div class="titulo-secao">
+            <h2>Guia de Cuidados</h2>
+        </div>
+
+        <p class="guia-intro">
+            Consulte orientações gerais sobre rega, iluminação, temperatura
+            e manutenção. As necessidades podem variar conforme o clima,
+            o ambiente e as condições de cada planta.
+        </p>
+
+        <div class="guia-lista" id="guiaLista"></div>
+    </section>
+
+    <div class="aviso">
+        💡 <strong>Importante:</strong> os lembretes são organizados dentro
+        do aplicativo. Para receber notificações mesmo com o navegador
+        fechado, será necessária uma integração específica de notificações.
+    </div>
+
+    <p class="rodape">PlantaCare · Sua planta, nosso cuidado 🌱</p>
+</main>
+
+<!-- Modal para criar lembretes -->
+<div class="modal" id="modalTarefa" role="dialog"
+     aria-modal="true" aria-labelledby="tituloModal">
+
+    <div class="modal-conteudo">
+        <div class="modal-topo">
+            <h2 id="tituloModal">Novo lembrete</h2>
+            <button class="fechar-modal" id="fecharModal"
+                    type="button" aria-label="Fechar">×</button>
+        </div>
+
+        <form id="formTarefa">
+            <div class="grupo-campo">
+                <label for="nomeTarefa">Nome do cuidado</label>
+                <input class="campo" id="nomeTarefa" name="nome"
+                       required maxlength="80"
+                       placeholder="Ex.: Adubar minha planta">
+            </div>
+
+            <div class="grupo-campo">
+                <label for="plantaTarefa">Planta</label>
+                <select class="campo" id="plantaTarefa" name="planta">
+                    <option value="">Cuidado geral / sem planta</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="tipoTarefa">Tipo de cuidado</label>
+                <select class="campo" id="tipoTarefa" name="tipo" required>
+                    <option value="rega">💧 Rega</option>
+                    <option value="adubacao">🌱 Adubação</option>
+                    <option value="poda">✂️ Poda</option>
+                    <option value="limpeza">🍃 Limpeza das folhas</option>
+                    <option value="vaso">🪴 Verificar / trocar vaso</option>
+                    <option value="iluminacao">☀️ Verificar iluminação</option>
+                    <option value="outro">📌 Outro cuidado</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="dataTarefa">Data do lembrete</label>
+                <input class="campo" type="date" id="dataTarefa"
+                       name="data" required>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="recorrenciaTarefa">Repetição</label>
+                <select class="campo" id="recorrenciaTarefa"
+                        name="recorrencia">
+                    <option value="nenhuma">Não repetir</option>
+                    <option value="1">Todos os dias</option>
+                    <option value="3">A cada 3 dias</option>
+                    <option value="5">A cada 5 dias</option>
+                    <option value="7">Toda semana</option>
+                    <option value="15">A cada 15 dias</option>
+                    <option value="30">A cada 30 dias</option>
+                    <option value="60">A cada 2 meses</option>
+                    <option value="90">A cada 3 meses</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="descricaoTarefa">Observações (opcional)</label>
+                <textarea class="campo" id="descricaoTarefa"
+                          name="descricao" maxlength="300"
+                          placeholder="Adicione detalhes sobre o cuidado..."></textarea>
+            </div>
+
+            <div class="botoes-modal">
+                <button class="cancelar" id="cancelarModal" type="button">
+                    Cancelar
+                </button>
+                <button class="salvar" type="submit">Salvar lembrete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const CHAVE_PLANTAS = "plantasUsuario";
+    const CHAVE_AGENDA = "agendaCuidadosPlantaCare";
+
+    const listaTarefas = document.getElementById("listaTarefas");
+    const guiaLista = document.getElementById("guiaLista");
+    const modalTarefa = document.getElementById("modalTarefa");
+    const formTarefa = document.getElementById("formTarefa");
+
+    let plantas = carregarJSON(CHAVE_PLANTAS, []);
+    let tarefas = carregarJSON(CHAVE_AGENDA, []);
+    let filtroAtual = "todas";
+
+    function carregarJSON(chave, padrao) {
+        try {
+            const dados = JSON.parse(localStorage.getItem(chave));
+            return dados ?? padrao;
+        } catch (erro) {
+            console.error("Não foi possível ler:", chave, erro);
+            return padrao;
+        }
+    }
+
+    function salvarTarefas() {
+        localStorage.setItem(CHAVE_AGENDA, JSON.stringify(tarefas));
+    }
+
+    function normalizar(texto) {
+        return String(texto || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function nomeDaPlanta(planta) {
+        return planta?.nome || planta?.especie ||
+            planta?.nomePlanta || "Minha planta";
+    }
+
+    function especieDaPlanta(planta) {
+        return normalizar(
+            planta?.especie || planta?.nome || planta?.nomePlanta || ""
+        );
+    }
+
+    function dataLocal(data = new Date()) {
+        const ano = data.getFullYear();
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const dia = String(data.getDate()).padStart(2, "0");
+        return `${ano}-${mes}-${dia}`;
+    }
+
+    function adicionarDias(dataString, dias) {
+        const data = new Date(dataString + "T12:00:00");
+        data.setDate(data.getDate() + Number(dias));
+        return dataLocal(data);
+    }
+
+    function formatarData(dataString) {
+        if (!dataString) return "Sem data";
+
+        const partes = dataString.split("-");
+        if (partes.length !== 3) return dataString;
+
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function tarefaConcluida(tarefa) {
+        // Compatibilidade com as chaves usadas em outras telas.
+        return Boolean(tarefa.concluida || tarefa.concluido);
+    }
+
+    function tarefaAtrasada(tarefa) {
+        return !tarefaConcluida(tarefa) &&
+            tarefa.data && tarefa.data < dataLocal();
+    }
+
+    function tarefaParaHoje(tarefa) {
+        return !tarefaConcluida(tarefa) &&
+            tarefa.data === dataLocal();
+    }
+
+    function iconeTipo(tipo) {
+        const icones = {
+            rega: "💧",
+            adubacao: "🌱",
+            poda: "✂️",
+            limpeza: "🍃",
+            vaso: "🪴",
+            iluminacao: "☀️",
+            outro: "📌"
+        };
+
+        return icones[tipo] || "📌";
+    }
+
+    function nomeTipo(tipo) {
+        const nomes = {
+            rega: "Rega",
+            adubacao: "Adubação",
+            poda: "Poda",
+            limpeza: "Limpeza das folhas",
+            vaso: "Verificar / trocar vaso",
+            iluminacao: "Iluminação",
+            outro: "Outro cuidado"
+        };
+
+        return nomes[tipo] || "Outro cuidado";
+    }
+
+    function intervaloRega(planta) {
+        const especie = especieDaPlanta(planta);
+
+        if (especie.includes("cacto") || especie.includes("suculenta")) {
+            return 14;
+        }
+
+        if (especie.includes("espada-de-sao-jorge") ||
+            especie.includes("espada de sao jorge") ||
+            especie.includes("zamioculca")) {
+            return 10;
+        }
+
+        if (especie.includes("samambaia")) {
+            return 3;
+        }
+
+        if (especie.includes("lirio") || especie.includes("lírio")) {
+            return 3;
+        }
+
+        if (especie.includes("jiboia")) {
+            return 5;
+        }
+
+        return Number(planta?.intervaloRega) || 5;
+    }
+
+    function nomeDaTarefaAutomatica(tipo, planta) {
+        const nomes = {
+            rega: "Regar",
+            adubacao: "Verificar necessidade de adubação",
+            poda: "Verificar folhas e galhos",
+            limpeza: "Limpar as folhas",
+            vaso: "Verificar o vaso e o substrato",
+            iluminacao: "Verificar a iluminação"
+        };
+
+        return `${nomes[tipo]} — ${nomeDaPlanta(planta)}`;
+    }
+
+    function criarId() {
+        if (window.crypto && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
+
+        return "tarefa-" + Date.now() + "-" +
+            Math.random().toString(36).slice(2, 9);
+    }
+
+    function existeTarefaPendente(tipo, planta, data) {
+        return tarefas.some(tarefa =>
+            tarefa.tipo === tipo &&
+            String(tarefa.plantaId ?? "") === String(planta.id ?? "") &&
+            tarefa.data === data &&
+            !tarefaConcluida(tarefa) &&
+            tarefa.automatica
+        );
+    }
+
+    function gerarTarefaAutomatica(tipo, planta, data, recorrencia, descricao) {
+        if (existeTarefaPendente(tipo, planta, data)) return;
+
+        tarefas.push({
+            id: criarId(),
+            nome: nomeDaTarefaAutomatica(tipo, planta),
+            tipo,
+            plantaId: planta.id ?? "",
+            plantaNome: nomeDaPlanta(planta),
+            data,
+            recorrencia,
+            descricao,
+            concluida: false,
+            automatica: true,
+            criadaEm: new Date().toISOString()
+        });
+    }
+
+    function sincronizarTarefasAutomaticas() {
+        plantas = carregarJSON(CHAVE_PLANTAS, []);
+
+        if (!Array.isArray(plantas)) plantas = [];
+        if (!Array.isArray(tarefas)) tarefas = [];
+
+        plantas.forEach(planta => {
+            const ultimaRega = planta.ultimaRega || "";
+            const intervalo = intervaloRega(planta);
+
+            let proximaRega = ultimaRega
+                ? adicionarDias(ultimaRega, intervalo)
+                : dataLocal();
+
+            // Não cria lembretes automáticos de rega duplicados.
+            if (!existeTarefaPendente("rega", planta, proximaRega)) {
+                gerarTarefaAutomatica(
+                    "rega",
+                    planta,
+                    proximaRega,
+                    intervalo,
+                    "Confira a umidade do substrato antes de regar."
+                );
+            }
+
+            // Os outros cuidados aparecem como verificações periódicas.
+            const cuidados = [
+                { tipo: "adubacao", dias: 30, descricao: "Confira se a planta precisa de nutrientes e siga as orientações do produto." },
+                { tipo: "poda", dias: 30, descricao: "Observe se há folhas secas ou partes danificadas que precisam ser removidas." },
+                { tipo: "limpeza", dias: 14, descricao: "Confira se as folhas precisam de limpeza delicada." },
+                { tipo: "vaso", dias: 60, descricao: "Confira a drenagem, o espaço para as raízes e as condições do substrato." },
+                { tipo: "iluminacao", dias: 14, descricao: "Observe se a planta recebe a quantidade de luz adequada à espécie." }
+            ];
+
+            cuidados.forEach(cuidado => {
+                const dataCuidado = dataLocal();
+
+                // Uma verificação pendente por planta e tipo é suficiente.
+                const jaExiste = tarefas.some(tarefa =>
+                    tarefa.tipo === cuidado.tipo &&
+                    String(tarefa.plantaId ?? "") === String(planta.id ?? "") &&
+                    !tarefaConcluida(tarefa) &&
+                    tarefa.automatica
+                );
+
+                if (!jaExiste) {
+                    gerarTarefaAutomatica(
+                        cuidado.tipo,
+                        planta,
+                        dataCuidado,
+                        cuidado.dias,
+                        cuidado.descricao
+                    );
+                }
+            });
+        });
+
+        salvarTarefas();
+    }
+
+    function atualizarSeletorPlantas() {
+        const seletor = document.getElementById("plantaTarefa");
+        const valorAtual = seletor.value;
+
+        seletor.innerHTML =
+            '<option value="">Cuidado geral / sem planta</option>';
+
+        plantas.forEach(planta => {
+            const opcao = document.createElement("option");
+            opcao.value = String(planta.id ?? nomeDaPlanta(planta));
+            opcao.textContent = nomeDaPlanta(planta);
+            seletor.appendChild(opcao);
+        });
+
+        if ([...seletor.options].some(opcao => opcao.value === valorAtual)) {
+            seletor.value = valorAtual;
+        }
+    }
+
+    function encontrarPlanta(id, nomeSalvo) {
+        return plantas.find(planta =>
+            String(planta.id ?? nomeDaPlanta(planta)) === String(id)
+        ) || plantas.find(planta => nomeDaPlanta(planta) === nomeSalvo);
+    }
+
+    function atualizarResumo() {
+        const pendentes = tarefas.filter(t => !tarefaConcluida(t));
+        const atrasadas = pendentes.filter(tarefaAtrasada);
+        const concluidas = tarefas.filter(tarefaConcluida);
+
+        document.getElementById("totalTarefas").textContent =
+            pendentes.length;
+
+        document.getElementById("totalAtrasadas").textContent =
+            atrasadas.length;
+
+        document.getElementById("totalConcluidas").textContent =
+            concluidas.length;
+    }
+
+    function criarEtiqueta(texto, classe = "") {
+        const etiqueta = document.createElement("span");
+        etiqueta.className = "etiqueta" + (classe ? " " + classe : "");
+        etiqueta.textContent = texto;
+        return etiqueta;
+    }
+
+    function renderizarTarefas() {
+        atualizarResumo();
+
+        const termo = normalizar(
+            document.getElementById("buscaTarefas").value
+        );
+
+        let filtradas = tarefas.filter(tarefa => {
+            const texto = normalizar(
+                `${tarefa.nome} ${tarefa.plantaNome || ""} ${tarefa.tipo || ""}`
+            );
+
+            if (!texto.includes(termo)) return false;
+
+            if (filtroAtual === "pendentes") {
+                return !tarefaConcluida(tarefa);
+            }
+
+            if (filtroAtual === "atrasadas") {
+                return tarefaAtrasada(tarefa);
+            }
+
+            if (filtroAtual === "concluidas") {
+                return tarefaConcluida(tarefa);
+            }
+
+            return true;
+        });
+
+        filtradas.sort((a, b) => {
+            if (tarefaConcluida(a) !== tarefaConcluida(b)) {
+                return tarefaConcluida(a) ? 1 : -1;
+            }
+
+            return String(a.data || "").localeCompare(String(b.data || ""));
+        });
+
+        listaTarefas.innerHTML = "";
+
+        if (filtradas.length === 0) {
+            const vazio = document.createElement("div");
+            vazio.className = "vazio";
+
+            const emoji = document.createElement("span");
+            emoji.textContent = filtroAtual === "concluidas" ? "🌿" : "📅";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = filtroAtual === "concluidas"
+                ? "Nenhuma tarefa concluída"
+                : "Nenhuma tarefa encontrada";
+
+            const descricao = document.createElement("p");
+            descricao.textContent = plantas.length === 0
+                ? "Cadastre suas plantas para organizar os cuidados ou crie um lembrete geral."
+                : "Tente mudar o filtro ou crie um novo lembrete para sua rotina.";
+
+            vazio.append(emoji, titulo, descricao);
+            listaTarefas.appendChild(vazio);
+            return;
+        }
+
+        filtradas.forEach(tarefa => {
+            const concluida = tarefaConcluida(tarefa);
+            const atrasada = tarefaAtrasada(tarefa);
+            const hoje = tarefaParaHoje(tarefa);
+
+            const card = document.createElement("article");
+            card.className = "tarefa" + (concluida ? " concluida" : "");
+
+            const topo = document.createElement("div");
+            topo.className = "tarefa-topo";
+
+            const icone = document.createElement("div");
+            icone.className = "tarefa-icone";
+            icone.textContent = iconeTipo(tarefa.tipo);
+
+            const info = document.createElement("div");
+            info.className = "tarefa-info";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = tarefa.nome || nomeTipo(tarefa.tipo);
+
+            const detalhe = document.createElement("p");
+            detalhe.textContent = tarefa.descricao ||
+                (tarefa.plantaNome
+                    ? "Cuidados para " + tarefa.plantaNome
+                    : "Lembrete de cuidado com as plantas.");
+
+            const etiquetas = document.createElement("div");
+            etiquetas.className = "etiquetas";
+
+            etiquetas.appendChild(criarEtiqueta(nomeTipo(tarefa.tipo)));
+
+            etiquetas.appendChild(criarEtiqueta(
+                concluida ? "Concluída" :
+                atrasada ? "Atrasada" :
+                hoje ? "Para hoje" : formatarData(tarefa.data),
+                concluida ? "concluida-tag" : atrasada ? "atrasada" : ""
+            ));
+
+            if (Number(tarefa.recorrencia) > 0) {
+                etiquetas.appendChild(
+                    criarEtiqueta("Repete a cada " + tarefa.recorrencia + " dia(s)")
+                );
+            }
+
+            if (tarefa.automatica) {
+                etiquetas.appendChild(criarEtiqueta("Automática"));
+            }
+
+            info.append(titulo, detalhe, etiquetas);
+            topo.append(icone, info);
+            card.appendChild(topo);
+
+            const acoes = document.createElement("div");
+            acoes.className = "acoes-tarefa";
+
+            const botaoConcluir = document.createElement("button");
+            botaoConcluir.type = "button";
+            botaoConcluir.className = "botao-acao concluir";
+            botaoConcluir.textContent = concluida
+                ? "Desmarcar"
+                : "✓ Concluir";
+
+            botaoConcluir.addEventListener("click", () => {
+                alternarConclusao(tarefa.id);
+            });
+
+            const botaoExcluir = document.createElement("button");
+            botaoExcluir.type = "button";
+            botaoExcluir.className = "botao-acao excluir";
+            botaoExcluir.textContent = "Excluir";
+            botaoExcluir.setAttribute("aria-label", "Excluir lembrete");
+
+            botaoExcluir.addEventListener("click", () => {
+                excluirTarefa(tarefa.id);
+            });
+
+            acoes.append(botaoConcluir, botaoExcluir);
+            card.appendChild(acoes);
+            listaTarefas.appendChild(card);
+        });
+    }
+
+    function registrarRega(tarefa) {
+        if (tarefa.tipo !== "rega") return;
+
+        const planta = encontrarPlanta(tarefa.plantaId, tarefa.plantaNome);
+        if (!planta) return;
+
+        const hoje = dataLocal();
+
+        planta.ultimaRega = hoje;
+
+        if (!Array.isArray(planta.historicoRegas)) {
+            planta.historicoRegas = [];
+        }
+
+        planta.historicoRegas.push(hoje);
+
+        // Atualiza a planta existente sem apagar os demais dados.
+        const indice = plantas.findIndex(item =>
+            String(item.id ?? nomeDaPlanta(item)) ===
+            String(planta.id ?? nomeDaPlanta(planta))
+        );
+
+        if (indice >= 0) {
+            plantas[indice] = planta;
+        }
+
+        localStorage.setItem(CHAVE_PLANTAS, JSON.stringify(plantas));
+    }
+
+    function alternarConclusao(id) {
+        const indice = tarefas.findIndex(tarefa => tarefa.id === id);
+        if (indice < 0) return;
+
+        const tarefa = tarefas[indice];
+
+        if (!tarefaConcluida(tarefa)) {
+            tarefa.concluida = true;
+            tarefa.concluido = true;
+            tarefa.concluidaEm = dataLocal();
+
+            registrarRega(tarefa);
+
+            const intervalo = Number(tarefa.recorrencia);
+
+            if (intervalo > 0) {
+                const proximaData = adicionarDias(
+                    tarefa.data < dataLocal() ? dataLocal() : tarefa.data,
+                    intervalo
+                );
+
+                tarefas.push({
+                    ...tarefa,
+                    id: criarId(),
+                    data: proximaData,
+                    concluida: false,
+                    concluido: false,
+                    concluidaEm: null,
+                    criadaEm: new Date().toISOString()
+                });
+            }
+        } else {
+            tarefa.concluida = false;
+            tarefa.concluido = false;
+            tarefa.concluidaEm = null;
+        }
+
+        salvarTarefas();
+        renderizarTarefas();
+    }
+
+    function excluirTarefa(id) {
+        const confirmar = confirm("Deseja excluir este lembrete?");
+
+        if (!confirmar) return;
+
+        tarefas = tarefas.filter(tarefa => tarefa.id !== id);
+        salvarTarefas();
+        renderizarTarefas();
+    }
+
+    function abrirModal() {
+        formTarefa.reset();
+
+        document.getElementById("dataTarefa").value = dataLocal();
+        document.getElementById("tituloModal").textContent = "Novo lembrete";
+
+        atualizarSeletorPlantas();
+
+        modalTarefa.classList.add("aberto");
+        document.getElementById("nomeTarefa").focus();
+    }
+
+    function fecharModal() {
+        modalTarefa.classList.remove("aberto");
+    }
+
+    formTarefa.addEventListener("submit", evento => {
+        evento.preventDefault();
+
+        const nome = document.getElementById("nomeTarefa").value.trim();
+        const tipo = document.getElementById("tipoTarefa").value;
+        const data = document.getElementById("dataTarefa").value;
+        const recorrencia = document.getElementById("recorrenciaTarefa").value;
+        const descricao = document.getElementById("descricaoTarefa").value.trim();
+        const plantaId = document.getElementById("plantaTarefa").value;
+
+        if (!nome || !data) {
+            alert("Preencha o nome e a data do lembrete.");
+            return;
+        }
+
+        const planta = plantaId
+            ? plantas.find(item =>
+                String(item.id ?? nomeDaPlanta(item)) === plantaId
+            )
+            : null;
+
+        tarefas.push({
+            id: criarId(),
+            nome,
+            tipo,
+            plantaId: planta ? (planta.id ?? nomeDaPlanta(planta)) : "",
+            plantaNome: planta ? nomeDaPlanta(planta) : "",
+            data,
+            recorrencia: recorrencia === "nenhuma" ? 0 : Number(recorrencia),
+            descricao,
+            concluida: false,
+            concluido: false,
+            automatica: false,
+            criadaEm: new Date().toISOString()
+        });
+
+        salvarTarefas();
+        fecharModal();
+        renderizarTarefas();
+    });
+
+    document.getElementById("btnNovaTarefa")
+        .addEventListener("click", abrirModal);
+
+    document.getElementById("fecharModal")
+        .addEventListener("click", fecharModal);
+
+    document.getElementById("cancelarModal")
+        .addEventListener("click", fecharModal);
+
+    modalTarefa.addEventListener("click", evento => {
+        if (evento.target === modalTarefa) fecharModal();
+    });
+
+    document.addEventListener("keydown", evento => {
+        if (evento.key === "Escape") fecharModal();
+    });
+
+    document.getElementById("buscaTarefas")
+        .addEventListener("input", renderizarTarefas);
+
+    document.getElementById("filtros").addEventListener("click", evento => {
+        const botao = evento.target.closest(".filtro");
+        if (!botao) return;
+
+        filtroAtual = botao.dataset.filtro;
+
+        document.querySelectorAll(".filtro").forEach(item => {
+            item.classList.toggle("ativo", item === botao);
+        });
+
+        renderizarTarefas();
+    });
+
+    document.getElementById("btnVoltar").addEventListener("click", () => {
+        window.location.href = "inicio.html";
+    });
+
+    function renderizarGuia() {
+        plantas = carregarJSON(CHAVE_PLANTAS, []);
+        if (!Array.isArray(plantas)) plantas = [];
+
+        const especies = [
+            {
+                chave: ["espada-de-sao-jorge", "espada de sao jorge"],
+                nome: "Espada-de-são-jorge",
+                rega: "Regue quando o substrato estiver seco. Em ambientes internos, a rega costuma ser espaçada; o intervalo varia conforme a estação, a luz e o vaso.",
+                luz: "Prefere luz indireta e também tolera locais com menos luz. Evite mudanças bruscas para sol forte.",
+                temperatura: "Desenvolve-se bem em ambientes quentes, sem exposição a frio intenso.",
+                adubo: "A adubação costuma ser moderada. Use fertilizante apropriado para plantas ornamentais apenas quando necessário.",
+                produto: "Vaso com drenagem e substrato bem aerado."
+            },
+            {
+                chave: ["jiboia"],
+                nome: "Jiboia",
+                rega: "Regue quando a camada superior do substrato começar a secar. Evite encharcar e não siga apenas um calendário fixo.",
+                luz: "Prefere luz indireta abundante, mas pode tolerar ambientes com iluminação moderada.",
+                temperatura: "Prefere ambientes quentes e protegidos de temperaturas muito baixas.",
+                adubo: "Durante o crescimento, pode receber adubação moderada conforme as instruções do produto.",
+                produto: "Regador de bico fino e pano macio para limpar as folhas."
+            },
+            {
+                chave: ["zamioculca"],
+                nome: "Zamioculca",
+                rega: "Espere o substrato secar bem antes de regar novamente. O excesso de água pode prejudicar as raízes.",
+                luz: "Prefere luz indireta e tolera ambientes menos iluminados.",
+                temperatura: "Vai melhor em ambientes internos protegidos de frio intenso.",
+                adubo: "Não exige adubação frequente. Siga as orientações de um fertilizante adequado.",
+                produto: "Vaso com furos e substrato que permita boa drenagem."
+            },
+            {
+                chave: ["samambaia"],
+                nome: "Samambaia",
+                rega: "Gosta de substrato levemente úmido, mas não encharcado. Confira a umidade com frequência, especialmente em dias quentes.",
+                luz: "Prefere luz indireta, sem sol forte direto.",
+                temperatura: "Prefere ambientes amenos a quentes e com umidade adequada.",
+                adubo: "Se necessário, use fertilizante apropriado em dose indicada para a espécie.",
+                produto: "Regador e, quando apropriado ao ambiente, recursos para manter a umidade sem encharcar o solo."
+            },
+            {
+                chave: ["cacto"],
+                nome: "Cacto",
+                rega: "Regue somente quando o substrato estiver seco. A frequência depende do clima, do vaso e da espécie; reduza as regas em períodos frios.",
+                luz: "Muitas espécies precisam de bastante luz. A adaptação ao sol direto deve ser gradual.",
+                temperatura: "Varia de acordo com a espécie. Proteja o cacto de frio excessivo quando necessário.",
+                adubo: "Se utilizar fertilizante, escolha uma fórmula adequada para cactos e siga a dosagem.",
+                produto: "Substrato para cactos com boa drenagem e vaso com furos."
+            },
+            {
+                chave: ["suculenta"],
+                nome: "Suculenta",
+                rega: "Espere o substrato secar antes de regar. Evite deixar água acumulada nas folhas ou no fundo do vaso.",
+                luz: "A maioria precisa de boa luminosidade; a quantidade de sol direto varia conforme a espécie.",
+                temperatura: "As necessidades variam entre espécies. Evite mudanças bruscas e frio excessivo.",
+                adubo: "A adubação deve ser moderada e adequada à espécie.",
+                produto: "Vaso com drenagem e substrato próprio para suculentas."
+            },
+            {
+                chave: ["lirio-da-paz", "lirio da paz"],
+                nome: "Lírio-da-paz",
+                rega: "Mantenha o substrato levemente úmido, sem encharcar. Verifique a umidade antes de regar.",
+                luz: "Prefere luz indireta. Sol direto intenso pode danificar as folhas.",
+                temperatura: "Prefere ambiente ameno a quente, protegido de frio intenso.",
+                adubo: "Pode receber fertilizante para plantas ornamentais conforme as instruções do rótulo.",
+                produto: "Regador, substrato adequado e vaso com furos de drenagem."
+            }
+        ];
+
+        const guiaPadrao = {
+            nome: "Outras plantas",
+            rega: "Confira a umidade do substrato antes de regar. A necessidade varia conforme a espécie, o tamanho do vaso, a iluminação e o clima.",
+            luz: "Pesquise as necessidades específicas da espécie e evite mudar a planta repentinamente para um local com sol intenso.",
+            temperatura: "Mantenha a planta em condições adequadas à sua espécie e proteja-a de temperaturas extremas.",
+            adubo: "Use somente fertilizante compatível com a planta e siga a dosagem indicada na embalagem.",
+            produto: "Vaso com drenagem, substrato adequado e ferramentas limpas para manutenção."
+        };
+
+        guiaLista.innerHTML = "";
+
+        const especiesDoUsuario = [];
+
+        plantas.forEach(planta => {
+            const especie = especieDaPlanta(planta);
+            const guiaEncontrado = especies.find(item =>
+                item.chave.some(chave => especie.includes(normalizar(chave)))
+            ) || guiaPadrao;
+
+            if (!especiesDoUsuario.some(item =>
+                item.nome === guiaEncontrado.nome
+            )) {
+                especiesDoUsuario.push(guiaEncontrado);
+            }
+        });
+
+        if (especiesDoUsuario.length === 0) {
+            especiesDoUsuario.push(guiaPadrao);
+        }
+
+        especiesDoUsuario.forEach(guia => {
+            const details = document.createElement("details");
+            details.className = "guia-item";
+
+            const summary = document.createElement("summary");
+            summary.textContent = "🌿 " + guia.nome;
+
+            const conteudo = document.createElement("div");
+            conteudo.className = "guia-conteudo";
+
+            const secoes = [
+                ["💧 Rega", guia.rega],
+                ["☀️ Iluminação", guia.luz],
+                ["🌡️ Temperatura", guia.temperatura],
+                ["🌱 Adubação", guia.adubo],
+                ["🧰 Materiais úteis", guia.produto]
+            ];
+
+            secoes.forEach(([titulo, texto]) => {
+                const h4 = document.createElement("h4");
+                h4.textContent = titulo;
+
+                const p = document.createElement("p");
+                p.textContent = texto;
+
+                conteudo.append(h4, p);
+            });
+
+            const link = document.createElement("a");
+            link.href = "produtos.html";
+            link.className = "guia-botao";
+            link.textContent = "Ver produtos e materiais";
+
+            conteudo.appendChild(link);
+            details.append(summary, conteudo);
+            guiaLista.appendChild(details);
+        });
+    }
+
+    function atualizarTela() {
+        plantas = carregarJSON(CHAVE_PLANTAS, []);
+        tarefas = carregarJSON(CHAVE_AGENDA, []);
+
+        if (!Array.isArray(plantas)) plantas = [];
+        if (!Array.isArray(tarefas)) tarefas = [];
+
+        atualizarSeletorPlantas();
+        renderizarTarefas();
+        renderizarGuia();
+    }
+
+    function mostrarSaudacao() {
+        try {
+            const usuario = JSON.parse(
+                sessionStorage.getItem("usuario") || "null"
+            );
+
+            const nome = usuario?.nome || usuario?.nomeCompleto || "";
+
+            if (nome) {
+                document.getElementById("saudacao").textContent =
+                    "Vamos cuidar das suas plantas, " +
+                    nome.trim().split(" ")[0] + "?";
+            }
+        } catch (erro) {
+            console.warn("Não foi possível carregar o usuário.", erro);
+        }
+    }
+
+    // Atualiza a agenda se as plantas forem alteradas em outra tela.
+    window.addEventListener("storage", evento => {
+        if (evento.key === CHAVE_PLANTAS ||
+            evento.key === CHAVE_AGENDA) {
+            atualizarTela();
+        }
+    });
+
+    // Inicialização da página.
+    mostrarSaudacao();
+    atualizarSeletorPlantas();
+    sincronizarTarefasAutomaticas();
+    renderizarTarefas();
+    renderizarGuia();
+</script>
+</body>
+</html>

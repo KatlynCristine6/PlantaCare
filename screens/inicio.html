@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#faf6e9">
+<title>Início | PlantaCare</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--fundo:#faf6e9;--verde:#456b4a;--verde-escuro:#284a35;--texto:#304238;--texto-secundario:#777d70;--borda:#e8e3d4;--cartao:#fffdf6}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--fundo);color:var(--texto);min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.app{width:100%;max-width:480px;min-height:100vh;margin:auto;padding:22px 16px 100px}
+.cabecalho{display:flex;align-items:center;justify-content:space-between;margin-bottom:23px}
+.menu{border:0;background:transparent;font-size:29px;color:var(--verde-escuro);line-height:1}
+.marca{font-size:15px;font-weight:700;color:var(--verde)}
+.boas-vindas{margin-bottom:20px}
+.boas-vindas h1{font-size:27px;line-height:1.25;margin-bottom:7px;overflow-wrap:anywhere}
+.boas-vindas p{font-size:15px;line-height:1.5;color:#566b59}
+.resumo{display:flex;align-items:center;gap:8px;min-height:155px;padding:10px 14px;border-radius:22px;background:linear-gradient(110deg,#e9e9d2,#eeeedb,#e8e9d1);margin-bottom:28px}
+.resumo-ilustracao{width:45%;height:140px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.resumo-ilustracao img{width:100%;height:100%;object-fit:contain;transform:scale(1.08)}
+.resumo-info{flex:1;min-width:0}
+.resumo-info p{font-size:16px;margin-bottom:10px;color:#465749}
+.numero-total{display:flex;align-items:center;gap:10px;font-size:42px;color:var(--verde-escuro)}
+.numero-total span{font-size:31px}
+.titulo-plantas{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}
+.titulo-plantas h2{font-size:19px}
+.btn-adicionar{border:0;border-radius:24px;padding:11px 15px;background:linear-gradient(110deg,#527950,#3f6645);color:white;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 2px 5px #00000010}
+.btn-adicionar:active,.btn-excluir:active{transform:scale(.96)}
+.ferramentas-plantas{display:flex;flex-direction:column;gap:10px;margin-bottom:15px}
+.busca-planta{width:100%;min-height:43px;border:1px solid var(--borda);border-radius:13px;background:var(--cartao);padding:0 13px;color:var(--texto);font:inherit;font-size:13px}
+.filtros{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px}
+.filtro{flex-shrink:0;border:1px solid var(--borda);border-radius:20px;padding:8px 12px;background:var(--cartao);color:var(--texto);font-size:12px}
+.filtro.ativo{color:white;background:var(--verde);border-color:var(--verde)}
+.lista-plantas{display:flex;flex-direction:column;gap:13px}
+.planta{display:flex;align-items:center;gap:10px;width:100%;min-height:112px;padding:10px;background:var(--cartao);border:1px solid var(--borda);border-radius:19px;box-shadow:0 3px 9px #4a533010}
+.foto-planta{width:78px;height:85px;flex:0 0 78px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:17px;background:#f2f0d9;font-size:35px}
+.foto-planta img{width:100%;height:100%;object-fit:contain}
+.informacoes-planta{flex:1;min-width:0}
+.informacoes-planta h3{font-size:14px;line-height:1.35;margin-bottom:6px;overflow-wrap:anywhere}
+.informacoes-planta p{font-size:12px;line-height:1.5;color:var(--texto-secundario);overflow-wrap:anywhere}
+.acoes-planta{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
+.seta{width:28px;height:28px;border:0;background:transparent;color:var(--verde);font-size:27px}
+.btn-excluir{border:0;background:#f6e9e2;color:#a64f3c;width:29px;height:29px;border-radius:50%;font-size:14px}
+.status-rega{display:inline-block;margin-top:6px;padding:5px 7px;border-radius:12px;font-size:10px;font-weight:700}
+.status-rega.atrasada{color:#9c4134;background:#f8e4dd}
+.status-rega.hoje{color:#8a651f;background:#f7edce}
+.status-rega.futura{color:#356543;background:#e5efdf}
+.regar{border:0;border-radius:18px;background:#e5efdf;color:var(--verde-escuro);padding:6px 7px;font-size:10px;font-weight:700;white-space:nowrap}
+.vazio{padding:25px 16px;text-align:center;background:var(--cartao);border:1px dashed var(--borda);border-radius:17px;color:var(--texto-secundario);font-size:14px;line-height:1.6}
+.modal-fundo{display:none;position:fixed;inset:0;z-index:30;padding:20px;background:#1c2a2080;align-items:center;justify-content:center}
+.modal-fundo.aberto{display:flex}
+.modal-detalhes{width:100%;max-width:450px;max-height:85vh;overflow-y:auto;padding:22px;border-radius:24px;background:var(--cartao);box-shadow:0 12px 40px #00000025}
+.modal-topo{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}
+.modal-topo h2{font-size:20px;overflow-wrap:anywhere}
+.fechar-modal{width:34px;height:34px;flex-shrink:0;border:0;border-radius:50%;background:#e9eddf;color:var(--texto);font-size:25px}
+.detalhe-linha{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-bottom:1px solid var(--borda);font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.detalhe-linha strong{color:var(--verde-escuro)}
+.aviso-rega{margin-top:14px;padding:12px;border-radius:12px;background:#f1f0df;color:#53624d;font-size:12px;line-height:1.6}
+.campo-notas{width:100%;min-height:90px;margin-top:8px;padding:12px;border:1px solid var(--borda);border-radius:12px;resize:vertical;font:inherit;font-size:13px;background:#fffef9}
+.salvar-notas{width:100%;margin-top:10px;padding:12px;border:0;border-radius:20px;background:var(--verde);color:white;font-weight:700}
+.navegacao{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;min-height:76px;padding:10px 8px 13px;display:flex;justify-content:space-around;align-items:center;background:#fffdf7;border-top:1px solid var(--borda);z-index:10}
+.item-nav{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;background:transparent;color:#72796e;font-size:11px}
+.item-nav .icone{font-size:22px;line-height:1}
+.item-nav.ativo{color:var(--verde);font-weight:700}
+
+/* Menu lateral */
+.menu-fundo{position:fixed;inset:0;z-index:40;background:rgba(28,42,32,.38);opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease}
+.menu-fundo.aberto{opacity:1;visibility:visible}
+.menu-lateral{position:absolute;top:0;left:0;width:min(82%,320px);height:100%;padding:24px 18px;background:var(--cartao);box-shadow:8px 0 28px rgba(40,74,53,.12);transform:translateX(-100%);transition:transform .22s ease;overflow-y:auto}
+.menu-fundo.aberto .menu-lateral{transform:translateX(0)}
+.menu-topo{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:22px;margin-bottom:12px;border-bottom:1px solid var(--borda)}
+.menu-titulo{color:var(--verde-escuro);font-size:18px;font-weight:700}
+.menu-fechar{width:36px;height:36px;border:0;border-radius:50%;background:#e9eddf;color:var(--verde-escuro);font-size:25px}
+.menu-link{display:flex;align-items:center;gap:13px;width:100%;padding:14px 12px;margin:4px 0;border:0;border-radius:13px;background:transparent;color:var(--texto);text-align:left;font-size:14px}
+.menu-link:hover,.menu-link:focus-visible{background:#eef0df;outline:none}
+.menu-icone{width:28px;text-align:center;font-size:20px}
+.menu-divisor{height:1px;margin:12px 4px;background:var(--borda)}
+@media(max-width:380px){.app{padding:20px 12px 95px}.boas-vindas h1{font-size:25px}.boas-vindas p{font-size:14px}.resumo{min-height:135px;padding:8px 10px;gap:5px;border-radius:19px}.resumo-ilustracao{width:45%;height:125px}.resumo-info p{font-size:14px}.numero-total{font-size:36px;gap:8px}.numero-total span{font-size:29px}.titulo-plantas h2{font-size:17px}.btn-adicionar{padding:10px 12px}.planta{gap:7px;padding:8px}.foto-planta{width:60px;height:68px;flex-basis:60px}.informacoes-planta h3{font-size:13px}.informacoes-planta p{font-size:11px}.acoes-planta{gap:4px}.btn-excluir{width:26px;height:26px;font-size:12px}.regar{padding:5px;font-size:9px}}
+</style>
+</head>
+
+<body>
+<main class="app">
+    <header class="cabecalho">
+        <button class="menu" id="btnMenu" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div class="marca"> PlantaCare</div>
+    </header>
+
+    <div class="menu-fundo" id="menuFundo" aria-hidden="true">
+        <aside class="menu-lateral" role="dialog" aria-modal="true" aria-label="Menu PlantaCare">
+            <div class="menu-topo">
+                <span class="menu-titulo">🌿 PlantaCare</span>
+                <button class="menu-fechar" id="fecharMenu" type="button" aria-label="Fechar menu">×</button>
+            </div>
+            <button class="menu-link" type="button" data-menu="inicio"><span class="menu-icone">⌂</span><span>Início</span></button>
+            <button class="menu-link" type="button" data-menu="plantas"><span class="menu-icone">🪴</span><span>Minhas plantas</span></button>
+            <button class="menu-link" type="button" data-menu="agenda"><span class="menu-icone">📅</span><span>Agenda inteligente</span></button>
+            <button class="menu-link" type="button" data-menu="tutorial"><span class="menu-icone">🌱</span><span>Conheça o PlantaCare</span></button>
+            <div class="menu-divisor"></div>
+            <button class="menu-link" type="button" data-menu="notificacoes"><span class="menu-icone">🔔</span><span>Notificações</span></button>
+            <button class="menu-link" type="button" data-menu="perfil"><span class="menu-icone">👤</span><span>Perfil</span></button>
+            <button class="menu-link" type="button" data-menu="configuracoes"><span class="menu-icone">⚙️</span><span>Configurações</span></button>
+        </aside>
+    </div>
+
+    <section class="boas-vindas">
+        <h1 id="saudacao">Olá!</h1>
+        <p>Suas plantas estão bem cuidadas</p>
+    </section>
+
+    <section class="resumo">
+        <div class="resumo-ilustracao">
+            <img src="../images/vaso-plantacare.png" alt="Vaso inteligente PlantaCare" onerror="this.style.visibility='hidden'">
+        </div>
+        <div class="resumo-info">
+            <p>Total de plantas</p>
+            <div class="numero-total"><strong id="totalPlantas">0</strong><span>🌿</span></div>
+        </div>
+    </section>
+
+    <section class="minhas-plantas">
+        <div class="titulo-plantas">
+            <h2>Minhas plantas</h2>
+            <button class="btn-adicionar" id="btnAdicionar" type="button">+ Adicionar</button>
+        </div>
+        <div class="ferramentas-plantas">
+            <input class="busca-planta" id="buscaPlanta" type="search" placeholder="🔎 Buscar por nome, espécie ou local..." aria-label="Buscar plantas">
+            <div class="filtros" aria-label="Filtrar plantas">
+                <button class="filtro ativo" type="button" data-filtro="todas">Todas</button>
+                <button class="filtro" type="button" data-filtro="regar">Precisam de água</button>
+                <button class="filtro" type="button" data-filtro="em-dia">Em dia</button>
+            </div>
+        </div>
+        <div class="lista-plantas" id="listaPlantas"></div>
+    </section>
+</main>
+
+<div class="modal-fundo" id="modalFundo" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <section class="modal-detalhes">
+        <div class="modal-topo">
+            <h2 id="modalTitulo">Detalhes da planta</h2>
+            <button class="fechar-modal" id="fecharModal" type="button" aria-label="Fechar detalhes">×</button>
+        </div>
+        <div id="conteudoDetalhes"></div>
+    </section>
+</div>
+
+<nav class="navegacao" aria-label="Navegação principal">
+    <button class="item-nav ativo" id="navInicio" type="button"><span class="icone">⌂</span><span>Início</span></button>
+    <button class="item-nav" id="navPlantas" type="button"><span class="icone">♧</span><span>Plantas</span></button>
+    <button class="item-nav" id="navNotificacoes" type="button"><span class="icone">♧</span><span>Notificações</span></button>
+    <button class="item-nav" id="navPerfil" type="button"><span class="icone">♙</span><span>Perfil</span></button>
+</nav>
+
+<script>
+"use strict";
+
+const listaPlantas = document.getElementById("listaPlantas");
+const totalPlantas = document.getElementById("totalPlantas");
+const CHAVE_PLANTAS = "plantasUsuario";
+let filtroAtual = "todas";
+
+const plantasExemplo = [
+    {id:"exemplo-espada",nome:"Espada-de-são-jorge",especie:"Espada-de-são-jorge",localizacao:"Sala",foto:"../images/espada-sao-jorge.png",intervaloRega:10},
+    {id:"exemplo-jiboia",nome:"Jiboia",especie:"Jiboia",localizacao:"Sala",foto:"../images/jiboia.png",intervaloRega:5},
+    {id:"exemplo-zamioculca",nome:"Zamioculca",especie:"Zamioculca",localizacao:"Quarto",foto:"../images/zamioculca.png",intervaloRega:10}
+];
+
+function normalizarTexto(texto){
+    return (texto||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+}
+
+function carregarSaudacao(){
+    try{
+        const usuario=JSON.parse(sessionStorage.getItem("usuario")||"null");
+        const nome=usuario&&usuario.nome?usuario.nome.trim().split(/\s+/)[0]:"";
+        document.getElementById("saudacao").textContent=nome?"Olá, "+nome+"!":"Olá!";
+    }catch(erro){
+        document.getElementById("saudacao").textContent="Olá!";
+    }
+}
+
+function lerPlantas(){
+    try{
+        const dados=localStorage.getItem(CHAVE_PLANTAS);
+        if(dados===null){
+            localStorage.setItem(CHAVE_PLANTAS,JSON.stringify(plantasExemplo));
+            return plantasExemplo.map(planta=>({...planta}));
+        }
+        const plantas=JSON.parse(dados);
+        return Array.isArray(plantas)?plantas:[];
+    }catch(erro){
+        console.error("Erro ao carregar plantas:",erro);
+        return [];
+    }
+}
+
+function salvarPlantas(plantas){
+    localStorage.setItem(CHAVE_PLANTAS,JSON.stringify(plantas));
+}
+
+function intervaloPadrao(especie){
+    const nome=normalizarTexto(especie);
+    if(nome.includes("cacto")||nome.includes("suculenta")||nome.includes("sao jorge")||nome.includes("zamioculca"))return 10;
+    if(nome.includes("samambaia")||nome.includes("lirio"))return 3;
+    return 5;
+}
+
+function normalizarPlanta(planta){
+    return {
+        ...planta,
+        id:planta.id??("planta-"+Math.random().toString(36).slice(2)),
+        nome:planta.nome||planta.especie||"Planta sem nome",
+        especie:planta.especie||"Não informada",
+        localizacao:planta.localizacao||"Não informada",
+        intervaloRega:Number(planta.intervaloRega)||intervaloPadrao(planta.especie),
+        historicoRegas:Array.isArray(planta.historicoRegas)?planta.historicoRegas:[],
+        notas:planta.notas||""
+    };
+}
+
+function obterPlantas(){
+    const plantas=lerPlantas().map(normalizarPlanta);
+    salvarPlantas(plantas);
+    return plantas;
+}
+
+function atualizarTotal(plantas){
+    totalPlantas.textContent=plantas.length;
+}
+
+function calcularProximaRega(planta){
+    if(!planta.ultimaRega)return {dias:null,texto:"Registre a primeira rega",classe:"hoje"};
+    const ultima=new Date(planta.ultimaRega);
+    if(Number.isNaN(ultima.getTime()))return {dias:null,texto:"Registre a primeira rega",classe:"hoje"};
+
+    const intervalo=Number(planta.intervaloRega)||intervaloPadrao(planta.especie);
+    const proxima=new Date(ultima);
+    proxima.setDate(proxima.getDate()+intervalo);
+
+    const hoje=new Date();
+    hoje.setHours(0,0,0,0);
+    proxima.setHours(0,0,0,0);
+    const dias=Math.ceil((proxima.getTime()-hoje.getTime())/86400000);
+
+    if(dias<0)return {dias,texto:"Rega atrasada",classe:"atrasada"};
+    if(dias===0)return {dias,texto:"Regar hoje",classe:"hoje"};
+    return {dias,texto:"Regar em "+dias+(dias===1?" dia":" dias"),classe:"futura"};
+}
+
+function obterOrientacaoRega(especie){
+    const nome=normalizarTexto(especie);
+
+    if(nome.includes("espada de sao jorge")||nome.includes("espada-de-sao-jorge")){
+        return {
+            quente:"Verifique a cada 7–10 dias. A rega pode ocorrer aproximadamente a cada 10–14 dias, somente se o substrato estiver seco.",
+            frio:"A rega pode ser necessária a cada 3–4 semanas. Deixe o substrato secar bem antes de regar."
+        };
+    }
+
+    if(nome.includes("jiboia")){
+        return {
+            quente:"Verifique a umidade a cada 2–3 dias. Pode precisar de aproximadamente 1–2 regas por semana, conforme a secagem do solo.",
+            frio:"Verifique a cada 5–7 dias. Regue quando a camada superficial do substrato estiver seca."
+        };
+    }
+
+    if(nome.includes("zamioculca")){
+        return {
+            quente:"Verifique semanalmente. A rega pode ocorrer a cada 2–3 semanas, dependendo da secagem do substrato.",
+            frio:"Verifique a cada 2–3 semanas. Regue somente quando o substrato estiver seco."
+        };
+    }
+
+    if(nome.includes("lirio da paz")){
+        return {
+            quente:"Verifique a umidade a cada 1–2 dias. Pode precisar de 2–3 regas por semana, se o solo secar rapidamente.",
+            frio:"Verifique a cada 3–5 dias. Regue quando a superfície começar a secar, sem encharcar."
+        };
+    }
+
+    if(nome.includes("samambaia")){
+        return {
+            quente:"Verifique diariamente. Pode precisar de regas frequentes para manter o substrato levemente úmido.",
+            frio:"Verifique a cada 2–3 dias e regue quando necessário, mantendo a umidade sem encharcar."
+        };
+    }
+
+    if(nome.includes("cacto")){
+        return {
+            quente:"Verifique semanalmente. Regue apenas quando o substrato estiver completamente seco; o intervalo pode ser de 2–3 semanas.",
+            frio:"A rega pode ser necessária a cada 4–6 semanas ou menos. Espere o substrato secar completamente."
+        };
+    }
+
+    if(nome.includes("suculenta")){
+        return {
+            quente:"Verifique a cada 5–7 dias. Regue somente quando o substrato estiver completamente seco; muitas precisam de rega a cada 1–2 semanas.",
+            frio:"A rega pode ocorrer a cada 3–4 semanas ou menos. Verifique se o substrato está totalmente seco."
+        };
+    }
+
+    return {
+        quente:"Como referência inicial, verifique a umidade a cada 2–3 dias e regue quando necessário.",
+        frio:"Como referência inicial, verifique a umidade a cada 5–7 dias e regue somente quando necessário."
+    };
+}
+
+function criarCartaoPlanta(planta){
+    const cartao=document.createElement("article");
+    cartao.className="planta";
+
+    const areaFoto=document.createElement("div");
+    areaFoto.className="foto-planta";
+
+    if(planta.foto){
+        const imagem=document.createElement("img");
+        imagem.src=planta.foto;
+        imagem.alt=planta.nome;
+        imagem.onerror=function(){
+            this.remove();
+            areaFoto.textContent="🪴";
+        };
+        areaFoto.appendChild(imagem);
+    }else{
+        areaFoto.textContent="🪴";
+    }
+
+    const informacoes=document.createElement("div");
+    informacoes.className="informacoes-planta";
+
+    const titulo=document.createElement("h3");
+    titulo.textContent=planta.nome;
+
+    const especie=document.createElement("p");
+    especie.textContent="Espécie: "+planta.especie;
+
+    const local=document.createElement("p");
+    local.textContent="Local: "+planta.localizacao;
+
+    const estado=calcularProximaRega(planta);
+    const status=document.createElement("span");
+    status.className="status-rega "+estado.classe;
+    status.textContent="💧 "+estado.texto;
+
+    informacoes.append(titulo,especie,local,status);
+
+    const acoes=document.createElement("div");
+    acoes.className="acoes-planta";
+
+    const detalhes=document.createElement("button");
+    detalhes.className="seta";
+    detalhes.type="button";
+    detalhes.textContent="›";
+    detalhes.setAttribute("aria-label","Ver detalhes de "+planta.nome);
+    detalhes.addEventListener("click",()=>abrirDetalhes(planta.id));
+
+    const regar=document.createElement("button");
+    regar.className="regar";
+    regar.type="button";
+    regar.textContent="💧 Reguei";
+    regar.addEventListener("click",()=>registrarRega(planta.id));
+
+    const excluir=document.createElement("button");
+    excluir.className="btn-excluir";
+    excluir.type="button";
+    excluir.textContent="🗑";
+    excluir.title="Excluir planta";
+    excluir.setAttribute("aria-label","Excluir "+planta.nome);
+    excluir.addEventListener("click",()=>excluirPlanta(planta.id,planta.nome));
+
+    acoes.append(detalhes,regar,excluir);
+    cartao.append(areaFoto,informacoes,acoes);
+    return cartao;
+}
+
+function renderizarPlantas(){
+    const plantas=obterPlantas();
+    const termo=document.getElementById("buscaPlanta").value.trim().toLowerCase();
+
+    const filtradas=plantas.filter(planta=>{
+        const texto=[planta.nome,planta.especie,planta.localizacao].join(" ").toLowerCase();
+        if(termo&&!texto.includes(termo))return false;
+
+        const estado=calcularProximaRega(planta);
+        if(filtroAtual==="regar")return estado.dias===null||estado.dias<=0;
+        if(filtroAtual==="em-dia")return estado.dias!==null&&estado.dias>0;
+        return true;
+    });
+
+    listaPlantas.innerHTML="";
+    filtradas.forEach(planta=>listaPlantas.appendChild(criarCartaoPlanta(planta)));
+
+    if(filtradas.length===0){
+        const vazio=document.createElement("div");
+        vazio.className="vazio";
+        vazio.textContent=termo
+            ?"Nenhuma planta encontrada. Tente outro nome."
+            :"Nenhuma planta cadastrada. Toque em + Adicionar para começar! 🌱";
+        listaPlantas.appendChild(vazio);
+    }
+
+    atualizarTotal(plantas);
+}
+
+function atualizarPlanta(id,alteracoes){
+    const plantas=obterPlantas();
+    const atualizadas=plantas.map(planta=>
+        String(planta.id)===String(id)?{...planta,...alteracoes}:planta
+    );
+    salvarPlantas(atualizadas);
+    renderizarPlantas();
+    return atualizadas.find(planta=>String(planta.id)===String(id));
+}
+
+function registrarRega(id){
+    const planta=obterPlantas().find(item=>String(item.id)===String(id));
+    if(!planta)return;
+
+    const agora=new Date().toISOString();
+    atualizarPlanta(id,{
+        ultimaRega:agora,
+        historicoRegas:[...planta.historicoRegas,agora]
+    });
+    alert("Rega registrada! 🌿");
+}
+
+function excluirPlanta(id,nome){
+    if(!confirm('Deseja realmente excluir "'+nome+'"?'))return;
+    salvarPlantas(obterPlantas().filter(planta=>String(planta.id)!==String(id)));
+    renderizarPlantas();
+}
+
+function abrirDetalhes(id){
+    const planta=obterPlantas().find(item=>String(item.id)===String(id));
+    if(!planta)return;
+
+    const conteudo=document.getElementById("conteudoDetalhes");
+    conteudo.innerHTML="";
+
+    const estado=calcularProximaRega(planta);
+    const orientacao=obterOrientacaoRega(planta.especie);
+    const ultima=planta.ultimaRega?new Date(planta.ultimaRega):null;
+    const dataFormatada=ultima&&!Number.isNaN(ultima.getTime())
+        ?ultima.toLocaleString("pt-BR")
+        :"Ainda não registrada";
+
+    const dados=[
+        ["Espécie",planta.especie],
+        ["Localização",planta.localizacao],
+        ["Próxima rega",estado.texto],
+        ["Última rega",dataFormatada],
+        ["Frequência cadastrada","A cada "+planta.intervaloRega+" dias"],
+        ["🌞 Orientação para clima quente",orientacao.quente],
+        ["❄️ Orientação para clima frio",orientacao.frio],
+        ["Regas registradas",String(planta.historicoRegas.length)]
+    ];
+
+    dados.forEach(([titulo,valor])=>{
+        const linha=document.createElement("div");
+        linha.className="detalhe-linha";
+
+        const forte=document.createElement("strong");
+        forte.textContent=titulo;
+
+        const texto=document.createElement("span");
+        texto.textContent=valor;
+
+        linha.append(forte,texto);
+        conteudo.appendChild(linha);
+    });
+
+    const aviso=document.createElement("div");
+    aviso.className="aviso-rega";
+    aviso.textContent="🌱 As frequências são estimativas. Antes de regar, verifique a umidade do substrato. O tamanho do vaso, a drenagem, a iluminação e o ambiente influenciam a necessidade de água. Evite encharcar a planta.";
+    conteudo.appendChild(aviso);
+
+    const rotulo=document.createElement("label");
+    rotulo.textContent="Minhas observações";
+    rotulo.style.display="block";
+    rotulo.style.marginTop="16px";
+    rotulo.style.fontWeight="700";
+
+    const notas=document.createElement("textarea");
+    notas.className="campo-notas";
+    notas.placeholder="Ex.: folhas amareladas, adubei hoje...";
+    notas.value=planta.notas;
+
+    const salvar=document.createElement("button");
+    salvar.className="salvar-notas";
+    salvar.type="button";
+    salvar.textContent="Salvar observações";
+    salvar.addEventListener("click",()=>{
+        atualizarPlanta(id,{notas:notas.value.trim()});
+        document.getElementById("modalFundo").classList.remove("aberto");
+        alert("Observações salvas! 🌱");
+    });
+
+    conteudo.append(rotulo,notas,salvar);
+    document.getElementById("modalTitulo").textContent=planta.nome;
+    document.getElementById("modalFundo").classList.add("aberto");
+}
+
+function fecharModal(){
+    document.getElementById("modalFundo").classList.remove("aberto");
+}
+
+document.getElementById("fecharModal").addEventListener("click",fecharModal);
+document.getElementById("modalFundo").addEventListener("click",evento=>{
+    if(evento.target.id==="modalFundo")fecharModal();
+});
+
+document.getElementById("btnAdicionar").addEventListener("click",()=>{
+    window.location.href="adicionar-planta.html";
+});
+
+document.getElementById("buscaPlanta").addEventListener("input",renderizarPlantas);
+
+document.querySelectorAll(".filtro").forEach(botao=>{
+    botao.addEventListener("click",()=>{
+        document.querySelectorAll(".filtro").forEach(item=>item.classList.remove("ativo"));
+        botao.classList.add("ativo");
+        filtroAtual=botao.dataset.filtro;
+        renderizarPlantas();
+    });
+});
+
+/* MENU LATERAL */
+
+const menuFundo=document.getElementById("menuFundo");
+
+function abrirMenu(){
+    menuFundo.classList.add("aberto");
+    menuFundo.setAttribute("aria-hidden","false");
+    document.getElementById("btnMenu").setAttribute("aria-expanded","true");
+    document.body.style.overflow="hidden";
+}
+
+function fecharMenu(){
+    menuFundo.classList.remove("aberto");
+    menuFundo.setAttribute("aria-hidden","true");
+    document.getElementById("btnMenu").setAttribute("aria-expanded","false");
+    document.body.style.overflow="";
+}
+
+document.getElementById("btnMenu").addEventListener("click",abrirMenu);
+document.getElementById("fecharMenu").addEventListener("click",fecharMenu);
+
+menuFundo.addEventListener("click",evento=>{
+    if(evento.target===menuFundo)fecharMenu();
+});
+
+document.querySelectorAll("[data-menu]").forEach(botao=>{
+    botao.addEventListener("click",()=>{
+        const destino=botao.dataset.menu;
+        fecharMenu();
+
+        if(destino==="inicio"){
+            window.scrollTo({top:0,behavior:"smooth"});
+        }else if(destino==="plantas"){
+            document.querySelector(".minhas-plantas").scrollIntoView({behavior:"smooth",block:"start"});
+        }else if(destino==="agenda"){
+            window.location.href="agenda-cuidados.html";
+        }else if(destino==="tutorial"){
+            window.location.href="como-funciona.html";
+        }else if(destino==="notificacoes"){
+            window.location.href="notificacoes.html";
+        }else if(destino==="perfil"){
+            window.location.href="perfil.html";
+        }else if(destino==="configuracoes"){
+            window.location.href="configuracoes.html";
+        }
+    });
+});
+
+document.addEventListener("keydown",evento=>{
+    if(evento.key==="Escape"){
+        fecharMenu();
+        fecharModal();
+    }
+});
+
+/* NAVEGAÇÃO INFERIOR */
+
+document.getElementById("navInicio").addEventListener("click",()=>{
+    window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("navPlantas").addEventListener("click",()=>{
+    const plantas=obterPlantas();
+
+    if(plantas.length===0){
+        alert("Cadastre uma planta primeiro! 🌱");
+        window.location.href="adicionar-planta.html";
+        return;
+    }
+
+    localStorage.setItem("plantaSelecionada",String(plantas[0].id));
+    window.location.href="monitoramento.html";
+});
+
+document.getElementById("navNotificacoes").addEventListener("click",()=>{
+    window.location.href="notificacoes.html";
+});
+
+document.getElementById("navPerfil").addEventListener("click",()=>{
+    window.location.href="perfil.html";
+});
+
+/* INICIALIZAÇÃO */
+
+carregarSaudacao();
+renderizarPlantas();
+</script>
+</body>
+</html>

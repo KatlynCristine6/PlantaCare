@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Criar conta - PlantaCare</title>
+
+    <link
+            rel="stylesheet"
+            href="../css/cadastro.css"
+    >
+
+</head>
+
+<body>
+
+<main class="tela-cadastro">
+
+    <div class="conteudo">
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="folhas-logo">
+
+                <span class="folha-esquerda">🌿</span>
+
+            </div>
+
+            <h1>PlantaCare</h1>
+
+        </div>
+
+
+        <!-- TÍTULO -->
+
+        <h2>Crie sua conta</h2>
+
+
+        <!-- FORMULÁRIO -->
+
+        <!-- FORMULÁRIO -->
+
+<form id="formCadastro" novalidate>
+
+
+            <!-- NOME -->
+
+            <div class="campo">
+
+                <span class="icone">♙</span>
+
+                <input
+                        type="text"
+                        id="nome"
+                        placeholder="Nome completo"
+                >
+
+            </div>
+
+
+            <!-- E-MAIL -->
+
+            <div class="campo">
+
+                <span class="icone">✉</span>
+
+                <input
+                        type="email"
+                        id="email"
+                        placeholder="E-mail"
+                >
+
+            </div>
+
+
+            <!-- TELEFONE -->
+
+            <div class="campo">
+
+                <span class="icone">⌕</span>
+
+                <input
+                        type="tel"
+                        id="telefone"
+                        placeholder="Telefone"
+                >
+
+            </div>
+
+
+            <!-- QUANTIDADE DE PLANTAS -->
+
+            <div class="campo">
+
+                <span class="icone">♧</span>
+
+                <select id="quantidadePlantas">
+
+                    <option value="" selected disabled>
+                        Quantidade de plantas
+                    </option>
+
+                    <option value="1">
+                        1 planta
+                    </option>
+
+                    <option value="2">
+                        2 plantas
+                    </option>
+
+                    <option value="3">
+                        3 plantas
+                    </option>
+
+                    <option value="4">
+                        4 plantas
+                    </option>
+
+                    <option value="5">
+                        5 plantas
+                    </option>
+
+                    <option value="6">
+                        6 ou mais plantas
+                    </option>
+
+                </select>
+
+                <span class="seta">⌄</span>
+
+            </div>
+
+
+            <!-- SENHA -->
+
+            <div class="campo">
+
+                <span class="icone">♙</span>
+
+                <input
+                        type="password"
+                        id="senha"
+                        placeholder="Senha"
+                >
+
+                <span
+                        class="olho"
+                        id="mostrarSenha"
+                >
+                    ◉
+                </span>
+
+            </div>
+
+
+            <!-- CONFIRMAR SENHA -->
+
+            <div class="campo">
+
+                <span class="icone">♙</span>
+
+                <input
+                        type="password"
+                        id="confirmarSenha"
+                        placeholder="Confirmar senha"
+                >
+
+                <span
+                        class="olho"
+                        id="mostrarConfirmarSenha"
+                >
+                    ◉
+                </span>
+
+            </div>
+
+
+            <!-- BOTÃO -->
+
+            <button
+                    type="submit"
+                    class="btn-cadastrar"
+            >
+                Cadastrar
+            </button>
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <p class="login-texto">
+
+            Já tem uma conta?
+
+            <span id="btnVoltarLogin">
+                Entrar
+            </span>
+
+        </p>
+
+    </div>
+
+
+    <!-- FOLHAS INFERIORES -->
+
+    <div class="folhas-inferiores">
+
+        <div class="folhas-esquerda">
+            🌿
+        </div>
+
+        <div class="folhas-direita">
+            🌿
+        </div>
+
+    </div>
+
+</main>
+
+
+<script src="../js/api.js"></script>
+<script src="../js/cadastro.js"></script>
+
+</body>
+
+</html>

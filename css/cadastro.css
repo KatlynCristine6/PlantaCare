@@ -1,0 +1,396 @@
+/* =========================================
+   CONFIGURAÇÕES GERAIS
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f1df;
+    overflow: hidden;
+}
+
+
+/* =========================================
+   TELA PRINCIPAL
+========================================= */
+
+.tela-cadastro {
+    width: 100%;
+    height: 100vh;
+
+    background: #f5f1df;
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.conteudo {
+    width: 100%;
+    max-width: 380px;
+
+    padding: 24px 24px 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Folhinha */
+
+.folhas-logo {
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 0;
+}
+
+.folha-esquerda {
+    font-size: 38px;
+
+    line-height: 1;
+
+    transform: rotate(-8deg);
+}
+
+
+/* Nome */
+
+.logo h1 {
+    color: #315b38;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 31px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+h2 {
+    margin-top: 8px;
+
+    margin-bottom: 24px;
+
+    color: #26372a;
+
+    font-size: 18px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   FORMULÁRIO
+========================================= */
+
+#formCadastro {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+.campo {
+    width: 100%;
+    height: 47px;
+
+    margin-bottom: 11px;
+
+    border: 1px solid #dddccf;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.32);
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    transition: 0.2s;
+}
+
+
+/* Quando clicar no campo */
+
+.campo:focus-within {
+    border-color: #719276;
+
+    background: #faf9f0;
+}
+
+
+/* =========================================
+   ÍCONES
+========================================= */
+
+.icone {
+    width: 42px;
+
+    color: #70836e;
+
+    font-size: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.campo input {
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #405342;
+
+    font-size: 13px;
+
+    padding: 0 12px 0 0;
+}
+
+.campo input::placeholder {
+    color: #7d857c;
+
+    font-size: 13px;
+
+    opacity: 1;
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.campo select {
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #7d857c;
+
+    font-size: 13px;
+
+    appearance: none;
+
+    padding-right: 30px;
+}
+
+.campo select:valid {
+    color: #405342;
+}
+
+
+/* Setinha */
+
+.seta {
+    position: absolute;
+
+    right: 15px;
+
+    color: #617462;
+
+    font-size: 21px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   BOTÃO OLHO
+========================================= */
+
+.olho {
+    width: 40px;
+
+    color: #70836e;
+
+    font-size: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   BOTÃO CADASTRAR
+========================================= */
+
+.btn-cadastrar {
+    width: 100%;
+
+    height: 47px;
+
+    margin-top: 17px;
+
+    border: none;
+
+    border-radius: 24px;
+
+    background: #56855d;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(49, 91, 56, 0.12);
+}
+
+.btn-cadastrar:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================
+   TEXTO LOGIN
+========================================= */
+
+.login-texto {
+    margin-top: 19px;
+
+    color: #626a61;
+
+    font-size: 12px;
+}
+
+#btnVoltarLogin {
+    color: #315b38;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   FOLHAS INFERIORES
+========================================= */
+
+.folhas-inferiores {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: -15px;
+
+    height: 115px;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* Folhas esquerda */
+
+.folhas-esquerda {
+    position: absolute;
+
+    left: -30px;
+
+    bottom: -25px;
+
+    font-size: 100px;
+
+    transform: rotate(18deg);
+}
+
+
+/* Folhas direita */
+
+.folhas-direita {
+    position: absolute;
+
+    right: -30px;
+
+    bottom: -25px;
+
+    font-size: 90px;
+
+    transform: rotate(-18deg);
+}
