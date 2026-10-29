@@ -21,7 +21,19 @@ async function enviarDadosAPI(endpoint, data) {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
+        const texto = await response.text();
+
+        let result;
+
+        try {
+            result = JSON.parse(texto);
+        } catch {
+            console.error("Resposta recebida da API:", texto);
+
+            throw new Error(
+                `A API retornou uma resposta que não é JSON. Status: ${response.status}. Verifique o endereço e a rota: ${API_URL}${endpoint}`
+            );
+        }
 
         if (!response.ok) {
             throw new Error(
@@ -34,7 +46,7 @@ async function enviarDadosAPI(endpoint, data) {
         return result;
 
     } catch (error) {
-        console.error(`[API Error - ${endpoint}]:`, error.message);
+        console.error(`[API Error - ${endpoint}]:`, error);
         throw error;
     }
 }
